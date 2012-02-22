@@ -96,7 +96,7 @@ class RetrieverController extends ContainerAware
 				$fileResolver->getFileData(),
 				200,
 				$fileResolver->getHTTPHeaders()
-			);
+			);			
 	}
 	
 	

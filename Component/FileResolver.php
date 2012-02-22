@@ -43,8 +43,8 @@ class FileResolver
 	public function loadFileData()
 	{
 		ob_start();
-		$this->fileData = readfile($this->fileRecord->getAttachment());
-		ob_clean();
+		readfile($this->fileRecord->getAttachment());
+		$this->fileData = ob_get_contents();
 		
 		if ( ! $this->fileData)
 		{
@@ -96,12 +96,12 @@ class FileResolver
 		}
 		
  		$fileSize = filesize($this->fileRecord->getAttachment());
-	
+
 		return array( 
 			'Content-Description' => 'File Transfer',
 			'Pragma' => 'public',
-//			'Expires' => 0,
-//			'Cache-Control' => 'must-revalidate', //', post-check=0, pre-check=0',	
+			'Expires' => 0,
+			'Cache-Control' => 'must-revalidate', //', post-check=0, pre-check=0',	
 			'Content-Type' => $headerContentType,
 			'Content-Disposition' => sprintf('attachment; filename=%s', $this->fileRecord->getAttachmentOriginal()),
 			'Content-Transfer-Encoding' => 'binary',
