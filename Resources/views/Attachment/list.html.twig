@@ -1,0 +1,87 @@
+{% extends param('ccdn_forum_forum.board.layout_templates.show') %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link href="{{ asset('bundles/ccdncomponentcrumbtrail/css/crumbs.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block title %}{{ 'title.attachment.index' |trans({}, 'CCDNComponentAttachmentBundle') }}{% endblock %}
+
+{% block sidebar %}
+{% if is_granted('ROLE_MODERATOR') %}
+<div class="common_box_5 bg_header_smoke">
+	<div class="common_box_header"><span class="heading_glow">{{ 'sidebar.header.special' | trans({}, 'CCDNComponentCommonBundle') }}</span></div>
+	<div class="common_box_panel"><a class="sidebar" href="{{ path('cc_moderator_forum_cp') }}">{{ 'general.view.link_moderate' | trans({}, 'CCDNComponentCommonBundle') }}</a></div>
+	{% if is_granted('ROLE_ADMIN') %}
+	<div class="common_box_panel"><a class="sidebar" href="{{ path('cc_admin_forum_cp') }}">{{ 'general.view.link_administrate' | trans({}, 'CCDNComponentCommonBundle') }}</a></div>
+	{% endif %}
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block body %}
+
+{% include 'CCDNComponentCrumbTrailBundle:Trail:trail.html.twig' with {'crumbs': crumbs } %}
+
+{% include 'CCDNComponentCommonBundle:Flashes:flashes.html.twig' %}
+
+
+<div class="common_box_5 bg_header_smoke">
+	<div class="common_box_header">
+		<span class="heading_glow">{{ 'title.attachment.index' |trans({}, 'CCDNComponentAttachmentBundle') }}</span>
+	</div>
+	<div class="common_box_panel common_tool_strip">
+		<div class="pagerfanta">
+			{% if path(app.request.attributes.get('_route')) == 'cc_attachment_for_user' or path(app.request.attributes.get('_route')) == 'cc_attachment_for_user_paginated' %}
+			    {{ pagerfanta(pager, 'default', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{'user_id':user.getId}} ) }}
+			{% else %}
+				{{ pagerfanta(pager, 'default', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{}} ) }}
+		    {% endif %}
+		</div>
+	</div>
+	<div class="common_box_panel">
+			<table class="common_list">
+				<thead>
+					<th></th>
+					<th>{{ 'attachment.table.head.file' | trans({}, 'CCDNComponentAttachmentBundle') }}</th>
+					<th class="h_align_centre">{{ 'attachment.table.head.uploaded' | trans({}, 'CCDNComponentAttachmentBundle') }}</th>	
+					<th></th>
+				</thead>
+				<tbody>
+				{% for row, attachment in attachments %}
+					<tr class="{{ cycle(['row_odd', 'row_even'], row) }}">
+						<td class="padding_5 h_align_centre v_align_middle">
+							{# use custom icons below, will be later specified in the create topic form #}
+							<a href="{{ path('cc_attachment_show', {'attachment_id': attachment.getId }) }}"><img class="icon_32x32" width="32px" height="32px" src="{{ asset('bundles/ccdncomponentcommon/images/icons/Black/32x32/32x32_articles.png') }}" /></a>					
+						</td>
+						<td class="padding_5 h_align_left v_align_top">
+							<a href="{{ path('cc_attachment_show', {'attachment_id': attachment.getId }) }}">{{ attachment.getAttachmentOriginal }}</a>
+							<br />{{ attachment.getDescription }}
+						</td>
+						<td class="h_align_centre v_align_middle padding_5">{{ attachment.getCreatedDate|date("d/m/Y - H:i:s") }}</td>
+						<td class="h_align_centre v_align_middle padding_5"><a href="{{ path('cc_attachment_download', {'attachment_id': attachment.getId }) }}">{{ 'link.download' |trans({}, 'CCDNComponentAttachmentBundle') }}</a></td>
+					</tr>
+				{% else %}
+					<tr>
+						<td class="h_align_centre v_align_middle" colspan="5" width="100%">
+							{{ 'attachment.table.empty' | trans({}, 'CCDNComponentAttachmentBundle') }}
+						</td>
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+	</div>
+	<div class="common_box_panel common_tool_strip">
+		<div class="pagerfanta">
+			{% if path(app.request.attributes.get('_route')) == 'cc_attachment_for_user' or path(app.request.attributes.get('_route')) == 'cc_attachment_for_user_paginated' %}
+			    {{ pagerfanta(pager, 'default', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{'user_id':user.getId}} ) }}
+			{% else %}
+				{{ pagerfanta(pager, 'default', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{}} ) }}
+		    {% endif %}
+		</div>
+	</div>
+</div>
+{% include 'CCDNComponentCrumbTrailBundle:Trail:trail.html.twig' with {'crumbs': crumbs } %}
+
+{% endblock %}

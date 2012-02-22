@@ -1,0 +1,19 @@
+title.attachment.upload: 'Upload Attachment File.'
+title.attachment.index: 'Attachments.'
+
+crumbs.attachment_index: 'Attachments'
+crumbs.attachment_upload: 'Upload Attachment'
+
+
+form.label.attachment.upload.file: 'File: '
+form.label.attachment.upload.description: 'Description: '
+form.button.attachment.upload: 'Upload'
+
+attachment.table.head.file: 'File'
+attachment.table.head.description: 'Description'
+attachment.table.head.uploaded: 'Uploaded On'
+attachment.table.empty: 'There are no attachments uploaded.'
+
+link.download: 'Download'
+
+flash.attachment.upload.success: 'File "%file_name%" uploaded successfully.'

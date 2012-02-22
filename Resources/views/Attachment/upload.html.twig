@@ -1,0 +1,76 @@
+{% extends param('ccdn_forum_forum.topic.layout_templates.create') %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link href="{{ asset('bundles/ccdncomponentcrumbtrail/css/crumbs.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset('bundles/ccdncomponentcommon/css/form.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+{% endblock %}
+
+{% block title %}{{ 'title.attachment.upload' | trans({}, 'CCDNComponentAttachmentBundle') }}{% endblock %}
+
+{% block sidebar %}
+	{% if is_granted('ROLE_MODERATOR') %}
+	<div class="common_box_5 bg_header_smoke">
+		<div class="common_box_header"><span class="heading_glow">{{ 'sidebar.header.special' | trans({}, 'CCDNComponentCommonBundle') }}</span></div>
+		<div class="common_box_panel"><a class="sidebar" href="{{ path('cc_moderator_forum_cp') }}">{{ 'general.view.link_moderate' | trans({}, 'CCDNComponentCommonBundle') }}</a></div>
+		{% if is_granted('ROLE_ADMIN') %}
+		<div class="common_box_panel"><a class="sidebar" href="{{ path('cc_admin_forum_cp') }}">{{ 'general.view.link_administrate' | trans({}, 'CCDNComponentCommonBundle') }}</a></div>
+		{% endif %}
+	</div>
+	{% endif %}
+{% endblock %}
+
+{% block body %}
+
+{% include 'CCDNComponentCrumbTrailBundle:Trail:trail.html.twig' with {'crumbs': crumbs } %}
+
+{% include 'CCDNComponentCommonBundle:Flashes:flashes.html.twig' %}
+
+<div class="common_box_5 bg_header_smoke">
+	<div class="common_box_header">
+		<span class="heading_glow">{{ 'title.attachment.upload' | trans({}, 'CCDNComponentAttachmentBundle') }}</span>
+	</div>
+	<div class="common_box_panel">
+		<form action="{{ path('cc_attachment_upload') }}" method="post" {{ form_enctype(form) }}>
+			{{ form_row(form._token) }}
+			<div class="errors">{{ form_errors(form) }}</div>
+			<table class="common_list">
+				<thead>
+					<th style="width: 20%;"></th>
+					<th style="width: 80%;"></th>
+				</thead>
+				<tfoot>
+				</tfoot>
+				<tbody>
+					<tr class="{{ cycler(['row_odd', 'row_even'], 'cycle') }}">
+						<td class="h_align_right v_align_middle">{{ form_label(form.attachment, null, { 'label': 'form.label.attachment.upload.file'| trans({}, 'CCDNComponentAttachmentBundle')}) }}</td>
+						<td class="h_align_left v_align_middle">
+							{{ form_errors(form.attachment) }}
+							{{ form_widget(form.attachment) }}
+						</td>
+					</tr>
+					<tr class="{{ cycler(['row_odd', 'row_even'], 'cycle') }}">
+						<td class="h_align_right v_align_middle">{{ form_label(form.description, null, { 'label': 'form.label.attachment.upload.description'| trans({}, 'CCDNComponentAttachmentBundle')}) }}</td>
+						<td class="h_align_left v_align_middle">
+							{{ form_errors(form.description) }}
+							{{ form_widget(form.description) }}
+						</td>
+					</tr>
+					<tr class="{{ cycler(['row_odd', 'row_even'], 'cycle') }}">
+						<td class="h_align_centre v_align_middle" colspan="2">
+							<input type="submit" value="{{ 'form.button.attachment.upload' | trans({}, 'CCDNComponentAttachmentBundle') }}" />
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+</div>
+
+{% include 'CCDNComponentCrumbTrailBundle:Trail:trail.html.twig' with {'crumbs': crumbs } %}
+
+{% endblock %}
