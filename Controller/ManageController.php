@@ -135,6 +135,13 @@ class ManageController extends ContainerAware
 	
 	
 	
+	public function deleteAction($attachment_id)
+	{
+		
+	}
+	
+	
+	
 	/**
 	 *
 	 * @access protected

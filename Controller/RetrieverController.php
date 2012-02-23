@@ -37,26 +37,35 @@ class RetrieverController extends ContainerAware
 	 * @param $attachment_id
 	 * @return RedirectResponse|RenderResponse
 	 */
-	public function showAction($attachment_id)
+	public function thumbnailAction($attachment_id)
 	{
-		/*
-		 *	Invalidate this action / redirect if user should not have access to it
-		 */
-		if ( ! $this->container->get('security.context')->isGranted('ROLE_USER')) {
-			throw new AccessDeniedException('You do not have permission to use this resource!');
+		$thumbnailLocation = $this->container->getParameter('kernel.root_dir') . '/../web/bundles/ccdncomponentcommon/images/icons/Black/32x32/';
+		
+		$fileRecord = $this->container->get('attachment.repository')->findOneById($attachment_id);
+
+		$fileResolver = $this->container->get('attachment.file.resolver');
+		
+		$fileResolver->setThumbnailIconLocation($thumbnailLocation);
+		$fileResolver->setFileName($fileRecord->getAttachmentOriginal());
+		$fileResolver->setFileExtension($fileRecord->getFileExtension());
+		
+		if ($fileResolver->locateFile($fileRecord->getAttachment()))
+		{
+			if ( ! $fileResolver->loadFileData())
+			{
+				// mystery icon
+				$fileResolver->setThumbnailUnknown();
+			}
+		} else {
+			// mystery icon, do nothing.
+			$fileResolver->setThumbnailUnknown();
 		}
-
-		$user = $this->container->get('security.context')->getToken()->getUser();
-
-		$crumb_trail = $this->container->get('crumb_trail')
-			->add($this->container->get('translator')->trans('crumbs.attachments_index', array(), 'CCDNComponentAttachmentBundle'), 
-				$this->container->get('router')->generate('cc_attachment_home_for_user', array()), "home");
-
-		return $this->container->get('templating')->renderResponse('CCDNComponentAttachmentBundle:Attachment:list.html.' . $this->getEngine(), array(
-			'user' => $user,
-			'user_profile_route' => $this->container->getParameter('ccdn_component_attachment.user.profile_route'),
-			'crumbs' => $crumb_trail,
-			));
+			
+		return new Response(
+				$fileResolver->getFileThumbnailData(),
+				200,
+				$fileResolver->getHTTPHeaders()
+			);
 	}
 
 
@@ -77,12 +86,18 @@ class RetrieverController extends ContainerAware
 		}
 
 		$user = $this->container->get('security.context')->getToken()->getUser();
-
+		
+		$thumbnailLocation = $this->container->getParameter('kernel.root_dir') . '/../web/bundles/ccdncomponentcommon/images/icons/Black/32x32/';
+		
 		$fileRecord = $this->container->get('attachment.repository')->findOneById($attachment_id);
 
 		$fileResolver = $this->container->get('attachment.file.resolver');
 		
-		if ($fileResolver->locateFile($fileRecord))
+		$fileResolver->setThumbnailIconLocation($thumbnailLocation);
+		$fileResolver->setFileName($fileRecord->getAttachmentOriginal());
+		$fileResolver->setFileExtension($fileRecord->getFileExtension());
+		
+		if ($fileResolver->locateFile($fileRecord->getAttachment()))
 		{
 			if ( ! $fileResolver->loadFileData())
 			{

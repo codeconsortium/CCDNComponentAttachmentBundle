@@ -29,14 +29,20 @@ cc_attachment_upload:
     requirements:
         _locale: en
         
-cc_attachment_show:
-    pattern: /{_locale}/attachment/{attachment_id}/show
-    defaults: { _controller: CCDNComponentAttachmentBundle:Retriever:show, _locale: en }
+cc_attachment_thumbnail:
+    pattern: /{_locale}/attachment/{attachment_id}/thumbnail
+    defaults: { _controller: CCDNComponentAttachmentBundle:Retriever:thumbnail, _locale: en }
     requirements:
         _locale: en
         
 cc_attachment_download:
     pattern: /{_locale}/attachment/{attachment_id}/download
     defaults: { _controller: CCDNComponentAttachmentBundle:Retriever:download, _locale: en }
+    requirements:
+        _locale: en
+
+cc_attachment_delete:
+    pattern: /{_locale}/attachment/{attachment_id}/delete
+    defaults: { _controller: CCDNComponentAttachmentBundle:Manage:delete, _locale: en }
     requirements:
         _locale: en
