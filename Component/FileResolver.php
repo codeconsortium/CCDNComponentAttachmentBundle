@@ -138,15 +138,27 @@ class FileResolver
 		$this->resolveType();
 		return $this->fileData;
 	}
-	
+
+
+
+	/**
+	 *
+	 *
+	 * credit to <biolanor at googlemail dot com>, example code used linked below.
+	 * @link http://php.net/manual/en/function.filesize.php 
+	 */
 	public function calcFileSize($bytes)
 	{
+		// array of SI units.
 		$fs = array('b', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB');
 		
 		//$size = number_format($bytes/pow(1024, $index=floor(log($bytes, 1024))), ($index >= 1) ? 2 : 0) . ' ' . $fs[$index];
 		
+		// get kb value
 		$bpow = floor(log($bytes, 1024));
-		$size = round($bytes / pow(1024, $bpow), 1) . $fs[$bpow];
+		
+		// use kb value to work out size
+		$size = round($bytes / pow(1024, $bpow), ($bpow >= 1) ? 2 : 0) . $fs[$bpow];
 	
 		return $size;
 	}
@@ -174,7 +186,7 @@ class FileResolver
 			imagecopyresized($tmp, $imgResource, 0, 0, 0, 0, $nx, $ny - 15, $cx, $cy);
 			
 			// add a filesize stamp to bottom of thumbnail
-			$fileSize = $this->calcFileSize($this->fileSize); //'15kb';
+			$fileSize = $this->calcFileSize($this->fileSize);
 			$textWidth = imagefontwidth(4)*strlen($fileSize); 
 			$tx = 2;//ceil($textWidth/2);
 			$ty = 45;

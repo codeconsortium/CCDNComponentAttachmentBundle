@@ -37,8 +37,8 @@ class AttachmentRepository extends EntityRepository
 		$query = $this->getEntityManager()
 			->createQuery('
 				SELECT a, u FROM CCDNComponentAttachmentBundle:Attachment a
-				LEFT JOIN a.created_by u
-				WHERE a.created_by = :user_id
+				LEFT JOIN a.owned_by u
+				WHERE a.owned_by = :user_id
 				GROUP BY a.id
 				ORDER BY a.created_date DESC')
 			->setParameter('user_id', $user_id);
@@ -50,5 +50,25 @@ class AttachmentRepository extends EntityRepository
 	    }	
 	}
 
+	
+	public function findTheseAttachmentsByUserId($objectIds, $userId)
+	{
+		$qb = $this->getEntityManager()->createQueryBuilder();
+		$query = $qb->add('select', 'a')
+			->from('CCDNComponentAttachmentBundle:Attachment', 'a')
+			->where($qb->expr()->andx(
+				$qb->expr()->eq('a.owned_by', '?1'),
+				$qb->expr()->in('a.id', '?2')))
+			->setParameters(array('1' => $userId, '2' => array_values($objectIds)))
+			->getQuery();
+			
+		try {
+			return $query->getResult();
+	    } catch (\Doctrine\ORM\NoResultException $e) {
+	        return null;
+	    }
+	}
+	
+	
 	
 }

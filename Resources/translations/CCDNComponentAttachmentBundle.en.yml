@@ -4,6 +4,7 @@ title.attachment.index: 'Attachments.'
 crumbs.attachment_index: 'Attachments'
 crumbs.attachment_upload: 'Upload Attachment'
 
+sidebar.header.attachment: 'Attachments'
 
 form.label.attachment.upload.file: 'File: '
 form.label.attachment.upload.description: 'Description: '
@@ -14,7 +15,8 @@ attachment.table.head.description: 'Description'
 attachment.table.head.uploaded: 'Uploaded On'
 attachment.table.empty: 'There are no attachments uploaded.'
 
+link.upload: 'Upload'
 link.download: 'Download'
-link.remove: 'Delete'
+link.delete: 'Delete'
 
 flash.attachment.upload.success: 'File "%file_name%" uploaded successfully.'

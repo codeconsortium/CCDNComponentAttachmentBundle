@@ -1,10 +1,10 @@
-cc_attachment_home:
+cc_attachment_index:
     pattern: /{_locale}/attachments
     defaults:   { _controller: CCDNComponentAttachmentBundle:Manage:index, _locale: en, page: 0, user_id: 0 }
     requirements:
         _locale: en
                 
-cc_attachment_home_paginated:
+cc_attachment_index_paginated:
     pattern: /{_locale}/attachments/page/{page}
     defaults:   { _controller: CCDNComponentAttachmentBundle:Manage:index, _locale: en, page: 0, user_id: 0 }
     requirements:
@@ -41,8 +41,12 @@ cc_attachment_download:
     requirements:
         _locale: en
 
-cc_attachment_delete:
-    pattern: /{_locale}/attachment/{attachment_id}/delete
-    defaults: { _controller: CCDNComponentAttachmentBundle:Manage:delete, _locale: en }
-    requirements:
-        _locale: en
+#cc_attachment_delete:
+#    pattern: /{_locale}/attachment/{attachment_id}/delete
+#    defaults: { _controller: CCDNComponentAttachmentBundle:Manage:delete, _locale: en }
+#    requirements:
+#        _locale: en
+
+cc_attachment_action_bulk:
+    pattern:    /{_locale}/attachment/action/checked
+    defaults:   { _controller: CCDNComponentAttachmentBundle:Manage:bulk, _locale: en }

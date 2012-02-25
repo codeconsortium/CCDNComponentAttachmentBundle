@@ -5,6 +5,11 @@
 	<link href="{{ asset('bundles/ccdncomponentcrumbtrail/css/crumbs.css') }}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('bundles/ccdncomponentcommon/js/jquery.checkboxes.js') }}" type="text/javascript"></script>
+{% endblock %}
+
 {% block title %}{{ 'title.attachment.index' |trans({}, 'CCDNComponentAttachmentBundle') }}{% endblock %}
 
 {% block sidebar %}
@@ -15,6 +20,11 @@
 	{% if is_granted('ROLE_ADMIN') %}
 	<div class="common_box_panel"><a class="sidebar" href="{{ path('cc_admin_forum_cp') }}">{{ 'general.view.link_administrate' | trans({}, 'CCDNComponentCommonBundle') }}</a></div>
 	{% endif %}
+</div>
+	
+<div class="common_box_5 bg_header_smoke">
+	<div class="common_box_header"><span class="heading_glow">{{ 'sidebar.header.attachment' | trans({}, 'CCDNComponentAttachmentBundle') }}</span></div>
+	<div class="common_box_panel"><a class="sidebar" href="{{ path('cc_attachment_upload') }}">{{ 'link.upload' | trans({}, 'CCDNComponentAttachmentBundle') }}</a></div>
 </div>
 {% endif %}
 
@@ -31,6 +41,11 @@
 	<div class="common_box_header">
 		<span class="heading_glow">{{ 'title.attachment.index' |trans({}, 'CCDNComponentAttachmentBundle') }}</span>
 	</div>
+
+<form method="POST" action="{{ path('cc_attachment_action_bulk') }}">
+	<div class="common_box_panel common_tool_strip">
+		<input type="submit" value="{{ 'link.delete' |trans({}, 'CCDNComponentAttachmentBundle') }}" name="submit_delete" />
+	</div>
 	<div class="common_box_panel common_tool_strip">
 		<div class="pagerfanta">
 			{% if path(app.request.attributes.get('_route')) == 'cc_attachment_for_user' or path(app.request.attributes.get('_route')) == 'cc_attachment_for_user_paginated' %}
@@ -43,23 +58,26 @@
 	<div class="common_box_panel">
 			<table class="common_list">
 				<thead>
+					<th style="width: 18px; valign: middle; text-align: center;"><input type="checkbox" id="check_all" name="check_all" /></th>
 					<th></th>
 					<th>{{ 'attachment.table.head.file' | trans({}, 'CCDNComponentAttachmentBundle') }}</th>
 					<th class="h_align_centre">{{ 'attachment.table.head.uploaded' | trans({}, 'CCDNComponentAttachmentBundle') }}</th>	
-					<th></th>
 				</thead>
 				<tbody>
 				{% for row, attachment in attachments %}
 					<tr class="{{ cycle(['row_odd', 'row_even'], row) }}">
-						<td class="padding_5 h_align_centre v_align_middle">
+						<td class="padding_5 h_align_centre v_align_top">
+							<input type="checkbox" id="multiselect_{{ attachment.id }}" name="check_multiselect_{{ attachment.id }}" />
+						</td>
+						<td class="padding_5 h_align_centre v_align_top" style="width: 70px;">
 							<a href="{{ path('cc_attachment_download', {'attachment_id': attachment.getId }) }}"><img src="{{ path('cc_attachment_thumbnail', {'attachment_id': attachment.getId }) }}" /></a>
 						</td>						
 						<td class="padding_5 h_align_left v_align_top">
 							<a href="{{ path('cc_attachment_download', {'attachment_id': attachment.getId }) }}">{{ attachment.getAttachmentOriginal }}</a>
 							<br />{{ attachment.getDescription }}
 						</td>
-						<td class="h_align_centre v_align_middle padding_5">{{ attachment.getCreatedDate|date("d/m/Y - H:i:s") }}</td>
-						<td class="h_align_centre v_align_middle padding_5"><a href="{{ path('cc_attachment_delete', {'attachment_id': attachment.getId }) }}">{{ 'link.remove' |trans({}, 'CCDNComponentAttachmentBundle') }}</a></td>
+						<td class="padding_5 h_align_centre v_align_top" style="width: 200px;">{{ attachment.getCreatedDate|date("d/m/Y - H:i:s") }}</td>
+{#						<td class="padding_5 h_align_centre v_align_top" style="width: 100px;"><a href="{{ path('cc_attachment_delete', {'attachment_id': attachment.getId }) }}">{{ 'link.delete' |trans({}, 'CCDNComponentAttachmentBundle') }}</a></td>#}
 					</tr>
 				{% else %}
 					<tr>
@@ -80,6 +98,7 @@
 		    {% endif %}
 		</div>
 	</div>
+</form>
 </div>
 {% include 'CCDNComponentCrumbTrailBundle:Trail:trail.html.twig' with {'crumbs': crumbs } %}
 

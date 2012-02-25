@@ -50,7 +50,7 @@ class ManageController extends ContainerAware
 				
 				$crumb_trail = $this->container->get('crumb_trail')
 					->add($this->container->get('translator')->trans('crumbs.attachments_index', array(), 'CCDNComponentAttachmentBundle'), 
-						$this->container->get('router')->generate('cc_attachment_home_for_user', array('user_id' => $user_id)), "home");
+						$this->container->get('router')->generate('cc_attachment_index_for_user', array('user_id' => $user_id)), "home");
 			}
 		} else {
 			if ( ! $this->container->get('security.context')->isGranted('ROLE_USER'))
@@ -61,7 +61,7 @@ class ManageController extends ContainerAware
 				
 				$crumb_trail = $this->container->get('crumb_trail')
 					->add($this->container->get('translator')->trans('crumbs.attachment_index', array(), 'CCDNComponentAttachmentBundle'), 
-						$this->container->get('router')->generate('cc_attachment_home'), "home");
+						$this->container->get('router')->generate('cc_attachment_index'), "home");
 			}
 		}
 
@@ -114,14 +114,14 @@ class ManageController extends ContainerAware
 			$this->container->get('session')->setFlash('notice', 
 				$this->container->get('translator')->trans('flash.attachment.upload.success', array('%file_name%' => $form->getData()->getAttachmentOriginal()), 'CCDNComponentAttachmentBundle'));
 										
-			return new RedirectResponse($this->container->get('router')->generate('cc_attachment_home'));
+			return new RedirectResponse($this->container->get('router')->generate('cc_attachment_index'));
 		}
 		else
 		{
 			// setup crumb trail.	
 			$crumb_trail = $this->container->get('crumb_trail')
 				->add($this->container->get('translator')->trans('crumbs.attachment_index', array(), 'CCDNComponentAttachmentBundle'), 
-					$this->container->get('router')->generate('cc_attachment_home'), "home")
+					$this->container->get('router')->generate('cc_attachment_index'), "home")
 				->add($this->container->get('translator')->trans('crumbs.attachment_upload', array(), 'CCDNComponentAttachmentBundle'), 
 					$this->container->get('router')->generate('cc_attachment_upload'), "publish");
 
@@ -135,13 +135,50 @@ class ManageController extends ContainerAware
 	
 	
 	
-	public function deleteAction($attachment_id)
+	/**
+	 *
+	 * @access public
+	 * @return RedirectResponse
+	 */
+	public function bulkAction()
 	{
-		
+		if ( ! $this->container->get('security.context')->isGranted('ROLE_USER'))
+		{
+			throw new AccessDeniedException('You do not have access to this section.');
+		}
+
+		// get all the message id's
+		$objectIds = array();
+		$ids = $_POST;
+		foreach ($ids as $objectKey => $objectId)
+		{
+			if (substr($objectKey, 0, 18) == 'check_multiselect_')
+			{
+				$objectIds[] = substr($objectKey, 18, (strlen($objectKey) - 18));
+			}
+		}
+
+		if (count($objectIds) < 1)
+		{
+			return new RedirectResponse($this->container->get('router')->generate('cc_attachment_index'));
+		}
+
+		$user = $this->container->get('security.context')->getToken()->getUser();
+
+		$attachments = $this->container->get('attachment.repository')->findTheseAttachmentsByUserId($objectIds, $user->getId());
+
+		if (isset($_POST['submit_delete']))
+		{
+			$this->container->get('attachment.manager')->bulkDelete($attachments)->flushNow();
+		}
+
+	//	$this->container->get('attachment.manager')->updateAllFolderCachesForUser($user);
+
+		return new RedirectResponse($this->container->get('router')->generate('cc_attachment_index'));
 	}
-	
-	
-	
+		
+		
+		
 	/**
 	 *
 	 * @access protected

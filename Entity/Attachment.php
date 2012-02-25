@@ -65,11 +65,14 @@ class Attachment
 	
 	/**
      * @ORM\ManyToOne(targetEntity="CCDNUser\UserBundle\Entity\User", cascade={"persist"})
-     * @ORM\JoinColumn(name="created_by_user_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ORM\JoinColumn(name="owned_by_user_id", referencedColumnName="id", onDelete="SET NULL")
 	 */
-	protected $created_by;
+	protected $owned_by;
 
-
+	/**
+	 * @ORM\Column(type="text", length=255)
+	 */
+	protected $file_size;
 
 
     /**
@@ -236,5 +239,49 @@ class Attachment
     public function getAttachmentOriginal()
     {
         return $this->attachment_original;
+    }
+
+    /**
+     * Set file_size
+     *
+     * @param text $fileSize
+     * @return Attachment
+     */
+    public function setFileSize($fileSize)
+    {
+        $this->file_size = $fileSize;
+        return $this;
+    }
+
+    /**
+     * Get file_size
+     *
+     * @return text 
+     */
+    public function getFileSize()
+    {
+        return $this->file_size;
+    }
+
+    /**
+     * Set owned_by
+     *
+     * @param CCDNUser\UserBundle\Entity\User $ownedBy
+     * @return Attachment
+     */
+    public function setOwnedBy(\CCDNUser\UserBundle\Entity\User $ownedBy = null)
+    {
+        $this->owned_by = $ownedBy;
+        return $this;
+    }
+
+    /**
+     * Get owned_by
+     *
+     * @return CCDNUser\UserBundle\Entity\User 
+     */
+    public function getOwnedBy()
+    {
+        return $this->owned_by;
     }
 }

@@ -134,7 +134,7 @@ class AttachmentInsertFormHandler
 			
 			// set the file properties in the db
 			$formData->setCreatedDate(new \DateTime());
-			$formData->setCreatedBy($this->options['user']);
+			$formData->setOwnedBy($this->options['user']);
 			
 			$formData->setAttachmentOriginal($fileName);
 			$formData->setAttachmentHashed($fileNameHashed);
@@ -144,6 +144,12 @@ class AttachmentInsertFormHandler
 			{				
 				$this->form['attachment']->getData()->move($dir, $fileNameHashed);
 				$formData->setAttachment($dir . $fileNameHashed);
+		
+				//$resolver = $this->container->get('attachment.file.resolver');
+				//$resolver->setFileName($fileRecord->getAttachmentOriginal());
+				//$fileSize = $resolver->calcFileSize($fileRecord->getAttachment());
+				
+				$formData->setFileSize(filesize($fileSize));
 				
 				$this->onSuccess($this->form->getData());
 							
