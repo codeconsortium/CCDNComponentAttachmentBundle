@@ -13,6 +13,7 @@ form.button.attachment.upload: 'Upload'
 attachment.table.head.file: 'File'
 attachment.table.head.description: 'Description'
 attachment.table.head.uploaded: 'Uploaded On'
+attachment.table.head.file_size: 'File Size'
 attachment.table.empty: 'There are no attachments uploaded.'
 
 link.upload: 'Upload'

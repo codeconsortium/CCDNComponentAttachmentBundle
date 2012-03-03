@@ -60,8 +60,29 @@ class Configuration implements ConfigurationInterface
 				->end()
 			->end();
 		
+		$this->addQuotaSection($rootNode);
+		
         return $treeBuilder;
     }
 
+
+
+	/**
+	 *
+	 *
+	 */
+	public function addQuotaSection(ArrayNodeDefinition $node)
+	{
+		$node
+			->children()
+				->arrayNode('quota_per_user')
+					->children()
+						->scalarNode('max_files_quantity')->defaultValue('20')->end()
+						->scalarNode('max_filesize_per_file')->defaultValue('200')->end()
+						->scalarNode('max_total_quota')->defaultValue('1000')->end()
+					->end()
+				->end()
+			->end();
+	}
 	
 }

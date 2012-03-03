@@ -47,7 +47,23 @@ class CCDNComponentAttachmentExtension extends Extension
 		$container->setParameter('ccdn_component_attachment.template.engine', $config['template']['engine']);
 		$container->setParameter('ccdn_component_attachment.user.profile_route', $config['user']['profile_route']);
 		$container->setParameter('ccdn_component_attachment.store.dir', $config['store']['dir']);
+		
+		$this->getQuotaSection($container, $config);
     }
+	
+	
+	
+	/**
+	 *
+	 *
+	 */
+	public function getQuotaSection($container, $config)
+	{
+	    $container->setParameter('ccdn_component_attachment.quota_per_user.max_files_quantity', $config['quota_per_user']['max_files_quantity']);
+	    $container->setParameter('ccdn_component_attachment.quota_per_user.max_filesize_per_file', $config['quota_per_user']['max_filesize_per_file']);
+	    $container->setParameter('ccdn_component_attachment.quota_per_user.max_total_quota', $config['quota_per_user']['max_total_quota']);
+	}
+	
 	
 	
     /**

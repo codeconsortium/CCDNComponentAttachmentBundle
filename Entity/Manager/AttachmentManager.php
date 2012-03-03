@@ -41,7 +41,9 @@ class AttachmentManager extends BaseManager implements EntityManagerInterface
 	
 	
 	/**
-	 *
+	 * @access public
+	 * @param Array() $attachments 
+	 * @return AttachmentManager $this
 	 * @link http://www.php.net/manual/en/function.unlink.php
 	 */
 	public function bulkDelete($attachments)

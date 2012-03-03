@@ -74,7 +74,7 @@ class Attachment
 	 */
 	protected $file_size;
 
-
+	
     /**
      * Get id
      *

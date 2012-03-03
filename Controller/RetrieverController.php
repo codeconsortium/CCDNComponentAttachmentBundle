@@ -39,13 +39,13 @@ class RetrieverController extends ContainerAware
 	 */
 	public function thumbnailAction($attachment_id)
 	{
-		$thumbnailLocation = $this->container->getParameter('kernel.root_dir') . '/../web/bundles/ccdncomponentcommon/images/icons/Black/32x32/';
+		$thumbnailLocation = $this->container->getParameter('kernel.root_dir') . '/../web/bundles/ccdncomponentcommon/images/icons/Silver/32x32/';
 		
 		$fileRecord = $this->container->get('attachment.repository')->findOneById($attachment_id);
 
 		$fileResolver = $this->container->get('attachment.file.resolver');
 		
-		$fileResolver->setThumbnailIconLocation($thumbnailLocation);
+		$fileResolver->setMysteryThumbnailIconLocation($thumbnailLocation);
 		$fileResolver->setFileName($fileRecord->getAttachmentOriginal());
 		$fileResolver->setFileExtension($fileRecord->getFileExtension());
 		
@@ -93,7 +93,7 @@ class RetrieverController extends ContainerAware
 
 		$fileResolver = $this->container->get('attachment.file.resolver');
 		
-		$fileResolver->setThumbnailIconLocation($thumbnailLocation);
+		$fileResolver->setMysteryThumbnailIconLocation($thumbnailLocation);
 		$fileResolver->setFileName($fileRecord->getAttachmentOriginal());
 		$fileResolver->setFileExtension($fileRecord->getFileExtension());
 		

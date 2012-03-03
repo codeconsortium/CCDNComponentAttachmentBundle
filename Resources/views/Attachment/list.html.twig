@@ -62,6 +62,7 @@
 					<th></th>
 					<th>{{ 'attachment.table.head.file' | trans({}, 'CCDNComponentAttachmentBundle') }}</th>
 					<th class="h_align_centre">{{ 'attachment.table.head.uploaded' | trans({}, 'CCDNComponentAttachmentBundle') }}</th>	
+					<th class="h_align_centre">{{ 'attachment.table.head.file_size' | trans({}, 'CCDNComponentAttachmentBundle') }}</th>
 				</thead>
 				<tbody>
 				{% for row, attachment in attachments %}
@@ -78,10 +79,11 @@
 						</td>
 						<td class="padding_5 h_align_centre v_align_top" style="width: 200px;">{{ attachment.getCreatedDate|date("d/m/Y - H:i:s") }}</td>
 {#						<td class="padding_5 h_align_centre v_align_top" style="width: 100px;"><a href="{{ path('cc_attachment_delete', {'attachment_id': attachment.getId }) }}">{{ 'link.delete' |trans({}, 'CCDNComponentAttachmentBundle') }}</a></td>#}
+						<td class="padding_5 h_align_centre v_align_top" style="width: 80px;">{{ attachment.getFileSize }}</td>
 					</tr>
 				{% else %}
 					<tr>
-						<td class="h_align_centre v_align_middle" colspan="5" width="100%">
+						<td class="h_align_centre v_align_middle" colspan="6" width="100%">
 							{{ 'attachment.table.empty' | trans({}, 'CCDNComponentAttachmentBundle') }}
 						</td>
 					</tr>

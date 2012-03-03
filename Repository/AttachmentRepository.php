@@ -51,6 +51,12 @@ class AttachmentRepository extends EntityRepository
 	}
 
 	
+	
+	/**
+	 *
+	 * @access public
+	 * @param array $objectIds, int $userId
+	 */
 	public function findTheseAttachmentsByUserId($objectIds, $userId)
 	{
 		$qb = $this->getEntityManager()->createQueryBuilder();

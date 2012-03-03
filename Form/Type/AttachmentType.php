@@ -57,6 +57,7 @@ class AttachmentType extends AbstractType
 	{
 		$builder->add('attachment', 'file');
 		$builder->add('description', 'text');
+
 	}
 	
 

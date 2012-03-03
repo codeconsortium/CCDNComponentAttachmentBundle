@@ -25,39 +25,72 @@ class FileResolver
 	protected $fileData;
 	protected $isRenderable = false;
 	protected $headerContentType;
-	protected $headerFileSize;
-
+	protected $fileSize;
+	
+	
+	
+	/**
+	 *
+	 * @access public
+	 * @param $service_container
+	 */
 	public function __construct($service_container)
 	{
 		$this->container = $service_container;
 	}
 	
+	
+	/**
+	 *
+	 * @access public
+	 * @param string $fileName
+	 */
 	public function setFileName($fileName)
 	{
 		$this->fileName = $fileName;
 	}
 	
+	
+	/**
+	 *
+	 * @access public
+	 * @param string $fileExtension
+	 */
 	public function setFileExtension($fileExtension)
 	{
 		$this->fileExtension = $fileExtension;
 	}
 	
-/*	public function setFileWithDir($fileNameWithDir)
-	{
-		$this->fileNameWithDir = $fileNameWithDir;
-	}*/
 	
-	public function setThumbnailIconLocation($location)
+	/**
+	 *
+	 * @access public
+	 * @param string $location
+	 */
+	public function setMysteryThumbnailIconLocation($location)
 	{
 		$this->thumbnailLocation = $location;
 	}
 	
+	
+	/**
+	 *
+	 * @access public
+	 */
 	public function setThumbnailUnknown()
 	{
-		$this->fileNameWithDir = realpath($this->thumbnailLocation . '32x32_attachment.png');
+		$this->fileNameWithDir = $this->thumbnailLocation . '32x32_attachment.png';
+		
 		$this->loadFileData();
 	}	
 	
+	
+	/**
+	 *
+	 * @access public
+	 * @param string $file
+	 * @return bool
+	 */
 	public function locateFile($file)
 	{
 		$this->fileNameWithDir = $file;
@@ -70,11 +103,20 @@ class FileResolver
 		}
 	}
 	
+	
+	/**
+	 *
+	 * @access public
+	 * @return bool
+	 */
 	public function loadFileData()
 	{
 		ob_start();
 			readfile($this->fileNameWithDir);
 		$this->fileData = ob_get_clean();
+
+		// get file size
+		$this->fileSize = filesize($this->fileNameWithDir);
 		
 		if ( ! $this->fileData)
 		{
@@ -83,10 +125,14 @@ class FileResolver
 			return true;
 		}
 	}
-
+	
+	
+	/**
+	 *
+	 * @access public
+	 */
 	public function resolveType()
 	{
-		$this->fileSize = filesize($this->fileNameWithDir);
  		
 		switch($this->fileExtension)
 		{
@@ -132,37 +178,27 @@ class FileResolver
 		
 	}
 	
+
 	
+	
+	/**
+	 *
+	 * @access public
+	 * @return string $this->fileData
+	 */	
 	public function getFileData()
 	{
 		$this->resolveType();
 		return $this->fileData;
 	}
 
-
-
+	
+	
 	/**
 	 *
-	 *
-	 * credit to <biolanor at googlemail dot com>, example code used linked below.
-	 * @link http://php.net/manual/en/function.filesize.php 
+	 * @access public
+	 * @return string $this->fileData
 	 */
-	public function calcFileSize($bytes)
-	{
-		// array of SI units.
-		$fs = array('b', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB');
-		
-		//$size = number_format($bytes/pow(1024, $index=floor(log($bytes, 1024))), ($index >= 1) ? 2 : 0) . ' ' . $fs[$index];
-		
-		// get kb value
-		$bpow = floor(log($bytes, 1024));
-		
-		// use kb value to work out size
-		$size = round($bytes / pow(1024, $bpow), ($bpow >= 1) ? 2 : 0) . $fs[$bpow];
-	
-		return $size;
-	}
-	
 	public function getFileThumbnailData()
 	{
 		$this->resolveType();
@@ -170,41 +206,47 @@ class FileResolver
 		if ( ! $this->isRenderable)
 		{
 			$this->setThumbnailUnknown();
-		} else {
-
-			// prep image resources
-			$imgResource = imagecreatefromstring($this->fileData);
-			$cx = imagesx($imgResource);
-			$cy = imagesy($imgResource);		
-			$nx = 60;
-			$ny = 60;
-			
-			// create a new blank canvas
-			$tmp = imagecreatetruecolor($nx, $ny);
-			
-			// copy the image, resize it and place it on the new canvas
-			imagecopyresized($tmp, $imgResource, 0, 0, 0, 0, $nx, $ny - 15, $cx, $cy);
-			
-			// add a filesize stamp to bottom of thumbnail
-			$fileSize = $this->calcFileSize($this->fileSize);
-			$textWidth = imagefontwidth(4)*strlen($fileSize); 
-			$tx = 2;//ceil($textWidth/2);
-			$ty = 45;
-			imagestring($tmp, 2, $tx, $ty, $fileSize, 0x00FFFFFF);
-			
-			// empty the image resource into binary string var we can send to the browser.
-			ob_start();
-				$stringDat = imagepng($tmp);
-			$this->fileData = ob_get_clean();	
-	
 		}
 		
+		// prep image resources
+		$imgResource = imagecreatefromstring($this->fileData);
+		$cx = imagesx($imgResource);
+		$cy = imagesy($imgResource);		
+		$nx = 60;
+		$ny = 60;
+		
+		// create a new blank canvas
+		$tmp = imagecreatetruecolor($nx, $ny);
+		
+		// copy the image, resize it and place it on the new canvas
+		imagecopyresized($tmp, $imgResource, 0, 0, 0, 0, $nx, $ny - 15, $cx, $cy);
+		
+		// add a filesize stamp to bottom of thumbnail
+		$calc = $this->container->get('bin.si.units');
+		$fileSize = $calc->formatToSIUnit($this->fileSize, null, true);
+
+		$textWidth = imagefontwidth(4)*strlen($fileSize); 
+		$tx = 2;//ceil($textWidth/2);
+		$ty = 45;
+		imagestring($tmp, 2, $tx, $ty, $fileSize, 0x00FFFFFF);
+		
+		// empty the image resource into binary string var we can send to the browser.
+		ob_start();
+			$stringDat = imagepng($tmp);
+		$this->fileData = ob_get_clean();	
+			
 		return $this->fileData;
 	}
 	
+	
+	
+	/**
+	 *
+	 * @access public
+	 * @return Array()
+	 */
 	public function getHTTPHeaders()
 	{
-
 
 		return array( 
 			'Content-Description' => 'File Transfer',

@@ -15,6 +15,7 @@ namespace CCDNComponent\AttachmentBundle\Form\Handler;
 
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormFactory;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -116,44 +117,54 @@ class AttachmentInsertFormHandler
 		
 			$formData = $this->form->getData();
 
-			// sort out the file details
-			$dir = $this->container->getParameter('ccdn_component_attachment.store.dir');
+			// get the UploadedFile instance
 			$file = $this->form['attachment']->getData();
 			
+			// sort out the file meta-data
 			$fileName = $file->getClientOriginalName();
-			$fileExtension = $file->guessExtension();
-			
-			
+			$fileExtension = $file->guessExtension();		
+			if ( ! $fileExtension) { $fileExtension = 'bin'; }
 			$fileNameHashed = md5(uniqid(mt_rand(), true));
+			$fileStoreDir = $this->container->getParameter('ccdn_component_attachment.store.dir');	
+
+			// shift the file out of tmp dir and into the filestore
+			$file->move($fileStoreDir, $fileNameHashed);
 			
-			if ( ! $fileExtension)
-			{
-				$fileExtension = 'bin';
-			}
+			// get the records of all attachments for the user to do some work on.	
+			$user = $this->container->get('security.context')->getToken()->getUser();
+			$attachments = $this->container->get('attachment.repository')->findForUserById($user->getId());
+
+			// get the SI Units calculator
+			$calc = $this->container->get('bin.si.units');
+
+			// get the file size in bytes
+			$fileSize = filesize($fileStoreDir . $fileNameHashed);	
 			
+			// check file uploaded ok
+			$this->validateUploadStatus($file);
 			
-			// set the file properties in the db
+			// validate quotas
+			$this->validateMaxFileSize($calc, $fileSize);
+			$this->validateTotalQuota($calc, $attachments);
+            $this->validateMaxFileQuantity($attachments);
+						
+			// set the file properties for the db record.
 			$formData->setCreatedDate(new \DateTime());
-			$formData->setOwnedBy($this->options['user']);
-			
+			$formData->setOwnedBy($this->options['user']);			
 			$formData->setAttachmentOriginal($fileName);
 			$formData->setAttachmentHashed($fileNameHashed);
 			$formData->setFileExtension($fileExtension);
-
+			$formData->setAttachment($fileStoreDir . $fileNameHashed);
+			$formData->setFileSize($calc->formatToSIUnit($fileSize, null, true));
+			
+			// check form validation
 			if ($this->form->isValid())
-			{				
-				$this->form['attachment']->getData()->move($dir, $fileNameHashed);
-				$formData->setAttachment($dir . $fileNameHashed);
-		
-				//$resolver = $this->container->get('attachment.file.resolver');
-				//$resolver->setFileName($fileRecord->getAttachmentOriginal());
-				//$fileSize = $resolver->calcFileSize($fileRecord->getAttachment());
-				
-				$formData->setFileSize(filesize($fileSize));
-				
+			{
 				$this->onSuccess($this->form->getData());
 							
 				return true;				
+			} else {
+				@unlink($fileStoreDir . $fileNameHashed);
 			}
 			
 		}
@@ -162,6 +173,94 @@ class AttachmentInsertFormHandler
 	}
 	
 	
+	
+	/**
+	 *
+	 * @access protected
+	 * @param string $file
+	 */
+	protected function validateUploadStatus($file)
+	{
+		if ( ! $file->isValid())
+		{
+			$this->form->addError(new FormError('Error while uploading the file.'));
+			$this->form->addError(new FormError($file->getError()));
+		}
+	}
+	
+	
+	
+	/**
+	 *
+	 * @access protected
+	 * @param Object $calc, string $fileSize
+	 */
+	protected function validateMaxFileSize($calc, $fileSize)
+	{
+		// check if the max_filesize_per_file_in_kb is reached
+		$maxFileSizePerFile = $this->container->getParameter('ccdn_component_attachment.quota_per_user.max_filesize_per_file');		
+		$maxFileSizePerFileInKiB = $calc->formatToSIUnit($maxFileSizePerFile, $calc::KiB, false);
+		
+		$fileSizeInKiB = $calc->formatToSIUnit($fileSize, $calc::KiB, false);
+		
+		if ($fileSizeInKiB > ($maxFileSizePerFileInKiB + 1))
+		{
+			// limit reached. reject this upload!
+			$this->form->addError(new FormError('The file size limit is ' . $maxFileSizePerFileInKiB . 'KiB. The file you are trying to upload is ' . $fileSizeInKiB . 'KiB.'));
+		}
+		
+	}
+	
+	
+	
+	/**
+	 *
+	 * @access protected
+	 * @param Object $calc, Array() $attachments
+	 */
+	protected function validateTotalQuota($calc, $attachments)
+	{
+		// check if the max_total_quota_in_kb is reached
+		$maxTotalQuota = $this->container->getParameter('ccdn_component_attachment.quota_per_user.max_total_quota');
+		$maxTotalQuotaInKiB = $calc->formatToSIUnit($maxTotalQuota, $calc::KiB, false);
+	
+		// work out total used so far.
+		$totalUsedSpaceInKiB = 0;
+
+		foreach($attachments as $key => $attachment)
+		{
+			$totalUsedSpaceInKiB += $calc->formatToSIUnit($attachment->getFileSize(), $calc::KiB, false);
+		}
+
+		
+		if ($totalUsedSpaceInKiB > $maxTotalQuotaInKiB)
+		{
+			// limit reached. reject this upload!
+			$this->form->addError(new FormError('You have used up all (' . $maxTotalQuotaInKiB . 'KiB) of the allowed space (' . $totalUsedSpaceInKiB . 'KiB) in your attachments! Delete some attachments to free up room.'));
+		}
+	}
+	
+	
+	
+	/**
+	 *
+	 * @access protected
+	 * @param Array() $attachments
+	 */
+	protected function validateMaxFileQuantity($attachments)
+	{
+		// check if the max_files_quantity is reached
+		$maxFilesQuantity = $this->container->getParameter('ccdn_component_attachment.quota_per_user.max_files_quantity');
+		
+		if (count($attachments) >= $maxFilesQuantity)
+		{
+			// limit reached. reject this upload!
+			$this->form->addError(new FormError("You have reached the maximum number of allowed files in your attachments!"));
+		}
+	}
+	
+	
+		
 	/**
 	 *
 	 * @access public
