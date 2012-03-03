@@ -55,9 +55,10 @@ class CCDNComponentAttachmentExtension extends Extension
 	
 	/**
 	 *
-	 *
+	 * @access protected
+	 * @param $container, $config
 	 */
-	public function getQuotaSection($container, $config)
+	protected function getQuotaSection($container, $config)
 	{
 	    $container->setParameter('ccdn_component_attachment.quota_per_user.max_files_quantity', $config['quota_per_user']['max_files_quantity']);
 	    $container->setParameter('ccdn_component_attachment.quota_per_user.max_filesize_per_file', $config['quota_per_user']['max_filesize_per_file']);

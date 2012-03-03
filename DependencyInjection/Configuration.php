@@ -69,9 +69,10 @@ class Configuration implements ConfigurationInterface
 
 	/**
 	 *
-	 *
+	 * @access protected
+	 * @param ArrayNodeDefinition $node
 	 */
-	public function addQuotaSection(ArrayNodeDefinition $node)
+	protected function addQuotaSection(ArrayNodeDefinition $node)
 	{
 		$node
 			->children()
