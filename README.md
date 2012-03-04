@@ -27,7 +27,6 @@ Dependencies:
 2. [PagerFantaBundle](http://github.com/whiteoctober/WhiteOctoberPagerfantaBundle).
 3. [CCDNComponent CommonBundle](https://github.com/codeconsortium/CommonBundle).
 4. [CCDNComponent CrumbTrailBundle](https://github.com/codeconsortium/CrumbTrailBundle).
-5. [CCDNComponent AttachmentBundle](https://github.com/codeconsortium/AttachmentBundle).
 
 
 Installation:
