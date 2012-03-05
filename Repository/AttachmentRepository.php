@@ -26,11 +26,33 @@ use Pagerfanta\Pagerfanta;
 class AttachmentRepository extends EntityRepository
 {
 
-
 	/**
 	 *
 	 * @access public
-	 * @param int $board_id
+	 * @param int $user_id
+	 */	
+	public function findSingleAttachmentForUserById($attachmentId, $userId)
+	{
+		$query = $this->getEntityManager()
+			->createQuery('
+				SELECT a, FROM CCDNComponentAttachmentBundle:Attachment a
+				WHERE a.owned_by = :user_id AND a.id = :attachment_id
+				GROUP BY a.id')
+			->setParameters(array('attachment_id' => $attachmentId, 'user_id' => $user_id));
+
+		try {
+			return $query->fetchSingleResult();
+	    } catch (\Doctrine\ORM\NoResultException $e) {
+	        return null;
+	    }
+	}
+	
+	
+	
+	/**
+	 *
+	 * @access public
+	 * @param int $user_id
 	 */	
 	public function findForUserById($user_id)
 	{	
@@ -49,7 +71,56 @@ class AttachmentRepository extends EntityRepository
 	        return null;
 	    }	
 	}
+	
+	
+	
+	/**
+	 *
+	 * @access public
+	 * @param int $user_id
+	 */	
+	public function findForUserByIdAsArray($user_id)
+	{	
+		$query = $this->getEntityManager()
+			->createQuery('
+				SELECT a, u FROM CCDNComponentAttachmentBundle:Attachment a
+				LEFT JOIN a.owned_by u
+				WHERE a.owned_by = :user_id
+				GROUP BY a.id
+				ORDER BY a.created_date DESC')
+			->setParameter('user_id', $user_id);
 
+		try {
+			return $query->getResult();
+	    } catch (\Doctrine\ORM\NoResultException $e) {
+	        return null;
+	    }	
+	}
+
+
+
+	/**
+	 *
+	 * @access public
+	 * @param int $user_id
+	 */	
+	public function findForUserByIdAsQB($userId)
+	{	
+		$qb = $this->getEntityManager()->createQueryBuilder('a');
+		$qb->add('select', 'a')
+			->where($qb->expr()->eq('a.owned_by', '?1'))
+		//	->orderBy('a.created_date', 'DESC')
+			->setParameter('1', $userId);
+
+		return $qb;
+		
+/*		try {
+			return $query->getResult();
+	    } catch (\Doctrine\ORM\NoResultException $e) {
+	        return null;
+	    }	*/
+	}
+	
 	
 	
 	/**
