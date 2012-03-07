@@ -19,5 +19,6 @@ attachment.table.empty: 'There are no attachments uploaded.'
 link.upload: 'Upload'
 link.download: 'Download'
 link.delete: 'Delete'
+link.attachments_manager: 'Manage Attachments'
 
 flash.attachment.upload.success: 'File "%file_name%" uploaded successfully.'

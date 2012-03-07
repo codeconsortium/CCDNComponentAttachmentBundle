@@ -222,7 +222,7 @@ class FileResolver
 		imagecopyresized($tmp, $imgResource, 0, 0, 0, 0, $nx, $ny - 15, $cx, $cy);
 		
 		// add a filesize stamp to bottom of thumbnail
-		$calc = $this->container->get('bin.si.units');
+		$calc = $this->container->get('ccdn_component_common.bin.si.units');
 		$fileSize = $calc->formatToSIUnit($this->fileSize, null, true);
 
 		$textWidth = imagefontwidth(4)*strlen($fileSize); 

@@ -6,23 +6,23 @@ parameters:
     ccdn_component_attachment.attachment.file.resolver.class:          CCDNComponent\AttachmentBundle\Component\FileResolver
     
 services:
-    attachment.manager:
+    ccdn_component_attachment.attachment.manager:
         class:  %ccdn_component_attachment.attachment.manager.class%
         arguments:  [@doctrine, @service_container]              
-    attachment.form.type:
+    ccdn_component_attachment.attachment.form.type:
         class:  %ccdn_component_attachment.attachment.form.type.class%
         arguments:  [@doctrine]
-    attachment.form.insert.handler:
+    ccdn_component_attachment.attachment.form.insert.handler:
         class:  %ccdn_component_attachment.attachment.form.insert.handler.class%
-        arguments:  [@form.factory, @service_container, @attachment.manager]
+        arguments:  [@form.factory, @service_container, @ccdn_component_attachment.attachment.manager]
 
-    attachment.repository:
+    ccdn_component_attachment.attachment.repository:
         class: %ccdn_component_attachment.attachment.repository.class%
         factory_service: doctrine.orm.default_entity_manager
         factory_method: getRepository 
         arguments:
             - 'CCDNComponent\AttachmentBundle\Entity\Attachment'
             
-    attachment.file.resolver:
+    ccdn_component_attachment.attachment.file.resolver:
         class: %ccdn_component_attachment.attachment.file.resolver.class%
         arguments: [@service_container]

@@ -132,10 +132,10 @@ class AttachmentInsertFormHandler
 			
 			// get the records of all attachments for the user to do some work on.	
 			$user = $this->container->get('security.context')->getToken()->getUser();
-			$attachments = $this->container->get('attachment.repository')->findForUserById($user->getId());
+			$attachments = $this->container->get('ccdn_component_attachment.attachment.repository')->findForUserById($user->getId());
 
 			// get the SI Units calculator
-			$calc = $this->container->get('bin.si.units');
+			$calc = $this->container->get('ccdn_component_common.bin.si.units');
 
 			// get the file size in bytes
 			$fileSize = filesize($fileStoreDir . $fileNameHashed);	
@@ -270,7 +270,7 @@ class AttachmentInsertFormHandler
 	{
 		if ( ! $this->form)
 		{
-			$attachmentType = $this->container->get('attachment.form.type');
+			$attachmentType = $this->container->get('ccdn_component_attachment.attachment.form.type');
 				
 			$this->form = $this->factory->create($attachmentType);			
 		}

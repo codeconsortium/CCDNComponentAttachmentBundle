@@ -46,9 +46,9 @@ class ManageController extends ContainerAware
 			{
 				throw new AccessDeniedException('You do not have permission to access this resource!');
 			} else {
-				$user = $this->container->get('user.repository')->findOneById($user_id);			
+				$user = $this->container->get('ccdn_user_user.user.repository')->findOneById($user_id);			
 				
-				$crumb_trail = $this->container->get('crumb_trail')
+				$crumb_trail = $this->container->get('ccdn_component_crumb_trail.crumb_trail')
 					->add($this->container->get('translator')->trans('crumbs.attachments_index', array(), 'CCDNComponentAttachmentBundle'), 
 						$this->container->get('router')->generate('cc_attachment_index_for_user', array('user_id' => $user_id)), "home");
 			}
@@ -59,7 +59,7 @@ class ManageController extends ContainerAware
 			} else {
 				$user = $this->container->get('security.context')->getToken()->getUser();
 				
-				$crumb_trail = $this->container->get('crumb_trail')
+				$crumb_trail = $this->container->get('ccdn_component_crumb_trail.crumb_trail')
 					->add($this->container->get('translator')->trans('crumbs.attachment_index', array(), 'CCDNComponentAttachmentBundle'), 
 						$this->container->get('router')->generate('cc_attachment_index'), "home");
 			}
@@ -70,7 +70,7 @@ class ManageController extends ContainerAware
             throw new NotFoundHttpException('the user does not exist.');
         }
 		
-		$attachments_paginated = $this->container->get('attachment.repository')->findForUserById($user->getId());
+		$attachments_paginated = $this->container->get('ccdn_component_attachment.attachment.repository')->findForUserById($user->getId());
 
 		// deal with pagination.
 		$attachments_per_page = 30; //$this->container->getParameter('ccdn_component_attachments.attachment.topics_per_page');
@@ -105,7 +105,7 @@ class ManageController extends ContainerAware
 		
 		$user = $this->container->get('security.context')->getToken()->getUser();
 		
-		$formHandler = $this->container->get('attachment.form.insert.handler')->setOptions(array('user' => $user));
+		$formHandler = $this->container->get('ccdn_component_attachment.attachment.form.insert.handler')->setOptions(array('user' => $user));
 			
 		$form = $formHandler->getForm();
 		
@@ -119,7 +119,7 @@ class ManageController extends ContainerAware
 		else
 		{
 			// setup crumb trail.	
-			$crumb_trail = $this->container->get('crumb_trail')
+			$crumb_trail = $this->container->get('ccdn_component_crumb_trail.crumb_trail')
 				->add($this->container->get('translator')->trans('crumbs.attachment_index', array(), 'CCDNComponentAttachmentBundle'), 
 					$this->container->get('router')->generate('cc_attachment_index'), "home")
 				->add($this->container->get('translator')->trans('crumbs.attachment_upload', array(), 'CCDNComponentAttachmentBundle'), 
@@ -165,14 +165,14 @@ class ManageController extends ContainerAware
 
 		$user = $this->container->get('security.context')->getToken()->getUser();
 
-		$attachments = $this->container->get('attachment.repository')->findTheseAttachmentsByUserId($objectIds, $user->getId());
+		$attachments = $this->container->get('ccdn_component_attachment.attachment.repository')->findTheseAttachmentsByUserId($objectIds, $user->getId());
 
 		if (isset($_POST['submit_delete']))
 		{
-			$this->container->get('attachment.manager')->bulkDelete($attachments)->flushNow();
+			$this->container->get('ccdn_component_attachment.attachment.manager')->bulkDelete($attachments)->flushNow();
 		}
 
-	//	$this->container->get('attachment.manager')->updateAllFolderCachesForUser($user);
+	//	$this->container->get('ccdn_component_attachment.attachment.manager')->updateAllFolderCachesForUser($user);
 
 		return new RedirectResponse($this->container->get('router')->generate('cc_attachment_index'));
 	}
