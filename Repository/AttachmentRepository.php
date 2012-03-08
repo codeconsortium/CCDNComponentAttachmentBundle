@@ -98,28 +98,25 @@ class AttachmentRepository extends EntityRepository
 	}
 
 
+    /**
+   	 *
+   	 * @access public
+   	 * @param int $user_id
+   	 */
+   	public function findForUserByIdAsQB($userId)
+   	{
+   		$qb = $this->getEntityManager()->createQueryBuilder('a');
+   		$qb->select('a')
+   			->from('CCDNComponentAttachmentBundle:Attachment', 'a')
+   			->where($qb->expr()->eq('a.owned_by', '?1'))
+   			->setParameter('1', $userId);
 
-	/**
-	 *
-	 * @access public
-	 * @param int $user_id
-	 */	
-	public function findForUserByIdAsQB($userId)
-	{	
-		$qb = $this->getEntityManager()->createQueryBuilder('a');
-		$qb->add('select', 'a')
-			->where($qb->expr()->eq('a.owned_by', '?1'))
-		//	->orderBy('a.created_date', 'DESC')
-			->setParameter('1', $userId);
-
-		return $qb;
-		
-/*		try {
-			return $query->getResult();
-	    } catch (\Doctrine\ORM\NoResultException $e) {
-	        return null;
-	    }	*/
-	}
+   		try {
+   			return $qb->getQuery()->getResult();
+   	    } catch (\Doctrine\ORM\NoResultException $e) {
+   	        return null;
+   	    }
+   	}
 	
 	
 	
