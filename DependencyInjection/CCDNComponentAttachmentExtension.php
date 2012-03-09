@@ -49,6 +49,8 @@ class CCDNComponentAttachmentExtension extends Extension
 		$container->setParameter('ccdn_component_attachment.store.dir', $config['store']['dir']);
 		
 		$this->getQuotaSection($container, $config);
+		$this->getAttachmentSection($container, $config);
+		
     }
 	
 	
@@ -63,6 +65,19 @@ class CCDNComponentAttachmentExtension extends Extension
 	    $container->setParameter('ccdn_component_attachment.quota_per_user.max_files_quantity', $config['quota_per_user']['max_files_quantity']);
 	    $container->setParameter('ccdn_component_attachment.quota_per_user.max_filesize_per_file', $config['quota_per_user']['max_filesize_per_file']);
 	    $container->setParameter('ccdn_component_attachment.quota_per_user.max_total_quota', $config['quota_per_user']['max_total_quota']);
+	}
+	
+	
+	
+	/**
+	 *
+	 * @access protected
+	 * @param $container, $config
+	 */
+	protected function getAttachmentSection($container, $config)
+	{
+	    $container->setParameter('ccdn_component_attachment.attachment.layout_templates.list', $config['attachment']['layout_templates']['list']);
+	    $container->setParameter('ccdn_component_attachment.attachment.layout_templates.upload', $config['attachment']['layout_templates']['upload']);
 	}
 	
 	

@@ -81,11 +81,15 @@ ccdn_component_attachment:
         engine: twig
         theme: CCDNComponentAttachmentBundle:Form:fields.html.twig
     store:
-        dir: /users/reecefowell/projects/htdocs/symfony/store/
+        dir: %ccdn_attachment_file_store%
     quota_per_user:
         max_files_quantity: 20
         max_filesize_per_file: 300KiB
         max_total_quota: 1000KiB
+    attachment:
+        layout_templates:
+            list: CCDNComponentCommonBundle:Layout:layout_body_left.html.twig
+            upload: CCDNComponentCommonBundle:Layout:layout_body_left.html.twig
 ```
 
 4) In your app/config/routing.yml add:  

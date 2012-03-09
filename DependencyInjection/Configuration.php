@@ -61,6 +61,7 @@ class Configuration implements ConfigurationInterface
 			->end();
 		
 		$this->addQuotaSection($rootNode);
+		$this->addAttachmentSection($rootNode);
 		
         return $treeBuilder;
     }
@@ -85,5 +86,30 @@ class Configuration implements ConfigurationInterface
 				->end()
 			->end();
 	}
+	
+
+
+	/**
+	 *
+	 * @access protected
+	 * @param ArrayNodeDefinition $node
+	 */
+	protected function addAttachmentSection(ArrayNodeDefinition $node)
+	{
+		$node
+			->children()
+				->arrayNode('attachment')
+					->children()
+						->arrayNode('layout_templates')
+							->children()
+								->scalarNode('list')->defaultValue('CCDNComponentCommonBundle:Layout:layout_body_left.html.twig')->end()
+								->scalarNode('upload')->defaultValue('CCDNComponentCommonBundle:Layout:layout_body_left.html.twig')->end()
+							->end()
+						->end()
+					->end()
+				->end()
+			->end();
+	}
+	
 	
 }
