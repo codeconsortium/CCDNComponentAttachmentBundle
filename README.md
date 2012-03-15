@@ -74,6 +74,7 @@ and then run `bin/vendors install` script.
 3) In your app/config/config.yml add:    
 
 ```sh
+# for CCDNComponent AttachmentBundle
 ccdn_component_attachment:
     user:
         profile_route: cc_profile_show_by_id
@@ -90,6 +91,12 @@ ccdn_component_attachment:
         layout_templates:
             list: CCDNComponentCommonBundle:Layout:layout_body_left.html.twig
             upload: CCDNComponentCommonBundle:Layout:layout_body_left.html.twig
+```
+
+and in your app/config/parameters.ini add and set the value to the directory where you want to keep your attachment files:
+
+```sh
+ccdn_attachment_file_store= "/your/folder/where/you/want/to/store/attachments"
 ```
 
 4) In your app/config/routing.yml add:  

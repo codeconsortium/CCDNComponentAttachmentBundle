@@ -43,17 +43,15 @@
 	</div>
 
 <form method="POST" action="{{ path('cc_attachment_action_bulk') }}">
-	<div class="common_box_panel common_tool_strip">
-		<input type="submit" value="{{ 'link.delete' |trans({}, 'CCDNComponentAttachmentBundle') }}" name="submit_delete" />
+	<div class="common_tool_strip">
+		<input type="submit" class="widget_submit" value="{{ 'link.delete' |trans({}, 'CCDNComponentAttachmentBundle') }}" name="submit_delete">
 	</div>
-	<div class="common_box_panel common_tool_strip">
-		<div class="pagerfanta">
-			{% if path(app.request.attributes.get('_route')) == 'cc_attachment_for_user' or path(app.request.attributes.get('_route')) == 'cc_attachment_for_user_paginated' %}
-			    {{ pagerfanta(pager, 'default', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{'user_id':user.getId}} ) }}
-			{% else %}
-				{{ pagerfanta(pager, 'default', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{}} ) }}
-		    {% endif %}
-		</div>
+	<div class="pagerfanta">
+		{% if path(app.request.attributes.get('_route')) == 'cc_attachment_for_user' or path(app.request.attributes.get('_route')) == 'cc_attachment_for_user_paginated' %}
+		    {{ pagerfanta(pager, 'default', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{'user_id':user.getId}} ) }}
+		{% else %}
+			{{ pagerfanta(pager, 'default', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{}} ) }}
+	    {% endif %}
 	</div>
 	<div class="common_box_panel">
 			<table class="common_list">
@@ -91,14 +89,12 @@
 				</tbody>
 			</table>
 	</div>
-	<div class="common_box_panel common_tool_strip">
-		<div class="pagerfanta">
-			{% if path(app.request.attributes.get('_route')) == 'cc_attachment_for_user' or path(app.request.attributes.get('_route')) == 'cc_attachment_for_user_paginated' %}
-			    {{ pagerfanta(pager, 'default', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{'user_id':user.getId}} ) }}
-			{% else %}
-				{{ pagerfanta(pager, 'default', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{}} ) }}
-		    {% endif %}
-		</div>
+	<div class="pagerfanta">
+		{% if path(app.request.attributes.get('_route')) == 'cc_attachment_for_user' or path(app.request.attributes.get('_route')) == 'cc_attachment_for_user_paginated' %}
+		    {{ pagerfanta(pager, 'default', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{'user_id':user.getId}} ) }}
+		{% else %}
+			{{ pagerfanta(pager, 'default', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{}} ) }}
+	    {% endif %}
 	</div>
 </form>
 </div>
