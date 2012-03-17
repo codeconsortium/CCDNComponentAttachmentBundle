@@ -56,7 +56,7 @@
 	<div class="common_box_panel">
 			<table class="common_list">
 				<thead>
-					<th style="width: 18px; valign: middle; text-align: center;"><input type="checkbox" id="check_all" name="check_all" /></th>
+					<th class="h_align_centre" style="width: 18px;"><input type="checkbox" id="check_all" name="check_all" /></th>
 					<th></th>
 					<th>{{ 'attachment.table.head.file' | trans({}, 'CCDNComponentAttachmentBundle') }}</th>
 					<th class="h_align_centre">{{ 'attachment.table.head.uploaded' | trans({}, 'CCDNComponentAttachmentBundle') }}</th>	
@@ -69,7 +69,7 @@
 							<input type="checkbox" id="multiselect_{{ attachment.id }}" name="check_multiselect_{{ attachment.id }}" />
 						</td>
 						<td class="padding_5 h_align_centre v_align_top" style="width: 70px;">
-							<a href="{{ path('cc_attachment_download', {'attachment_id': attachment.getId }) }}"><img src="{{ path('cc_attachment_thumbnail', {'attachment_id': attachment.getId }) }}" /></a>
+							<a href="{{ path('cc_attachment_download', {'attachment_id': attachment.getId }) }}"><img src="{{ path('cc_attachment_thumbnail', {'attachment_id': attachment.getId }) }}" alt="{{ attachment.getAttachmentOriginal }}" /></a>
 						</td>						
 						<td class="padding_5 h_align_left v_align_top">
 							<a href="{{ path('cc_attachment_download', {'attachment_id': attachment.getId }) }}">{{ attachment.getAttachmentOriginal }}</a>
