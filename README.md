@@ -27,7 +27,7 @@ Dependencies:
 2. [PagerFantaBundle](http://github.com/whiteoctober/WhiteOctoberPagerfantaBundle).
 3. [CCDNComponent CommonBundle](https://github.com/codeconsortium/CommonBundle).
 4. [CCDNComponent CrumbTrailBundle](https://github.com/codeconsortium/CrumbTrailBundle).
-
+5. [CCDNComponent DashboardBundle](https://github.com/codeconsortium/DashboardBundle).
 
 Installation:
 -------------
@@ -52,10 +52,15 @@ Installation:
     git=http://github.com/codeconsortium/CrumbTrailBundle.git
     target=/bundles/CCDNComponent/CrumbTrailBundle
 
-[CCDNComponentAttachment]
+[CCDNComponentAttachmentBundle]
     git=http://github.com/codeconsortium/AttachmentBundle.git
     target=/bundles/CCDNComponent/AttachmentBundle
+
+[CCDNComponentDashboardBundle]
+    git=http://github.com/codeconsortium/DashboardBundle.git
+    target=/bundles/CCDNComponent/DashboardBundle
 ```
+
 add to your autoload:
 
 ```php
@@ -68,6 +73,8 @@ and then run `bin/vendors install` script.
 ```php
 	new CCDNComponent\CommonBundle\CCDNComponentCommonBundle(),
 	new CCDNComponent\CrumbTrailBundle\CCDNComponentCrumbTrailBundle(),
+	new CCDNComponent\DashboardBundle\CCDNComponentDashboardBundle(),
+	
 	new CCDNComponent\AttachmentBundle\CCDNComponentAttachmentBundle(),
 ```
 	
@@ -102,9 +109,14 @@ ccdn_attachment_file_store= "/your/folder/where/you/want/to/store/attachments"
 4) In your app/config/routing.yml add:  
 
 ```sh
+CCDNComponentDashboardBundle:
+	resource: @"CCDNComponentDashboardBundle/Resource/config/routing.yml"
+	prefix: /
+	
 CCDNComponentAttachmentBundle:
     resource: "@CCDNComponentAttachmentBundle/Resources/config/routing.yml"
     prefix: /
+
 ```
 
 5) Symlink assets to your public web directory by running this in the command line:

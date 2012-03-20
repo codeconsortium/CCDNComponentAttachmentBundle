@@ -5,6 +5,8 @@ parameters:
     ccdn_component_attachment.attachment.repository.class:             CCDNComponent\AttachmentBundle\Repository\AttachmentRepository
     ccdn_component_attachment.attachment.file.resolver.class:          CCDNComponent\AttachmentBundle\Component\FileResolver
     
+    ccdn_component_attachment.dashboard_integrator.class:              CCDNComponent\AttachmentBundle\Component\Dashboard\DashboardIntegrator
+    
 services:
     ccdn_component_attachment.attachment.manager:
         class:  %ccdn_component_attachment.attachment.manager.class%
@@ -26,3 +28,10 @@ services:
     ccdn_component_attachment.attachment.file.resolver:
         class: %ccdn_component_attachment.attachment.file.resolver.class%
         arguments: [@service_container]
+
+
+    ccdn_component_attachment.dashboard_integrator:
+        class: %ccdn_component_attachment.dashboard_integrator.class%
+        arguments: [@service_container]
+        tags:
+            - { name: ccdn_component_dashboard.registry }
