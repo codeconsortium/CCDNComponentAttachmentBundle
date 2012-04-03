@@ -78,9 +78,9 @@ class RetrieverController extends ContainerAware
 	 */
 	public function downloadAction($attachment_id)
 	{
-		/*
-		 *	Invalidate this action / redirect if user should not have access to it
-		 */
+		//
+		//	Invalidate this action / redirect if user should not have access to it
+		//
 		if ( ! $this->container->get('security.context')->isGranted('ROLE_USER')) {
 			throw new AccessDeniedException('You do not have permission to use this resource!');
 		}

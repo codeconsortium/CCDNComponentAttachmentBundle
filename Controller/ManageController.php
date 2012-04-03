@@ -96,9 +96,9 @@ class ManageController extends ContainerAware
 	 */
 	public function uploadAction()
 	{
-		/*
-		 *	Invalidate this action / redirect if user should not have access to it
-		 */
+		//
+		//	Invalidate this action / redirect if user should not have access to it
+		//
 		if ( ! $this->container->get('security.context')->isGranted('ROLE_USER')) {
 			throw new AccessDeniedException('You do not have permission to use this resource!');
 		}
@@ -154,7 +154,12 @@ class ManageController extends ContainerAware
 		{
 			if (substr($objectKey, 0, 18) == 'check_multiselect_')
 			{
-				$objectIds[] = substr($objectKey, 18, (strlen($objectKey) - 18));
+				$id = (int) substr($objectKey, 18, (strlen($objectKey) - 18));
+				
+				if (is_int($id) == true)
+				{
+					$objectIds[] = $id;
+				}
 			}
 		}
 
