@@ -1,52 +1,31 @@
 cc_attachment_index:
     pattern: /{_locale}/attachments
-    defaults:   { _controller: CCDNComponentAttachmentBundle:Manage:index, _locale: en, page: 0, user_id: 0 }
-    requirements:
-        _locale: en
+    defaults: { _controller: CCDNComponentAttachmentBundle:Manage:index, _locale: en, page: 0, user_id: 0 }
                 
 cc_attachment_index_paginated:
     pattern: /{_locale}/attachments/page/{page}
-    defaults:   { _controller: CCDNComponentAttachmentBundle:Manage:index, _locale: en, page: 0, user_id: 0 }
-    requirements:
-        _locale: en
+    defaults: { _controller: CCDNComponentAttachmentBundle:Manage:index, _locale: en, page: 0, user_id: 0 }
         
 cc_attachment_for_user:
     pattern: /{_locale}/attachments/for/user/{user_id}
-    defaults:   { _controller: CCDNComponentAttachmentBundle:Manage:index, _locale: en, page: 0, user_id: 0 }
-    requirements:
-        _locale: en
+    defaults: { _controller: CCDNComponentAttachmentBundle:Manage:index, _locale: en, page: 0, user_id: 0 }
         
 cc_attachment_for_user_paginated:
     pattern: /{_locale}/attachments/for/user/{user_id}/page/{page}
-    defaults:   { _controller: CCDNComponentAttachmentBundle:Manage:index, _locale: en, page: 0, user_id: 0 }
-    requirements:
-        _locale: en
-        
+    defaults: { _controller: CCDNComponentAttachmentBundle:Manage:index, _locale: en, page: 0, user_id: 0 }
         
 cc_attachment_upload:
     pattern: /{_locale}/attachment/upload
     defaults: { _controller: CCDNComponentAttachmentBundle:Manage:upload, _locale: en }
-    requirements:
-        _locale: en
         
 cc_attachment_thumbnail:
     pattern: /{_locale}/attachment/{attachment_id}/thumbnail
     defaults: { _controller: CCDNComponentAttachmentBundle:Retriever:thumbnail, _locale: en }
-    requirements:
-        _locale: en
         
 cc_attachment_download:
     pattern: /{_locale}/attachment/{attachment_id}/download
     defaults: { _controller: CCDNComponentAttachmentBundle:Retriever:download, _locale: en }
-    requirements:
-        _locale: en
-
-#cc_attachment_delete:
-#    pattern: /{_locale}/attachment/{attachment_id}/delete
-#    defaults: { _controller: CCDNComponentAttachmentBundle:Manage:delete, _locale: en }
-#    requirements:
-#        _locale: en
 
 cc_attachment_action_bulk:
-    pattern:    /{_locale}/attachment/action/checked
-    defaults:   { _controller: CCDNComponentAttachmentBundle:Manage:bulk, _locale: en }
+    pattern: /{_locale}/attachment/action/checked
+    defaults: { _controller: CCDNComponentAttachmentBundle:Manage:bulk, _locale: en }

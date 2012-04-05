@@ -1,16 +1,38 @@
 parameters:
-    ccdn_component_attachment.attachment.manager.class:                CCDNComponent\AttachmentBundle\Entity\Manager\AttachmentManager
+    
+    ccdn_component_attachment.attachment.repository.class:             CCDNComponent\AttachmentBundle\Repository\AttachmentRepository
+
+    ccdn_component_attachment.attachment.manager.class:                CCDNComponent\AttachmentBundle\Manager\AttachmentManager
+    
     ccdn_component_attachment.attachment.form.type.class:              CCDNComponent\AttachmentBundle\Form\Type\AttachmentType
     ccdn_component_attachment.attachment.form.insert.handler.class:    CCDNComponent\AttachmentBundle\Form\Handler\AttachmentInsertFormHandler
-    ccdn_component_attachment.attachment.repository.class:             CCDNComponent\AttachmentBundle\Repository\AttachmentRepository
+
     ccdn_component_attachment.attachment.file.resolver.class:          CCDNComponent\AttachmentBundle\Component\FileResolver
     
     ccdn_component_attachment.dashboard.integrator.class:              CCDNComponent\AttachmentBundle\Component\Dashboard\DashboardIntegrator
     
 services:
+
+    #
+    # Repositories.
+    #
+    ccdn_component_attachment.attachment.repository:
+        class: %ccdn_component_attachment.attachment.repository.class%
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository 
+        arguments:
+            - 'CCDNComponent\AttachmentBundle\Entity\Attachment'
+        
+    #
+    # Managers.
+    #
     ccdn_component_attachment.attachment.manager:
         class:  %ccdn_component_attachment.attachment.manager.class%
         arguments:  [@doctrine, @service_container]              
+
+    #
+    # Attachment Forms.
+    #
     ccdn_component_attachment.attachment.form.type:
         class:  %ccdn_component_attachment.attachment.form.type.class%
         arguments:  [@doctrine]
@@ -18,18 +40,16 @@ services:
         class:  %ccdn_component_attachment.attachment.form.insert.handler.class%
         arguments:  [@form.factory, @service_container, @ccdn_component_attachment.attachment.manager]
 
-    ccdn_component_attachment.attachment.repository:
-        class: %ccdn_component_attachment.attachment.repository.class%
-        factory_service: doctrine.orm.default_entity_manager
-        factory_method: getRepository 
-        arguments:
-            - 'CCDNComponent\AttachmentBundle\Entity\Attachment'
-            
+    #
+    # Attachment File Resolver.
+    #       
     ccdn_component_attachment.attachment.file.resolver:
         class: %ccdn_component_attachment.attachment.file.resolver.class%
         arguments: [@service_container]
 
-
+    #
+    # Dashboard Integrator.
+    #
     ccdn_component_attachment.dashboard.integrator:
         class: %ccdn_component_attachment.dashboard.integrator.class%
         arguments: [@service_container]

@@ -19,7 +19,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-use CCDNComponent\CommonBundle\Entity\Manager\EntityManagerInterface;
+use CCDNComponent\CommonBundle\Manager\ManagerInterface;
 
 /**
  * 
@@ -75,9 +75,9 @@ class AttachmentInsertFormHandler
 	/**
 	 *
 	 * @access public
-	 * @param FormFactory $factory, ContainerInterface $container, EntityManagerInterface $manager
+	 * @param FormFactory $factory, ContainerInterface $container, ManagerInterface $manager
 	 */
-	public function __construct(FormFactory $factory, ContainerInterface $container, EntityManagerInterface $manager)
+	public function __construct(FormFactory $factory, ContainerInterface $container, ManagerInterface $manager)
 	{
 		$this->options = array();
 		$this->factory = $factory;
