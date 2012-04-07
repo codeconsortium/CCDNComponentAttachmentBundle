@@ -14,17 +14,17 @@
 
 {% block sidebar %}
 {% if is_granted('ROLE_MODERATOR') %}
-<div class="common_box_5 bg_header_smoke">
-	<div class="common_box_header"><span class="heading_glow">{{ 'sidebar.header.special' | trans({}, 'CCDNComponentCommonBundle') }}</span></div>
-	<div class="common_box_panel"><a class="sidebar" href="{{ path('cc_moderator_forum_cp') }}">{{ 'general.view.link_moderate' | trans({}, 'CCDNComponentCommonBundle') }}</a></div>
+<div class="sidebar">
+	<div class="sidebar_header"><span class="sidebar_header">{{ 'sidebar.header.special' | trans({}, 'CCDNComponentCommonBundle') }}</span></div>
+	<div class="sidebar_panel"><a class="sidebar" href="{{ path('cc_moderator_forum_cp') }}">{{ 'general.view.link_moderate' | trans({}, 'CCDNComponentCommonBundle') }}</a></div>
 	{% if is_granted('ROLE_ADMIN') %}
-	<div class="common_box_panel"><a class="sidebar" href="{{ path('cc_admin_forum_cp') }}">{{ 'general.view.link_administrate' | trans({}, 'CCDNComponentCommonBundle') }}</a></div>
+	<div class="sidebar_panel"><a class="sidebar" href="{{ path('cc_admin_forum_cp') }}">{{ 'general.view.link_administrate' | trans({}, 'CCDNComponentCommonBundle') }}</a></div>
 	{% endif %}
 </div>
 	
-<div class="common_box_5 bg_header_smoke">
-	<div class="common_box_header"><span class="heading_glow">{{ 'sidebar.header.attachment' | trans({}, 'CCDNComponentAttachmentBundle') }}</span></div>
-	<div class="common_box_panel"><a class="sidebar" href="{{ path('cc_attachment_upload') }}">{{ 'link.upload' | trans({}, 'CCDNComponentAttachmentBundle') }}</a></div>
+<div class="sidebar">
+	<div class="sidebar_header"><span class="sidebar_header">{{ 'sidebar.header.attachment' | trans({}, 'CCDNComponentAttachmentBundle') }}</span></div>
+	<div class="sidebar_panel"><a class="sidebar" href="{{ path('cc_attachment_upload') }}">{{ 'link.upload' | trans({}, 'CCDNComponentAttachmentBundle') }}</a></div>
 </div>
 {% endif %}
 
@@ -37,70 +37,71 @@
 {% include 'CCDNComponentCommonBundle:Flashes:flashes.html.twig' %}
 
 
-<div class="common_box_5 bg_header_smoke">
-	<div class="common_box_header">
-		<span class="heading_glow">{{ 'title.attachment.index' |trans({}, 'CCDNComponentAttachmentBundle') }}</span>
+<div class="section_wrap_square">
+	<div class="section_header">
+		<h2>{{ 'title.attachment.index' |trans({}, 'CCDNComponentAttachmentBundle') }}</h2>
 	</div>
 
-<form method="POST" action="{{ path('cc_attachment_action_bulk') }}">
-	<div class="common_tool_strip">
-		<input type="submit" class="widget_submit" value="{{ 'link.delete' |trans({}, 'CCDNComponentAttachmentBundle') }}" name="submit_delete">
-	</div>
-	{% if pager.haveToPaginate %}
-	<div class="pagerfanta">
-		{% if path(app.request.attributes.get('_route')) == 'cc_attachment_for_user' or path(app.request.attributes.get('_route')) == 'cc_attachment_for_user_paginated' %}
-		    {{ pagerfanta(pager, 'default', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{'user_id':user.getId}} ) }}
-		{% else %}
-			{{ pagerfanta(pager, 'default', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{}} ) }}
-	    {% endif %}
-	</div>
-	{% endif %}
-	<div class="common_table_panel">
-			<table class="common_list">
-				<thead>
-					<th class="h_align_centre" style="width: 18px;"><input type="checkbox" id="check_all" name="check_all"></th>
-					<th></th>
-					<th>{{ 'attachment.table.head.file' | trans({}, 'CCDNComponentAttachmentBundle') }}</th>
-					<th class="h_align_centre">{{ 'attachment.table.head.uploaded' | trans({}, 'CCDNComponentAttachmentBundle') }}</th>	
-					<th class="h_align_centre">{{ 'attachment.table.head.file_size' | trans({}, 'CCDNComponentAttachmentBundle') }}</th>
-				</thead>
-				<tbody>
-				{% for row, attachment in attachments %}
-					<tr class="{{ cycle(['row_odd', 'row_even'], row) }}">
-						<td class="padding_5 h_align_centre v_align_top">
-							<input type="checkbox" id="multiselect_{{ attachment.id }}" name="check_multiselect_{{ attachment.id }}">
-						</td>
-						<td class="padding_5 h_align_centre v_align_top" style="width: 70px;">
-							<a href="{{ path('cc_attachment_download', {'attachment_id': attachment.getId }) }}"><img src="{{ path('cc_attachment_thumbnail', {'attachment_id': attachment.getId }) }}" alt="{{ attachment.getAttachmentOriginal }}"></a>
-						</td>						
-						<td class="padding_5 h_align_left v_align_top">
-							<a href="{{ path('cc_attachment_download', {'attachment_id': attachment.getId }) }}">{{ attachment.getAttachmentOriginal }}</a>
-							<br>{{ attachment.getDescription }}
-						</td>
-						<td class="padding_5 h_align_centre v_align_top" style="width: 200px;">{{ attachment.getCreatedDate|date("d/m/Y - H:i:s") }}</td>
-{#						<td class="padding_5 h_align_centre v_align_top" style="width: 100px;"><a href="{{ path('cc_attachment_delete', {'attachment_id': attachment.getId }) }}">{{ 'link.delete' |trans({}, 'CCDNComponentAttachmentBundle') }}</a></td>#}
-						<td class="padding_5 h_align_centre v_align_top" style="width: 80px;">{{ attachment.getFileSize }}</td>
-					</tr>
-				{% else %}
-					<tr>
-						<td class="h_align_centre v_align_middle" colspan="6" width="100%">
-							{{ 'attachment.table.empty' | trans({}, 'CCDNComponentAttachmentBundle') }}
-						</td>
-					</tr>
-				{% endfor %}
-				</tbody>
-			</table>
-	</div>
-	{% if pager.haveToPaginate %}
-	<div class="pagerfanta">
-		{% if path(app.request.attributes.get('_route')) == 'cc_attachment_for_user' or path(app.request.attributes.get('_route')) == 'cc_attachment_for_user_paginated' %}
-		    {{ pagerfanta(pager, 'default', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{'user_id':user.getId}} ) }}
-		{% else %}
-			{{ pagerfanta(pager, 'default', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{}} ) }}
-	    {% endif %}
-	</div>
-	{% endif %}
-</form>
+	<form method="POST" action="{{ path('cc_attachment_action_bulk') }}">
+		<div class="section_tool_strip">
+			<input type="submit" class="widget_submit" value="{{ 'link.delete' |trans({}, 'CCDNComponentAttachmentBundle') }}" name="submit_delete">
+		</div>
+		{% if pager.haveToPaginate %}
+		<div class="pagerfanta">
+			{% if path(app.request.attributes.get('_route')) == 'cc_attachment_for_user' or path(app.request.attributes.get('_route')) == 'cc_attachment_for_user_paginated' %}
+			    {{ pagerfanta(pager, 'default', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{'user_id':user.getId}} ) }}
+			{% else %}
+				{{ pagerfanta(pager, 'default', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{}} ) }}
+		    {% endif %}
+		</div>
+		{% endif %}
+		<div class="section_table_panel">
+				<table class="common_list">
+					<thead>
+						<th class="icon" style="width: 18px;"><input type="checkbox" id="check_all" name="check_all"></th>
+						<th class="icon"></th>
+						<th class="left"><span class="table_header">{{ 'attachment.table.head.file' | trans({}, 'CCDNComponentAttachmentBundle') }}</span></th>
+						<th class="center"><span class="table_header">{{ 'attachment.table.head.uploaded' | trans({}, 'CCDNComponentAttachmentBundle') }}</span></th>
+						<th class="center"><span class="table_header">{{ 'attachment.table.head.file_size' | trans({}, 'CCDNComponentAttachmentBundle') }}</span></th>
+					</thead>
+					<tbody>
+					{% for row, attachment in attachments %}
+						<tr class="{{ cycle(['row_odd', 'row_even'], row) }}">
+							<td class="icon16">
+								<input type="checkbox" id="multiselect_{{ attachment.id }}" name="check_multiselect_{{ attachment.id }}">
+							</td>
+							<td class="center" style="width:70px;">
+								<span class="table_data"><a href="{{ path('cc_attachment_download', {'attachment_id': attachment.getId }) }}"><img src="{{ path('cc_attachment_thumbnail', {'attachment_id': attachment.getId }) }}" alt="{{ attachment.getAttachmentOriginal }}"></a></span>
+							</td>						
+							<td class="left">
+								<span class="table_data">
+									<a href="{{ path('cc_attachment_download', {'attachment_id': attachment.getId }) }}">{{ attachment.getAttachmentOriginal }}</a>
+									<br>{{ attachment.getDescription }}
+								</span>
+							</td>
+							<td class="center" style="width: 200px;"><span class="table_data">{{ attachment.getCreatedDate|date("d/m/Y - H:i:s") }}</span></td>
+							<td class="center" style="width: 80px;"><span class="table_data">{{ attachment.getFileSize }}</span></td>
+						</tr>
+					{% else %}
+						<tr>
+							<td class="center" colspan="5">
+								<span class="table_empty">{{ 'attachment.table.empty' | trans({}, 'CCDNComponentAttachmentBundle') }}</span>
+							</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+		</div>
+		{% if pager.haveToPaginate %}
+		<div class="pagerfanta">
+			{% if path(app.request.attributes.get('_route')) == 'cc_attachment_for_user' or path(app.request.attributes.get('_route')) == 'cc_attachment_for_user_paginated' %}
+			    {{ pagerfanta(pager, 'default', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{'user_id':user.getId}} ) }}
+			{% else %}
+				{{ pagerfanta(pager, 'default', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{}} ) }}
+		    {% endif %}
+		</div>
+		{% endif %}
+	</form>
 </div>
 {% include 'CCDNComponentCrumbTrailBundle:Trail:trail.html.twig' with {'crumbs': crumbs } %}
 
