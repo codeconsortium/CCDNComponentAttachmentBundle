@@ -2,10 +2,9 @@ CCDNComponent AttachmentBundle README.
 ======================================
 
   
-Notes:  
-------
+## Notes:  
   
-This bundle is for the symfony framework and thusly requires Symfony 2.0.x and PHP 5.3.6
+This bundle is for the symfony framework and requires Symfony 2.0.x and PHP 5.3.6
   
 This project uses Doctrine 2.0.x and so does not require any specific database.
   
@@ -23,109 +22,47 @@ Icons courtesy of http://pc.de/icons/ licensed under http://creativecommons.org/
 
 Other graphics are works of CodeConsortium.
 
-Dependencies:
--------------
+## Description.
 
-1. [PagerFanta](https://github.com/whiteoctober/Pagerfanta).
-2. [PagerFantaBundle](http://github.com/whiteoctober/WhiteOctoberPagerfantaBundle).
-3. [CCDNComponent CommonBundle](https://github.com/codeconsortium/CommonBundle).
-4. [CCDNComponent CrumbTrailBundle](https://github.com/codeconsortium/CrumbTrailBundle).
-5. [CCDNComponent DashboardBundle](https://github.com/codeconsortium/DashboardBundle).
 
-Installation:
--------------
-    
-1) Download and install the dependencies.
-   
-   You can set deps to include:
+## Features.
 
-```sh
-[pagerfanta]
-    git=http://github.com/whiteoctober/Pagerfanta.git
+AttachmentBundle Provides the following features:
 
-[PagerfantaBundle]
-    git=http://github.com/whiteoctober/WhiteOctoberPagerfantaBundle.git
-    target=/bundles/WhiteOctober/PagerfantaBundle
+2. List file uploads.
+1. Upload files.
+3. Delete uploads.
+4. Attach files to various parts of your website.
+5. Thumbnail previews of attached files.
+6. Other users can download attached files.
 
-[CCDNComponentCommonBundle]
-    git=http://github.com/codeconsortium/CommonBundle.git
-    target=/bundles/CCDNComponent/CommonBundle
+Before installation of this bundle, you can download the [Sandbox](https://github.com/codeconsortium/CCDNForumSandBox) for testing/development and feature review, or alternatively see the product in use at [CodeConsortium](http://www.codeconsortium.com).
 
-[CCDNComponentCrumbTrailBundle]
-    git=http://github.com/codeconsortium/CrumbTrailBundle.git
-    target=/bundles/CCDNComponent/CrumbTrailBundle
+## Documentation.
 
-[CCDNComponentAttachmentBundle]
-    git=http://github.com/codeconsortium/AttachmentBundle.git
-    target=/bundles/CCDNComponent/AttachmentBundle
+Documentation can be found in the `Resources/doc/index.md` file in this bundle:
 
-[CCDNComponentDashboardBundle]
-    git=http://github.com/codeconsortium/DashboardBundle.git
-    target=/bundles/CCDNComponent/DashboardBundle
-```
+[Read the Documentation](http://github.com/codeconsortium/AttachmentBundle/blob/master/Resources/doc/index.md).
 
-add to your autoload:
+## Installation.
 
-```php
-    'CCDNComponent'    => __DIR__.'/../vendor/bundles',
-```
-and then run `bin/vendors install` script.
+All the installation instructions are located in [documentation](http://github.com/codeconsortium/AttachmentBundle/blob/master/Resources/doc/Install.md).
 
-2) In your AppKernel.php add the following bundles to the registerBundles method array:  
+## License.
 
-```php
-	new CCDNComponent\CommonBundle\CCDNComponentCommonBundle(),
-	new CCDNComponent\CrumbTrailBundle\CCDNComponentCrumbTrailBundle(),
-	new CCDNComponent\DashboardBundle\CCDNComponentDashboardBundle(),
-	
-	new CCDNComponent\AttachmentBundle\CCDNComponentAttachmentBundle(),
-```
-	
-3) In your app/config/config.yml add:    
+This software is licensed under the MIT license. See the complete license file in the bundle:
 
-```sh
-# for CCDNComponent AttachmentBundle
-ccdn_component_attachment:
-    user:
-        profile_route: cc_profile_show_by_id
-    template:
-        engine: twig
-        theme: CCDNComponentAttachmentBundle:Form:fields.html.twig
-    store:
-        dir: %ccdn_attachment_file_store%
-    quota_per_user:
-        max_files_quantity: 20
-        max_filesize_per_file: 300KiB
-        max_total_quota: 1000KiB
-    attachment:
-        layout_templates:
-            list: CCDNComponentCommonBundle:Layout:layout_body_left.html.twig
-            upload: CCDNComponentCommonBundle:Layout:layout_body_left.html.twig
-```
+	Resources/meta/LICENSE
 
-and in your app/config/parameters.ini add and set the value to the directory where you want to keep your attachment files:
+[Read the License](http://github.com/codeconsortium/AttachmentBundle/blob/master/Resources/meta/LICENSE).
 
-```sh
-ccdn_attachment_file_store= "/your/folder/where/you/want/to/store/attachments"
-```
+## About.
 
-4) In your app/config/routing.yml add:  
+[CCDNComponent AttachmentBundle](http://github.com/codeconsortium/AttachmentBundle) is free software from [Code Consortium](http://www.codeconsortium.com). 
+See also the list of [contributors](http://github.com/codeconsortium/AttachmentBundle/contributors).
 
-```sh
-CCDNComponentDashboardBundle:
-	resource: @"CCDNComponentDashboardBundle/Resource/config/routing.yml"
-	prefix: /
-	
-CCDNComponentAttachmentBundle:
-    resource: "@CCDNComponentAttachmentBundle/Resources/config/routing.yml"
-    prefix: /
+## Reporting an issue or feature request.
 
-```
+Issues and feature requests are tracked in the [Github issue tracker](http://github.com/codeconsortium/AttachmentBundle/issues).
 
-5) Symlink assets to your public web directory by running this in the command line:
-
-```sh
-	php app/console assets:install --symlink web/
-```
-	
-Then your done, if you need further help/support, have suggestions or want to contribute please join the community at [www.codeconsortium.com](http://www.codeconsortium.com)
+Discussions and debates on the project can be further discussed at [Code Consortium](http://www.codeconsortium.com).
