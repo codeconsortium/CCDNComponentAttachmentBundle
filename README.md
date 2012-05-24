@@ -24,6 +24,9 @@ Other graphics are works of CodeConsortium.
 
 ## Description.
 
+A Synmfony2 bundle for uploading files to your website, and attaching them to other parts of the site, such as a message, a comment or a forum post.
+
+Attachments appear as thumbnails, which can be clicked to download.
 
 ## Features.
 
