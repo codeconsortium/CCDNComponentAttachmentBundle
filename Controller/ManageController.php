@@ -48,7 +48,7 @@ class ManageController extends ContainerAware
 			} else {
 				$user = $this->container->get('ccdn_user_user.user.repository')->findOneById($user_id);			
 				
-				$crumb_trail = $this->container->get('ccdn_component_crumb_trail.crumb_trail')
+				$crumb_trail = $this->container->get('ccdn_component_crumb.trail')
 					->add($this->container->get('translator')->trans('crumbs.attachments_index', array(), 'CCDNComponentAttachmentBundle'), 
 						$this->container->get('router')->generate('cc_attachment_index_for_user', array('user_id' => $user_id)), "home");
 			}
@@ -59,7 +59,7 @@ class ManageController extends ContainerAware
 			} else {
 				$user = $this->container->get('security.context')->getToken()->getUser();
 				
-				$crumb_trail = $this->container->get('ccdn_component_crumb_trail.crumb_trail')
+				$crumb_trail = $this->container->get('ccdn_component_crumb.trail')
 					->add($this->container->get('translator')->trans('crumbs.attachment_index', array(), 'CCDNComponentAttachmentBundle'), 
 						$this->container->get('router')->generate('cc_attachment_index'), "home");
 			}
@@ -119,7 +119,7 @@ class ManageController extends ContainerAware
 		else
 		{
 			// setup crumb trail.	
-			$crumb_trail = $this->container->get('ccdn_component_crumb_trail.crumb_trail')
+			$crumb_trail = $this->container->get('ccdn_component_crumb.trail')
 				->add($this->container->get('translator')->trans('crumbs.attachment_index', array(), 'CCDNComponentAttachmentBundle'), 
 					$this->container->get('router')->generate('cc_attachment_index'), "home")
 				->add($this->container->get('translator')->trans('crumbs.attachment_upload', array(), 'CCDNComponentAttachmentBundle'), 
