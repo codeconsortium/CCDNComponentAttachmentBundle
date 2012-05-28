@@ -25,15 +25,18 @@
 
 {% block body %}
 
-{% include 'CCDNComponentCrumbTrailBundle:Trail:trail.html.twig' with {'crumbs': crumbs } %}
-
 {% include 'CCDNComponentCommonBundle:Flashes:flashes.html.twig' %}
 
-<div class="section_wrap_square">
+<div class="section_wrap_top">
+	{% include 'CCDNComponentCrumbTrailBundle:Trail:trail.html.twig' with {'crumbs': crumbs } %}
+</div>
+<div class="section_wrap_bottom">
 	<div class="section_header">
 		<h2>{{ 'title.attachment.upload' | trans({}, 'CCDNComponentAttachmentBundle') }}</h2>
 	</div>
-	
+</div>
+
+<div class="section_wrap_standalone">	
 	<div class="section_table_panel">
 		<form action="{{ path('cc_attachment_upload') }}" method="post" {{ form_enctype(form) }}>
 			{{ form_row(form._token) }}
@@ -56,7 +59,7 @@
 					</tr>
 					<tr class="{{ cycler(['row_odd', 'row_even'], 'cycle') }}">
 						<td class="form_tool_strip" colspan="2">
-							<input type="submit" class="widget_submit" value="{{ 'form.button.attachment.upload' | trans({}, 'CCDNComponentAttachmentBundle') }}">
+							<input type="submit" class="button_blue" value="{{ 'form.button.attachment.upload' | trans({}, 'CCDNComponentAttachmentBundle') }}">
 						</td>
 					</tr>
 				</tbody>
@@ -65,6 +68,8 @@
 	</div>
 </div>
 
-{% include 'CCDNComponentCrumbTrailBundle:Trail:trail.html.twig' with {'crumbs': crumbs } %}
+<div class="section_wrap_standalone">
+	{% include 'CCDNComponentCrumbTrailBundle:Trail:trail.html.twig' with {'crumbs': crumbs } %}
+</div>
 
 {% endblock %}
