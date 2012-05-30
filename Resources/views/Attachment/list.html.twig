@@ -13,21 +13,12 @@
 {% block title %}{{ 'title.attachment.index' |trans({}, 'CCDNComponentAttachmentBundle') }}{% endblock %}
 
 {% block sidebar %}
-{% if is_granted('ROLE_MODERATOR') %}
-<div class="sidebar">
-	<div class="sidebar_header"><span class="sidebar_header">{{ 'sidebar.header.special' | trans({}, 'CCDNComponentCommonBundle') }}</span></div>
-	<div class="sidebar_panel"><a class="sidebar" href="{{ path('cc_moderator_forum_cp') }}">{{ 'general.view.link_moderate' | trans({}, 'CCDNComponentCommonBundle') }}</a></div>
-	{% if is_granted('ROLE_ADMIN') %}
-	<div class="sidebar_panel"><a class="sidebar" href="{{ path('cc_admin_forum_cp') }}">{{ 'general.view.link_administrate' | trans({}, 'CCDNComponentCommonBundle') }}</a></div>
-	{% endif %}
-</div>
+	{{ parent() }}
 	
-<div class="sidebar">
-	<div class="sidebar_header"><span class="sidebar_header">{{ 'sidebar.header.attachment' | trans({}, 'CCDNComponentAttachmentBundle') }}</span></div>
-	<div class="sidebar_panel"><a class="sidebar" href="{{ path('cc_attachment_upload') }}">{{ 'link.upload' | trans({}, 'CCDNComponentAttachmentBundle') }}</a></div>
-</div>
-{% endif %}
-
+	<div class="sidebar">
+		<div class="sidebar_header"><span class="sidebar_header">{{ 'sidebar.header.attachment' | trans({}, 'CCDNComponentAttachmentBundle') }}</span></div>
+		<div class="sidebar_panel"><a class="sidebar" href="{{ path('cc_attachment_upload') }}">{{ 'link.upload' | trans({}, 'CCDNComponentAttachmentBundle') }}</a></div>
+	</div>
 {% endblock %}
 
 {% block body %}
