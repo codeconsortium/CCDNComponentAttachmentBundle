@@ -93,23 +93,19 @@ ccdn_component_attachment:
         profile_route: cc_profile_show_by_id
     template:
         engine: twig
-        theme: CCDNComponentAttachmentBundle:Form:fields.html.twig
     store:
-        dir: %ccdn_attachment_file_store%
+        dir: %ccdncomponent_attachmentbundle_file_store%
     quota_per_user:
         max_files_quantity: 20
-        max_filesize_per_file: 300KiB
-        max_total_quota: 1000KiB
-    attachment:
-        layout_templates:
-            list: CCDNComponentCommonBundle:Layout:layout_body_left.html.twig
-            upload: CCDNComponentCommonBundle:Layout:layout_body_left.html.twig
+        max_filesize_per_file: 400KiB
+        max_total_quota: 2000KiB
+
 ```
 
 and in your app/config/parameters.ini add and set the value to the directory where you want to keep your attachment files:
 
 ``` ini
-ccdn_attachment_file_store= "/your/folder/where/you/want/to/store/attachments"
+ccdncomponent_attachmentbundle_file_store= "/your/folder/where/you/want/to/store/attachments"
 ```
 **Warning:**
 
@@ -152,4 +148,5 @@ Installation should now be complete!
 
 If you need further help/support, have suggestions or want to contribute please join the community at [Code Consortium](http://www.codeconsortium.com)
 
-[Return back to the docs index](http://github.com/codeconsortium/AttachmentBundle/blob/master/Resources/doc/index.md).
+- [Return back to the docs index](index.md).
+- [Configuration Reference](configuration_reference.md).

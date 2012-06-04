@@ -126,6 +126,4 @@ class RetrieverController extends ContainerAware
         return $this->container->getParameter('ccdn_component_attachment.template.engine');
     }
 
-
-
 }

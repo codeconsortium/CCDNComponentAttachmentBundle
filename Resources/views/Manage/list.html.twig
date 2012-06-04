@@ -1,4 +1,4 @@
-{% extends param('ccdn_component_attachment.attachment.layout_templates.list') %}
+{% extends param('ccdn_component_attachment.manage.list.layout_template') %}
 
 {% block stylesheets %}
 	{{ parent() }}
@@ -72,7 +72,7 @@
 									<br>{{ attachment.getDescription }}
 								</span>
 							</td>
-							<td class="center" style="width: 200px;"><span class="table_data">{{ attachment.getCreatedDate|date("d/m/Y - H:i:s") }}</span></td>
+							<td class="center" style="width: 200px;"><span class="table_timestamp">{{ attachment.getCreatedDate |date(param('ccdn_component_attachment.manage.list.attachment_uploaded_datetime_format')) }}</span></td>
 							<td class="center" style="width: 80px;"><span class="table_data">{{ attachment.getFileSize }}</span></td>
 						</tr>
 					{% else %}

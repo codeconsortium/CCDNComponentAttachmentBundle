@@ -76,8 +76,12 @@ class CCDNComponentAttachmentExtension extends Extension
 	 */
 	protected function getAttachmentSection($container, $config)
 	{
-	    $container->setParameter('ccdn_component_attachment.attachment.layout_templates.list', $config['attachment']['layout_templates']['list']);
-	    $container->setParameter('ccdn_component_attachment.attachment.layout_templates.upload', $config['attachment']['layout_templates']['upload']);
+	    $container->setParameter('ccdn_component_attachment.manage.list.layout_template', $config['manage']['list']['layout_template']);
+	    $container->setParameter('ccdn_component_attachment.manage.list.attachments_per_page', $config['manage']['list']['attachments_per_page']);
+	    $container->setParameter('ccdn_component_attachment.manage.list.attachment_uploaded_datetime_format', $config['manage']['list']['attachment_uploaded_datetime_format']);
+	
+	    $container->setParameter('ccdn_component_attachment.manage.upload.layout_template', $config['manage']['upload']['layout_template']);
+	    $container->setParameter('ccdn_component_attachment.manage.upload.form_theme', $config['manage']['upload']['form_theme']);
 	}
 	
 	
