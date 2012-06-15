@@ -14,56 +14,53 @@
 {% block sidebar %}
 	{{ parent() }}
 	
+	{% include 'CCDNComponentAttachmentBundle:Sidebar:sidebar.html.twig' %}	
+	
 {% endblock %}
+
 
 {% block body %}
 
-{% include 'CCDNComponentCommonBundle:Flashes:flashes.html.twig' %}
+	{% include 'CCDNComponentCommonBundle:Flashes:flashes.html.twig' %}
 
-<div class="section_wrap_top">
 	{% include 'CCDNComponentCrumbTrailBundle:Trail:trail.html.twig' with {'crumbs': crumbs } %}
-</div>
-<div class="section_wrap_bottom">
-	<div class="section_header">
-		<h2>{{ 'title.attachment.upload' | trans({}, 'CCDNComponentAttachmentBundle') }}</h2>
-	</div>
-</div>
 
-<div class="section_wrap_standalone">	
-	<div class="section_table_panel">
+	<h2>{{ 'title.attachment.upload' | trans({}, 'CCDNComponentAttachmentBundle') }}</h2>
+
+	{% spaceless %}
+	<div class="well">
 		{% form_theme form param('ccdn_component_attachment.manage.upload.form_theme') %}
-		<form action="{{ path('cc_attachment_upload') }}" method="post" {{ form_enctype(form) }}>
-			{{ form_row(form._token) }}
-			<div class="errors">{{ form_errors(form) }}</div>
-			<table class="common_list">
-				<tbody>
-					<tr class="{{ cycler(['row_odd', 'row_even'], 'cycle') }}">
-						<td class="form_label">{{ form_label(form.attachment, null, { 'label': 'form.label.attachment.upload.file'| trans({}, 'CCDNComponentAttachmentBundle')}) }}</td>
-						<td class="form_widget">
-							{{ form_errors(form.attachment) }}
-							{{ form_widget(form.attachment) }}
-						</td>
-					</tr>
-					<tr class="{{ cycler(['row_odd', 'row_even'], 'cycle') }}">
-						<td class="form_label">{{ form_label(form.description, null, { 'label': 'form.label.attachment.upload.description'| trans({}, 'CCDNComponentAttachmentBundle')}) }}</td>
-						<td class="form_widget">
-							{{ form_errors(form.description) }}
-							{{ form_widget(form.description) }}
-						</td>
-					</tr>
-					<tr class="{{ cycler(['row_odd', 'row_even'], 'cycle') }}">
-						<td class="form_tool_strip" colspan="2">
-							<input type="submit" class="button_blue" value="{{ 'form.button.attachment.upload' | trans({}, 'CCDNComponentAttachmentBundle') }}">
-						</td>
-					</tr>
-				</tbody>
-			</table>
+		
+		<form action="{{ path('cc_attachment_upload') }}" method="post" {{ form_enctype(form) }} class="form-horizontal">
+			<fieldset>
+			
+				<div class="control-group"><div class="controls row-fluid">{{ form_row(form._token) }}</div></div>
+				
+				<div class="control-group">
+					{{ form_label(form.attachment, null, { 'label': 'form.label.attachment.upload.file'| trans({}, 'CCDNComponentAttachmentBundle')}) }}
+					<div class="controls row-fluid">
+						{{ form_errors(form.attachment) }}
+						{{ form_widget(form.attachment) }}
+					</div>
+				</div>
+				
+				<div class="control-group">
+					{{ form_label(form.description, null, { 'label': 'form.label.attachment.upload.description'| trans({}, 'CCDNComponentAttachmentBundle')}) }}
+					<div class="controls row-fluid">
+						{{ form_errors(form.description) }}
+						{{ form_widget(form.description) }}
+					</div>
+				</div>
+				
+				<div class="form-actions">
+					<input type="submit" class="btn btn-primary" value="{{ 'form.button.attachment.upload' | trans({}, 'CCDNComponentAttachmentBundle') }}">
+				</div>
+				
+			</fieldset>
 		</form>
 	</div>
-</div>
+	{% endspaceless %}
 
-<div class="section_wrap_standalone">
 	{% include 'CCDNComponentCrumbTrailBundle:Trail:trail.html.twig' with {'crumbs': crumbs } %}
-</div>
 
 {% endblock %}

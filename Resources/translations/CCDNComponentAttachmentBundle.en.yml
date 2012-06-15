@@ -16,9 +16,9 @@ attachment.table.head.uploaded: 'Uploaded On'
 attachment.table.head.file_size: 'File Size'
 attachment.table.empty: 'There are no attachments uploaded.'
 
-link.upload: 'Upload'
 link.download: 'Download'
 link.delete: 'Delete'
-link.attachments_manager: 'Manage Attachments'
+link.attachments.upload: 'Upload'
+link.attachments.manager: 'Manage'
 
 flash.attachment.upload.success: 'File %file_name% uploaded successfully.'
