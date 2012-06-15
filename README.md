@@ -33,12 +33,13 @@ Attachments appear as thumbnails, which can be clicked to download.
 
 AttachmentBundle Provides the following features:
 
-2. List file uploads.
-1. Upload files.
+1. List file uploads.
+2. Upload files.
 3. Delete uploads.
 4. Attach files to various parts of your website.
 5. Thumbnail previews of attached files.
 6. Other users can download attached files.
+7. Utilises Twitter-Bootstrap interface by default.
 
 Before installation of this bundle, you can download the [Sandbox](https://github.com/codeconsortium/CCDNSandBox) for testing/development and feature review, or alternatively see the product in use at [CodeConsortium](http://www.codeconsortium.com).
 
