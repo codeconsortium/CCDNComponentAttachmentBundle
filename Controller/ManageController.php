@@ -111,9 +111,9 @@ class ManageController extends ContainerAware
 		
 		if ($formHandler->process())	
 		{	
-			$this->container->get('session')->setFlash('notice', 
-				$this->container->get('translator')->trans('flash.attachment.upload.success', array('%file_name%' => $form->getData()->getAttachmentOriginal()), 'CCDNComponentAttachmentBundle'));
-										
+			$this->container->get('session')->setFlash('success', 
+				$this->container->get('translator')->trans('flash.attachment.upload.success', array('%file_name%' => $formHandler->getForm()->getData()->getAttachmentOriginal()), 'CCDNComponentAttachmentBundle'));
+			
 			return new RedirectResponse($this->container->get('router')->generate('cc_attachment_index'));
 		}
 		else

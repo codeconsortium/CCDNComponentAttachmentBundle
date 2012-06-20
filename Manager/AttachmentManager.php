@@ -34,7 +34,7 @@ class AttachmentManager extends BaseManager implements ManagerInterface
 	 */
 	public function insert($attachment)
 	{
-		$this->persist($attachment);
+		$this->persist($attachment)->flushNow();
 		
 		return $this;
 	}
