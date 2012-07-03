@@ -33,7 +33,6 @@ class Attachment
 
 	/**
      * @ORM\Column(type="string", length=255)
-	 * @Assert\NotBlank
      */
 	protected $attachment;
 	

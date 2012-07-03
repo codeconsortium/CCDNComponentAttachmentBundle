@@ -1,0 +1,8 @@
+CCDNComponent\AttachmentBundle\Entity\Attachment:
+    properties:
+        description: 
+            - NotBlank: { groups: [upload] }
+            - MinLength: { limit: 30, groups: [upload] }
+        attachment:
+            - File: { groups: [upload] }
+            - NotNull: { groups: [upload] }
