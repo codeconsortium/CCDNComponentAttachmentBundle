@@ -6,6 +6,7 @@ crumbs.attachment_upload: 'Upload Attachment'
 
 sidebar.header.attachment: 'Attachments'
 
+form.field.required: 'This field is required'
 form.label.attachment.upload.file: 'File: '
 form.label.attachment.upload.description: 'Description: '
 form.button.attachment.upload: 'Upload'
