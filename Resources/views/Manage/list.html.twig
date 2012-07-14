@@ -86,10 +86,10 @@
 						<input type="checkbox" id="multiselect_{{- attachment.id -}}" name="check_multiselect_{{- attachment.id -}}" data-check-all-responds="true" data-identifier="attachments">
 					</td>
 					<td class="center" style="width:70px;">
-						<a href="{{- path('cc_attachment_download', {'attachment_id': attachment.getId }) -}}"><img src="{{- path('cc_attachment_thumbnail', {'attachment_id': attachment.getId }) -}}" alt="{{- attachment.getAttachmentOriginal -}}"></a>
+						<a rel="nofollow" href="{{- path('cc_attachment_download', {'attachment_id': attachment.getId }) -}}"><img src="{{- path('cc_attachment_thumbnail', {'attachment_id': attachment.getId }) -}}" alt="{{- attachment.getAttachmentOriginal -}}"></a>
 					</td>
 					<td class="left">
-						<a href="{{- path('cc_attachment_download', {'attachment_id': attachment.getId }) -}}">{{- attachment.getAttachmentOriginal -}}</a>
+						<a rel="nofollow" href="{{- path('cc_attachment_download', {'attachment_id': attachment.getId }) -}}">{{- attachment.getAttachmentOriginal -}}</a>
 						<br>{{- attachment.getDescription -}}
 					</td>
 					<td class="center" style="width: 200px;">{{- attachment.getCreatedDate |date(param('ccdn_component_attachment.manage.list.attachment_uploaded_datetime_format')) -}}</td>
