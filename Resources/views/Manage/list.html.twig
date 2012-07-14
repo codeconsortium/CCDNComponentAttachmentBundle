@@ -2,88 +2,92 @@
 
 {% block stylesheets %}
 	{{ parent() }}
-	<link href="{{ asset('bundles/ccdncomponentcrumbtrail/css/crumbs.css') }}" rel="stylesheet" type="text/css">
+	<link href="{{- asset('bundles/ccdncomponentcrumbtrail/css/crumbs.css') -}}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block javascripts %}
 	{{ parent() }}
-	<script src="{{ asset('bundles/ccdncomponentcommon/js/ccdn/jquery.checkboxes.js') }}" type="text/javascript"></script>
+	<script src="{{- asset('bundles/ccdncomponentcommon/js/ccdn/jquery.checkboxes.js') -}}" type="text/javascript"></script>
 {% endblock %}
 
-{% block title %}{{ 'title.attachment.index' |trans({}, 'CCDNComponentAttachmentBundle') }}{% endblock %}
+{% block title %}{{- 'title.attachment.index' |trans({}, 'CCDNComponentAttachmentBundle') -}}{% endblock %}
 
 {% block sidebar %}
 	{{ parent() }}
 	
-	{% include 'CCDNComponentAttachmentBundle:Sidebar:sidebar.html.twig' %}
+	{%- include 'CCDNComponentAttachmentBundle:Sidebar:sidebar.html.twig' -%}
 	
 {% endblock %}
 
 
 {% block body %}
+	
+	{%- spaceless -%}
+	
+	{%- include 'CCDNComponentCommonBundle:Flashes:flashes.html.twig' -%}
 
-	{% include 'CCDNComponentCommonBundle:Flashes:flashes.html.twig' %}
+	{%- include 'CCDNComponentCrumbTrailBundle:Trail:trail.html.twig' with {'crumbs': crumbs } -%}
 
-	{% include 'CCDNComponentCrumbTrailBundle:Trail:trail.html.twig' with {'crumbs': crumbs } %}
+	<h2>{{- 'title.attachment.index' |trans({}, 'CCDNComponentAttachmentBundle') -}}</h2>
 
-	<h2>{{ 'title.attachment.index' |trans({}, 'CCDNComponentAttachmentBundle') }}</h2>
-
-	<form method="POST" action="{{ path('cc_attachment_action_bulk') }}">
+	<form method="POST" action="{{- path('cc_attachment_action_bulk') -}}">
 		
 		<div class="btn-toolbar">
-			<input type="submit" class="btn btn-danger disabled" value="{{ 'link.delete' |trans({}, 'CCDNComponentAttachmentBundle') }}" name="submit_delete" disabled data-responds-disabled="attachments">
+			<input type="submit" class="btn btn-danger disabled" value="{{- 'link.delete' |trans({}, 'CCDNComponentAttachmentBundle') -}}" name="submit_delete" disabled data-responds-disabled="attachments">
 		</div>
 		
-		{% if pager.haveToPaginate %}
-			{% if path(app.request.attributes.get('_route')) == 'cc_attachment_for_user' or path(app.request.attributes.get('_route')) == 'cc_attachment_for_user_paginated' %}
-			    {{ pagerfanta(pager, 'twitter_bootstrap', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{'user_id':user.getId}} ) }}
-			{% else %}
-				{{ pagerfanta(pager, 'twitter_bootstrap', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{}} ) }}
-		    {% endif %}
-		{% endif %}
+		{%- if pager.haveToPaginate -%}
+			{%- if path(app.request.attributes.get('_route')) == 'cc_attachment_for_user' or path(app.request.attributes.get('_route')) == 'cc_attachment_for_user_paginated' -%}
+			    {{- pagerfanta(pager, 'twitter_bootstrap', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{'user_id':user.getId}} ) -}}
+			{%- else -%}
+				{{- pagerfanta(pager, 'twitter_bootstrap', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{}} ) -}}
+		    {%- endif -%}
+		{%- endif -%}
 		
 		<table class="table">
 			<thead>
 				<th class="center" style="width: 18px;"><input type="checkbox" id="check_all" name="check_all" class="hidden" data-compat='interactive-js-compat' data-action-toggle="attachments" data-identifier="attachments" data-qualifier="all"></th>
 				<th class="center"></th>
-				<th class="left">{{ 'attachment.table.head.file' | trans({}, 'CCDNComponentAttachmentBundle') }}</th>
-				<th class="center">{{ 'attachment.table.head.uploaded' | trans({}, 'CCDNComponentAttachmentBundle') }}</th>
-				<th class="center">{{ 'attachment.table.head.file_size' | trans({}, 'CCDNComponentAttachmentBundle') }}</th>
+				<th class="left">{{- 'attachment.table.head.file' | trans({}, 'CCDNComponentAttachmentBundle') -}}</th>
+				<th class="center">{{- 'attachment.table.head.uploaded' | trans({}, 'CCDNComponentAttachmentBundle') -}}</th>
+				<th class="center">{{- 'attachment.table.head.file_size' | trans({}, 'CCDNComponentAttachmentBundle') -}}</th>
 			</thead>
 			<tbody>
-			{% for row, attachment in attachments %}
+			{%- for row, attachment in attachments -%}
 				<tr class="marked_read">
 					<td class="center">
-						<input type="checkbox" id="multiselect_{{ attachment.id }}" name="check_multiselect_{{ attachment.id }}" data-check-all-responds="true" data-identifier="attachments">
+						<input type="checkbox" id="multiselect_{{- attachment.id -}}" name="check_multiselect_{{- attachment.id -}}" data-check-all-responds="true" data-identifier="attachments">
 					</td>
 					<td class="center" style="width:70px;">
-						<a href="{{ path('cc_attachment_download', {'attachment_id': attachment.getId }) }}"><img src="{{ path('cc_attachment_thumbnail', {'attachment_id': attachment.getId }) }}" alt="{{ attachment.getAttachmentOriginal }}"></a>
-					</td>						
-					<td class="left">
-						<a href="{{ path('cc_attachment_download', {'attachment_id': attachment.getId }) }}">{{ attachment.getAttachmentOriginal }}</a>
-						<br>{{ attachment.getDescription }}
+						<a href="{{- path('cc_attachment_download', {'attachment_id': attachment.getId }) -}}"><img src="{{- path('cc_attachment_thumbnail', {'attachment_id': attachment.getId }) -}}" alt="{{- attachment.getAttachmentOriginal -}}"></a>
 					</td>
-					<td class="center" style="width: 200px;">{{ attachment.getCreatedDate |date(param('ccdn_component_attachment.manage.list.attachment_uploaded_datetime_format')) }}</td>
-					<td class="center" style="width: 80px;">{{ attachment.getFileSize }}</td>
+					<td class="left">
+						<a href="{{- path('cc_attachment_download', {'attachment_id': attachment.getId }) -}}">{{- attachment.getAttachmentOriginal -}}</a>
+						<br>{{- attachment.getDescription -}}
+					</td>
+					<td class="center" style="width: 200px;">{{- attachment.getCreatedDate |date(param('ccdn_component_attachment.manage.list.attachment_uploaded_datetime_format')) -}}</td>
+					<td class="center" style="width: 80px;">{{- attachment.getFileSize -}}</td>
 				</tr>
-			{% else %}
+			{%- else -%}
 				<tr>
-					<td class="center" colspan="5">{{ 'attachment.table.empty' | trans({}, 'CCDNComponentAttachmentBundle') }}</td>
+					<td class="center" colspan="5">{{- 'attachment.table.empty' | trans({}, 'CCDNComponentAttachmentBundle') -}}</td>
 				</tr>
-			{% endfor %}
+			{%- endfor -%}
 			</tbody>
 		</table>
 		
-		{% if pager.haveToPaginate %}
-			{% if path(app.request.attributes.get('_route')) == 'cc_attachment_for_user' or path(app.request.attributes.get('_route')) == 'cc_attachment_for_user_paginated' %}
-			    {{ pagerfanta(pager, 'twitter_bootstrap', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{'user_id':user.getId}} ) }}
-			{% else %}
-				{{ pagerfanta(pager, 'twitter_bootstrap', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{}} ) }}
-		    {% endif %}
-		{% endif %}
+		{%- if pager.haveToPaginate -%}
+			{%- if path(app.request.attributes.get('_route')) == 'cc_attachment_for_user' or path(app.request.attributes.get('_route')) == 'cc_attachment_for_user_paginated' -%}
+			    {{- pagerfanta(pager, 'twitter_bootstrap', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{'user_id':user.getId}} ) -}}
+			{%- else -%}
+				{{- pagerfanta(pager, 'twitter_bootstrap', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{}} ) -}}
+		    {%- endif -%}
+		{%- endif -%}
 		
 	</form>
 
-	{% include 'CCDNComponentCrumbTrailBundle:Trail:trail.html.twig' with {'crumbs': crumbs } %}
+	{%- include 'CCDNComponentCrumbTrailBundle:Trail:trail.html.twig' with {'crumbs': crumbs } -%}
 
+	{%- endspaceless -%}
+	
 {% endblock %}
