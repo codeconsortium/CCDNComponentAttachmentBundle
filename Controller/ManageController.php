@@ -70,6 +70,8 @@ class ManageController extends ContainerAware
             throw new NotFoundHttpException('the user does not exist.');
         }
 		
+		$quotas = $this->container->get('ccdn_component_attachment.attachment.manager')->calculateQuotasForUser($user);
+		
 		$attachments_paginated = $this->container->get('ccdn_component_attachment.attachment.repository')->findForUserById($user->getId());
 
 		// deal with pagination.
@@ -84,6 +86,7 @@ class ManageController extends ContainerAware
 			'crumbs' => $crumb_trail,
 			'attachments' => $attachments_paginated->getCurrentPageResults(),
 			'pager' => $attachments_paginated,
+			'quotas' => $quotas,
 			));
 	}
 
@@ -118,6 +121,8 @@ class ManageController extends ContainerAware
 		}
 		else
 		{
+			$quotas = $this->container->get('ccdn_component_attachment.attachment.manager')->calculateQuotasForUser($user);
+			
 			// setup crumb trail.	
 			$crumb_trail = $this->container->get('ccdn_component_crumb.trail')
 				->add($this->container->get('translator')->trans('crumbs.attachment_index', array(), 'CCDNComponentAttachmentBundle'), 
@@ -129,6 +134,7 @@ class ManageController extends ContainerAware
 				'user_profile_route' => $this->container->getParameter('ccdn_component_attachment.user.profile_route'),
 				'crumbs' => $crumb_trail,
 				'form' => $form->createView(),
+				'quotas' => $quotas,
 			));
 		}
 	}

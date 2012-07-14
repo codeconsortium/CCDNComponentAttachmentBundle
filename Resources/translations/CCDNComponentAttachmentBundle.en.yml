@@ -23,3 +23,5 @@ link.attachments.upload: 'Upload'
 link.attachments.manager: 'Manage'
 
 flash.attachment.upload.success: 'File %file_name% uploaded successfully.'
+
+quota.files: 'files'

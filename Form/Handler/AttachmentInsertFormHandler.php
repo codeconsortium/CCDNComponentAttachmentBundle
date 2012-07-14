@@ -231,7 +231,6 @@ class AttachmentInsertFormHandler
 		{
 			$totalUsedSpaceInKiB += $calc->formatToSIUnit($attachment->getFileSize(), $calc::KiB, false);
 		}
-
 		
 		if ($totalUsedSpaceInKiB > $maxTotalQuotaInKiB)
 		{
