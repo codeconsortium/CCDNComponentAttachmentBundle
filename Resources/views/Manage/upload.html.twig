@@ -8,7 +8,7 @@
 	{{ parent() }}
 {% endblock %}
 
-{% block title %}{{- 'title.attachment.upload' | trans({}, 'CCDNComponentAttachmentBundle') -}}{% endblock %}
+{% block title %}{{- truncDot('title.attachment.upload' | trans({}, 'CCDNComponentAttachmentBundle'), param('ccdn_component_attachment.seo.title_length')) -}}{% endblock %}
 
 {% block sidebar %}
 	{{ parent() }}

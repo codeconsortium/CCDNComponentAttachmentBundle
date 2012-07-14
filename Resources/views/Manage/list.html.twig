@@ -9,7 +9,7 @@
 	<script src="{{- asset('bundles/ccdncomponentcommon/js/ccdn/jquery.checkboxes.js') -}}" type="text/javascript"></script>
 {% endblock %}
 
-{% block title %}{{- 'title.attachment.index' |trans({}, 'CCDNComponentAttachmentBundle') -}}{% endblock %}
+{% block title %}{{- truncDot('title.attachment.index' |trans({}, 'CCDNComponentAttachmentBundle'), param('ccdn_component_attachment.seo.title_length')) -}}{% endblock %}
 
 {% block sidebar %}
 	{{ parent() }}

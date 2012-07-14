@@ -48,10 +48,23 @@ class CCDNComponentAttachmentExtension extends Extension
 		$container->setParameter('ccdn_component_attachment.user.profile_route', $config['user']['profile_route']);
 		$container->setParameter('ccdn_component_attachment.store.dir', $config['store']['dir']);
 		
+		$this->getSEOSection($container, $config);
 		$this->getQuotaSection($container, $config);
 		$this->getAttachmentSection($container, $config);
 		
     }
+	
+	
+	
+	/**
+	 *
+	 * @access protected
+	 * @param $container, $config
+	 */
+	protected function getSEOSection($container, $config)
+	{
+	    $container->setParameter('ccdn_component_attachment.seo.title_length', $config['seo']['title_length']);
+	}	
 	
 	
 	

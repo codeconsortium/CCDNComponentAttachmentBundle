@@ -59,11 +59,33 @@ class Configuration implements ConfigurationInterface
 				->end()
 			->end();
 		
+		$this->addSEOSection($rootNode);
 		$this->addQuotaSection($rootNode);
 		$this->addAttachmentSection($rootNode);
 		
         return $treeBuilder;
     }
+	
+	
+	
+	/**
+	 *
+	 * @access protected
+	 * @param ArrayNodeDefinition $node
+	 */
+	protected function addSEOSection(ArrayNodeDefinition $node)
+	{
+		$node
+			->children()
+				->arrayNode('seo')
+					->addDefaultsIfNotSet()
+					->canBeUnset()
+					->children()
+						->scalarNode('title_length')->defaultValue('67')->end()
+					->end()
+				->end()
+			->end();
+	}
 
 
 
@@ -113,7 +135,7 @@ class Configuration implements ConfigurationInterface
 							->addDefaultsIfNotSet()
 							->children()
 								->scalarNode('layout_template')->defaultValue('CCDNComponentCommonBundle:Layout:layout_body_right.html.twig')->end()
-								->scalarNode('form_theme')->defaultValue('CCDNForumForumBundle:Form:fields.html.twig')->end()
+								->scalarNode('form_theme')->defaultValue('CCDNComponentAttachmentBundle:Form:fields.html.twig')->end()
 							->end()
 						->end()
 					->end()
