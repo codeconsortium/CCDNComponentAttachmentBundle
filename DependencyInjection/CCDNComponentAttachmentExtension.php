@@ -29,7 +29,18 @@ use Symfony\Component\DependencyInjection\Loader;
  */
 class CCDNComponentAttachmentExtension extends Extension
 {
-
+	
+	
+	
+    /**
+     * {@inheritDoc}
+     */
+	public function getAlias()
+	{
+		return 'ccdn_component_attachment';
+	}
+	
+	
 
     /**
      * {@inheritDoc}
@@ -96,16 +107,5 @@ class CCDNComponentAttachmentExtension extends Extension
 	    $container->setParameter('ccdn_component_attachment.manage.upload.layout_template', $config['manage']['upload']['layout_template']);
 	    $container->setParameter('ccdn_component_attachment.manage.upload.form_theme', $config['manage']['upload']['form_theme']);
 	}
-	
-	
-	
-    /**
-     * {@inheritDoc}
-     */
-	public function getAlias()
-	{
-		return 'ccdn_component_attachment';
-	}
-
 	
 }
