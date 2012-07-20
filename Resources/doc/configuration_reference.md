@@ -18,13 +18,16 @@ ccdn_component_attachment:
         max_files_quantity: 20
         max_filesize_per_file: 400KiB
         max_total_quota: 2000KiB
-#    manage:
-#        list:
-#            layout_template: CCDNComponentCommonBundle:Layout:layout_body_left.html.twig
-#            attachment_uploaded_datetime_format: "d-m-Y - H:i"
-#        upload:
-#            layout_template: CCDNComponentCommonBundle:Layout:layout_body_left.html.twig
-#            form_theme: CCDNComponentAttachmentBundle:Form:fields.html.twig
+	seo:
+		title_length: 67
+    manage:
+        list:
+            layout_template: CCDNComponentCommonBundle:Layout:layout_body_right.html.twig
+			 attachments_per_page: 20
+            attachment_uploaded_datetime_format: "d-m-Y - H:i"
+        upload:
+            layout_template: CCDNComponentCommonBundle:Layout:layout_body_right.html.twig
+            form_theme: CCDNComponentAttachmentBundle:Form:fields.html.twig
 
 ```
 
