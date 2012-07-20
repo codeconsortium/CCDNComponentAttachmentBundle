@@ -1,0 +1,18 @@
+{%- spaceless -%}
+	{%- set route = app.request.attributes.get('_route') -%}
+
+	<li class="nav-header">{{- 'sidebar.header.attachment' | trans({}, 'CCDNComponentAttachmentBundle') -}}</li>
+	
+	{%- if route == 'cc_attachment_index' -%}
+		<li class="active"><a rel="nofollow" href="{{- path('cc_attachment_index') -}}"><i class="icon-white icon-file"></i>&nbsp;{{- 'link.attachments.manager' | trans({}, 'CCDNComponentAttachmentBundle') -}}</a></li>
+	{%- else -%}
+		<li><a rel="nofollow" href="{{- path('cc_attachment_index') -}}"><i class="icon-file"></i>&nbsp;{{- 'link.attachments.manager' | trans({}, 'CCDNComponentAttachmentBundle') -}}</a></li>
+	{%- endif -%}
+	
+	{%- if route == 'cc_attachment_upload' -%}
+		<li class="active"><a rel="nofollow" href="{{- path('cc_attachment_upload') -}}"><i class="icon-white icon-upload"></i>&nbsp;{{- 'link.attachments.upload' | trans({}, 'CCDNComponentAttachmentBundle') -}}</a></li>
+	{%- else -%}
+		<li><a rel="nofollow" href="{{- path('cc_attachment_upload') -}}"><i class="icon-upload"></i>&nbsp;{{- 'link.attachments.upload' | trans({}, 'CCDNComponentAttachmentBundle') -}}</a></li>
+	{%- endif -%}
+		
+{%- endspaceless -%}
