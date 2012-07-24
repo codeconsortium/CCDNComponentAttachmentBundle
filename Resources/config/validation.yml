@@ -3,7 +3,7 @@ CCDNComponent\AttachmentBundle\Entity\Attachment:
         description: 
             - Type: { type: string, groups: [upload] }
             - NotBlank: { groups: [upload] }
-            - MinLength: { limit: 30, groups: [upload] }
+            - MinLength: { limit: 5, groups: [upload] }
             - MaxLength: { limit: 1000, groups: [upload] }
         attachment:
             - File: { groups: [upload] }
