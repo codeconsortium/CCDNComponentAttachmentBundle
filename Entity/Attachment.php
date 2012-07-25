@@ -53,7 +53,6 @@ class Attachment
 	
 	/**
      * @ORM\Column(type="text")
-	 * @Assert\NotBlank(message = "Description must not be blank!")
      */
 	protected $description;
 
