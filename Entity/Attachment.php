@@ -30,49 +30,60 @@ class Attachment
      * @ORM\GeneratedValue(strategy="AUTO")
      */
 	protected $id;
-
-	/**
-     * @ORM\Column(type="string", length=255)
-     */
-	protected $attachment;
-	
-	/**
-	 * @ORM\Column(type="string", length=255, nullable=true)
-	 */	
-	protected $attachment_original;
-	
-	/**
-     * @ORM\Column(type="string", length=100)
-     */
-	protected $attachment_hashed;
-	
-	/**
-	 * @ORM\Column(type="string", length=30)
-	 */
-	protected $file_extension;
-	
-	/**
-     * @ORM\Column(type="text")
-     */
-	protected $description;
-
-	/**
-	 * @ORM\Column(type="datetime")
-	 */
-	protected $created_date;
 	
 	/**
      * @ORM\ManyToOne(targetEntity="CCDNUser\UserBundle\Entity\User", cascade={"persist"})
-     * @ORM\JoinColumn(name="owned_by_user_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ORM\JoinColumn(name="fk_owned_by_user_id", referencedColumnName="id", onDelete="SET NULL")
 	 */
-	protected $owned_by;
+	protected $ownedBy;
+	
+	/**
+	 * @ORM\Column(type="datetime", name="created_date")
+	 */
+	protected $createdDate;
+	
+	/**
+     * @ORM\Column(type="text", nullable=true)
+     */
+	protected $description;
+	
+	/**
+	 * @ORM\Column(type="string", name="file_name_original", length=255, nullable=true)
+	 */	
+	protected $filenameOriginal;
+	
+	/**
+     * @ORM\Column(type="string", name="file_name_hashed", length=255, nullable=true)
+     */
+	protected $filenameHashed;
+	
+	/**
+	 * @ORM\Column(type="string", name="file_extension", length=10, nullable=true)
+	 */
+	protected $fileExtension;
 
 	/**
-	 * @ORM\Column(type="text", length=255)
+	 * @ORM\Column(type="text", name="file_size", length=255, nullable=true)
 	 */
-	protected $file_size;
+	protected $fileSize;
 
+	/**
+	 *
+	 * @var File $attachment
+	 */
+	protected $attachment;
 	
+	public function setAttachment($attachment)
+	{
+		$this->attachment = $attachment;
+	}
+	
+	public function getAttachment()
+	{
+		return $this->attachment;
+	}
+
+
     /**
      * Get id
      *
@@ -83,18 +94,34 @@ class Attachment
         return $this->id;
     }
 
+    /**
+     * Set created_date
+     *
+     * @param datetime $createdDate
+     */
+    public function setCreatedDate($createdDate)
+    {
+        $this->createdDate = $createdDate;
+    }
 
+    /**
+     * Get created_date
+     *
+     * @return datetime 
+     */
+    public function getCreatedDate()
+    {
+        return $this->createdDate;
+    }
 
     /**
      * Set description
      *
      * @param text $description
-     * @return Attachment
      */
     public function setDescription($description)
     {
         $this->description = $description;
-        return $this;
     }
 
     /**
@@ -108,178 +135,102 @@ class Attachment
     }
 
     /**
-     * Set created_date
+     * Set filenameOriginal
      *
-     * @param datetime $createdDate
-     * @return Attachment
+     * @param string $filenameOriginal
      */
-    public function setCreatedDate($createdDate)
+    public function setFilenameOriginal($filenameOriginal)
     {
-        $this->created_date = $createdDate;
-        return $this;
+        $this->filenameOriginal = $filenameOriginal;
     }
 
     /**
-     * Get created_date
+     * Get filenameOriginal
      *
-     * @return datetime 
+     * @return string 
      */
-    public function getCreatedDate()
+    public function getFilenameOriginal()
     {
-        return $this->created_date;
+        return $this->filenameOriginal;
     }
 
     /**
-     * Set created_by
+     * Set filenameHashed
      *
-     * @param CCDNUser\UserBundle\Entity\User $createdBy
-     * @return Attachment
+     * @param string $filenameHashed
      */
-    public function setCreatedBy(\CCDNUser\UserBundle\Entity\User $createdBy = null)
+    public function setFilenameHashed($filenameHashed)
     {
-        $this->created_by = $createdBy;
-        return $this;
+        $this->filenameHashed = $filenameHashed;
     }
 
     /**
-     * Get created_by
+     * Get filenameHashed
      *
-     * @return CCDNUser\UserBundle\Entity\User 
+     * @return string 
      */
-    public function getCreatedBy()
+    public function getFilenameHashed()
     {
-        return $this->created_by;
+        return $this->filenameHashed;
     }
 
     /**
-     * Set file_extension
+     * Set fileExtension
      *
      * @param string $fileExtension
-     * @return Attachment
      */
     public function setFileExtension($fileExtension)
     {
-        $this->file_extension = $fileExtension;
-        return $this;
+        $this->fileExtension = $fileExtension;
     }
 
     /**
-     * Get file_extension
+     * Get fileExtension
      *
      * @return string 
      */
     public function getFileExtension()
     {
-        return $this->file_extension;
+        return $this->fileExtension;
     }
 
     /**
-     * Set attachment
-     *
-     * @param string $attachment
-     * @return Attachment
-     */
-    public function setAttachment($attachment)
-    {
-        $this->attachment = $attachment;
-        return $this;
-    }
-
-    /**
-     * Get attachment
-     *
-     * @return string 
-     */
-    public function getAttachment()
-    {
-        return $this->attachment;
-    }
-
-    /**
-     * Set attachment_hashed
-     *
-     * @param string $attachmentHashed
-     * @return Attachment
-     */
-    public function setAttachmentHashed($attachmentHashed)
-    {
-        $this->attachment_hashed = $attachmentHashed;
-        return $this;
-    }
-
-    /**
-     * Get attachment_hashed
-     *
-     * @return string 
-     */
-    public function getAttachmentHashed()
-    {
-        return $this->attachment_hashed;
-    }
-
-    /**
-     * Set attachment_original
-     *
-     * @param string $attachmentOriginal
-     * @return Attachment
-     */
-    public function setAttachmentOriginal($attachmentOriginal)
-    {
-        $this->attachment_original = $attachmentOriginal;
-        return $this;
-    }
-
-    /**
-     * Get attachment_original
-     *
-     * @return string 
-     */
-    public function getAttachmentOriginal()
-    {
-        return $this->attachment_original;
-    }
-
-    /**
-     * Set file_size
+     * Set fileSize
      *
      * @param text $fileSize
-     * @return Attachment
      */
     public function setFileSize($fileSize)
     {
-        $this->file_size = $fileSize;
-        return $this;
+        $this->fileSize = $fileSize;
     }
 
     /**
-     * Get file_size
+     * Get fileSize
      *
      * @return text 
      */
     public function getFileSize()
     {
-        return $this->file_size;
+        return $this->fileSize;
     }
 
     /**
-     * Set owned_by
+     * Set ownedBy
      *
      * @param CCDNUser\UserBundle\Entity\User $ownedBy
-     * @return Attachment
      */
-    public function setOwnedBy(\CCDNUser\UserBundle\Entity\User $ownedBy = null)
+    public function setOwnedBy(\CCDNUser\UserBundle\Entity\User $ownedBy)
     {
-        $this->owned_by = $ownedBy;
-        return $this;
+        $this->ownedBy = $ownedBy;
     }
 
     /**
-     * Get owned_by
+     * Get ownedBy
      *
      * @return CCDNUser\UserBundle\Entity\User 
      */
     public function getOwnedBy()
     {
-        return $this->owned_by;
+        return $this->ownedBy;
     }
 }

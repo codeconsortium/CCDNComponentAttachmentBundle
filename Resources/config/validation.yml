@@ -1,10 +1,16 @@
+namespaces:
+    CCDNComponentAttachmentBundle: CCDNComponent\AttachmentBundle\Form\Validator\Constraints\
+
 CCDNComponent\AttachmentBundle\Entity\Attachment:
     properties:
         description: 
             - Type: { type: string, groups: [upload] }
-            - NotBlank: { groups: [upload] }
-            - MinLength: { limit: 5, groups: [upload] }
+        #    - NotBlank: { groups: [upload] }
+        #    - MinLength: { limit: 5, groups: [upload] }
             - MaxLength: { limit: 1000, groups: [upload] }
         attachment:
-            - File: { groups: [upload] }
             - NotNull: { groups: [upload] }
+            - File: { groups: [upload] }
+            - "CCDNComponentAttachmentBundle:UploadQuotaFileSize": { groups: [upload] }
+            - "CCDNComponentAttachmentBundle:UploadQuotaDiskSpace": { groups: [upload] }
+            - "CCDNComponentAttachmentBundle:UploadQuotaFileQuantity": { groups: [upload] }

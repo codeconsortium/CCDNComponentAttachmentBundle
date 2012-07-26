@@ -11,6 +11,10 @@ form.label.attachment.upload.file: 'File: '
 form.label.attachment.upload.description: 'Description: '
 form.button.attachment.upload: 'Upload'
 
+form.validation_error.quota_disk_space: 'You have used up all your available space, delete some files to free up some space.'
+form.validation_error.quota_file_size: 'Max file size is %limit%KiB.'
+form.validation_error.quota_file_quantity: 'You have reached the maximum number of files you may upload, delete some files to free up some space.'
+
 attachment.table.head.file: 'File'
 attachment.table.head.description: 'Description'
 attachment.table.head.uploaded: 'Uploaded On'

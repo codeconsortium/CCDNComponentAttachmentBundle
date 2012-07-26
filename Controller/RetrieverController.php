@@ -39,33 +39,37 @@ class RetrieverController extends ContainerAware
 	 */
 	public function thumbnailAction($attachment_id)
 	{
-		$thumbnailLocation = $this->container->getParameter('kernel.root_dir') . '/../web/bundles/ccdncomponentcommon/images/icons/Silver/32x32/';
-		
 		$fileRecord = $this->container->get('ccdn_component_attachment.attachment.repository')->findOneById($attachment_id);
 
 		$fileResolver = $this->container->get('ccdn_component_attachment.attachment.file.resolver');
+
+		// What icon will we show if we cannot find what you are looking for?
+		$thumbnailLocation = $this->container->getParameter('kernel.root_dir') . '/../web/bundles/ccdncomponentcommon/images/icons/Silver/32x32/';
+
+		$fileResolver->setThumbnailIconLocationForUnresolvableFiles($thumbnailLocation);
 		
-		$fileResolver->setMysteryThumbnailIconLocation($thumbnailLocation);
-		$fileResolver->setFileName($fileRecord->getAttachmentOriginal());
+		// Where are the attachment files stored?
+		$fileResolver->setFileLocation($this->container->getParameter('ccdn_component_attachment.store.dir'));
+		$fileResolver->setFileName($fileRecord->getFileNameHashed());
 		$fileResolver->setFileExtension($fileRecord->getFileExtension());
 		
-		if ($fileResolver->locateFile($fileRecord->getAttachment()))
+		if ($fileResolver->locateFile())
 		{
 			if ( ! $fileResolver->loadFileData())
 			{
 				// mystery icon
-				$fileResolver->setThumbnailUnknown();
+				$fileResolver->useThumbnailIconTypeUnresolvable();
 			}
 		} else {
 			// mystery icon, do nothing.
-			$fileResolver->setThumbnailUnknown();
+			$fileResolver->useThumbnailIconTypeUnresolvable();
 		}
 			
 		return new Response(
-				$fileResolver->getFileThumbnailData(),
-				200,
-				$fileResolver->getHTTPHeaders()
-			);
+			$fileResolver->getFileThumbnailData(),
+			200,
+			$fileResolver->getHTTPHeaders()
+		);
 	}
 
 
@@ -86,18 +90,22 @@ class RetrieverController extends ContainerAware
 		}
 
 		$user = $this->container->get('security.context')->getToken()->getUser();
-		
-		$thumbnailLocation = $this->container->getParameter('kernel.root_dir') . '/../web/bundles/ccdncomponentcommon/images/icons/Black/32x32/';
-		
+				
 		$fileRecord = $this->container->get('ccdn_component_attachment.attachment.repository')->findOneById($attachment_id);
 
 		$fileResolver = $this->container->get('ccdn_component_attachment.attachment.file.resolver');
+
+		// What icon will we show if we cannot find what you are looking for?
+		$thumbnailLocation = $this->container->getParameter('kernel.root_dir') . '/../web/bundles/ccdncomponentcommon/images/icons/Silver/32x32/';
+
+		$fileResolver->setThumbnailIconLocationForUnresolvableFiles($thumbnailLocation);
 		
-		$fileResolver->setMysteryThumbnailIconLocation($thumbnailLocation);
-		$fileResolver->setFileName($fileRecord->getAttachmentOriginal());
+		// Where are the attachment files stored?
+		$fileResolver->setFileLocation($this->container->getParameter('ccdn_component_attachment.store.dir'));
+		$fileResolver->setFileName($fileRecord->getFileNameHashed());
 		$fileResolver->setFileExtension($fileRecord->getFileExtension());
 		
-		if ($fileResolver->locateFile($fileRecord->getAttachment()))
+		if ($fileResolver->locateFile())
 		{
 			if ( ! $fileResolver->loadFileData())
 			{
@@ -108,10 +116,10 @@ class RetrieverController extends ContainerAware
 		}
 			
 		return new Response(
-				$fileResolver->getFileData(),
-				200,
-				$fileResolver->getHTTPHeaders()
-			);			
+			$fileResolver->getFileData(),
+			200,
+			$fileResolver->getHTTPHeaders()
+		);			
 	}
 	
 	

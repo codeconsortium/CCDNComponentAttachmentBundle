@@ -18,16 +18,18 @@ class FileResolver
 	
 	protected $container;
 
-	protected $thumbnailLocation;	
-	protected $fileNameWithDir;
+	protected $thumbnailLocation;
+	
+	protected $fileLocation;	
 	protected $fileName;
 	protected $fileExtension;
+	
+	protected $fileNameWithDir;
+	
 	protected $fileData;
 	protected $isRenderable = false;
 	protected $headerContentType;
-	protected $fileSize;
-	
-	
+	protected $fileSize;	
 	
 	/**
 	 *
@@ -38,6 +40,18 @@ class FileResolver
 	{
 		$this->container = $service_container;
 	}
+	
+
+	/**
+	 *
+	 * @access public
+	 * @param string $fileName
+	 */
+	public function setFileLocation($dir)	
+	{
+		$this->fileLocation = $dir;
+	}
+	
 	
 	
 	/**
@@ -67,7 +81,7 @@ class FileResolver
 	 * @access public
 	 * @param string $location
 	 */
-	public function setMysteryThumbnailIconLocation($location)
+	public function setThumbnailIconLocationForUnresolvableFiles($location)
 	{
 		$this->thumbnailLocation = $location;
 	}
@@ -77,11 +91,9 @@ class FileResolver
 	 *
 	 * @access public
 	 */
-	public function setThumbnailUnknown()
+	public function useThumbnailIconTypeUnresolvable()
 	{
-		$this->fileNameWithDir = $this->thumbnailLocation . '32x32_attachment.png';
-		
-		$this->loadFileData();
+		$this->fileNameWithDir = $this->thumbnailLocation . '32x32_attachment.png';		
 	}	
 	
 	
@@ -91,14 +103,14 @@ class FileResolver
 	 * @param string $file
 	 * @return bool
 	 */
-	public function locateFile($file)
+	public function locateFile()
 	{
-		$this->fileNameWithDir = $file;
+		$this->fileNameWithDir = $this->fileLocation . $this->fileName;
 		
 		if (file_exists($this->fileNameWithDir))
 		{
 			return true;
-		} else {
+		} else {		
 			return false;
 		}
 	}
@@ -112,14 +124,14 @@ class FileResolver
 	public function loadFileData()
 	{
 		ob_start();
-			readfile($this->fileNameWithDir);
+		readfile($this->fileNameWithDir);
 		$this->fileData = ob_get_clean();
 
 		// get file size
 		$this->fileSize = filesize($this->fileNameWithDir);
 		
 		if ( ! $this->fileData)
-		{
+		{			
 			return false;
 		} else {
 			return true;
@@ -189,6 +201,7 @@ class FileResolver
 	public function getFileData()
 	{
 		$this->resolveType();
+		
 		return $this->fileData;
 	}
 
@@ -205,7 +218,7 @@ class FileResolver
 		
 		if ( ! $this->isRenderable)
 		{
-			$this->setThumbnailUnknown();
+			$this->useThumbnailIconTypeUnresolvable();
 		}
 		
 		// prep image resources
@@ -232,7 +245,7 @@ class FileResolver
 		
 		// empty the image resource into binary string var we can send to the browser.
 		ob_start();
-			$stringDat = imagepng($tmp);
+		$stringDat = imagepng($tmp);
 		$this->fileData = ob_get_clean();	
 			
 		return $this->fileData;

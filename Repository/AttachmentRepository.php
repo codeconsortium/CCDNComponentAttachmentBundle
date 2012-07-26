@@ -38,9 +38,9 @@ class AttachmentRepository extends EntityRepository
 		$query = $this->getEntityManager()
 			->createQuery('
 				SELECT a, FROM CCDNComponentAttachmentBundle:Attachment a
-				WHERE a.owned_by = :user_id AND a.id = :attachment_id
+				WHERE a.ownedBy = :userId AND a.id = :attachmentId
 				GROUP BY a.id')
-			->setParameters(array('attachment_id' => $attachmentId, 'user_id' => $user_id));
+			->setParameters(array('attachmentId' => $attachmentId, 'userId' => $userId));
 
 		try {
 			return $query->fetchSingleResult();
@@ -56,16 +56,16 @@ class AttachmentRepository extends EntityRepository
 	 * @access public
 	 * @param int $user_id
 	 */	
-	public function findForUserById($user_id)
+	public function findForUserById($userId)
 	{	
 		$query = $this->getEntityManager()
 			->createQuery('
 				SELECT a, u FROM CCDNComponentAttachmentBundle:Attachment a
-				LEFT JOIN a.owned_by u
-				WHERE a.owned_by = :user_id
+				LEFT JOIN a.ownedBy u
+				WHERE a.ownedBy = :userId
 				GROUP BY a.id
-				ORDER BY a.created_date DESC')
-			->setParameter('user_id', $user_id);
+				ORDER BY a.createdDate DESC')
+			->setParameter('userId', $userId);
 
 		try {
 			return new Pagerfanta(new DoctrineORMAdapter($query));
@@ -81,16 +81,16 @@ class AttachmentRepository extends EntityRepository
 	 * @access public
 	 * @param int $user_id
 	 */	
-	public function findForUserByIdAsArray($user_id)
+	public function findForUserByIdAsArray($userId)
 	{	
 		$query = $this->getEntityManager()
 			->createQuery('
 				SELECT a, u FROM CCDNComponentAttachmentBundle:Attachment a
-				LEFT JOIN a.owned_by u
-				WHERE a.owned_by = :user_id
+				LEFT JOIN a.ownedBy u
+				WHERE a.ownedBy = :userId
 				GROUP BY a.id
-				ORDER BY a.created_date DESC')
-			->setParameter('user_id', $user_id);
+				ORDER BY a.createdDate DESC')
+			->setParameter('userId', $userId);
 
 		try {
 			return $query->getResult();
@@ -110,7 +110,7 @@ class AttachmentRepository extends EntityRepository
    		$qb = $this->getEntityManager()->createQueryBuilder('a');
    		$qb->select('a')
    			->from('CCDNComponentAttachmentBundle:Attachment', 'a')
-   			->where($qb->expr()->eq('a.owned_by', '?1'))
+   			->where($qb->expr()->eq('a.ownedBy', '?1'))
    			->setParameter('1', $userId);
 
    		try {
@@ -133,7 +133,7 @@ class AttachmentRepository extends EntityRepository
 		$query = $qb->add('select', 'a')
 			->from('CCDNComponentAttachmentBundle:Attachment', 'a')
 			->where($qb->expr()->andx(
-				$qb->expr()->eq('a.owned_by', '?1'),
+				$qb->expr()->eq('a.ownedBy', '?1'),
 				$qb->expr()->in('a.id', '?2')))
 			->setParameters(array('1' => $userId, '2' => array_values($objectIds)))
 			->getQuery();

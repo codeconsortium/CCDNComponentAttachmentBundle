@@ -88,6 +88,7 @@ class AttachmentInsertFormHandler
 	}
 	
 	
+	
 	/**
 	 *
 	 * @access public
@@ -100,6 +101,7 @@ class AttachmentInsertFormHandler
 		
 		return $this;
 	}
+	
 	
 	
 	/**
@@ -116,57 +118,46 @@ class AttachmentInsertFormHandler
 			$this->form->bindRequest($this->request);
 		
 			$formData = $this->form->getData();
-
-			// get the UploadedFile instance
-			$file = $this->form['attachment']->getData();
-			
-			// sort out the file meta-data
-			$fileName = $file->getClientOriginalName();
-			$fileExtension = $file->guessExtension();		
-			if ( ! $fileExtension) { $fileExtension = 'bin'; }
-			$fileNameHashed = md5(uniqid(mt_rand(), true));
-			$fileStoreDir = $this->container->getParameter('ccdn_component_attachment.store.dir');	
-
-			// shift the file out of tmp dir and into the filestore
-			$file->move($fileStoreDir, $fileNameHashed);
-			
-			// get the records of all attachments for the user to do some work on.	
-			$user = $this->container->get('security.context')->getToken()->getUser();
-			$attachments = $this->container->get('ccdn_component_attachment.attachment.repository')->findForUserById($user->getId());
-
-			// get the SI Units calculator
-			$calc = $this->container->get('ccdn_component_common.bin.si.units');
-
-			// get the file size in bytes
-			$fileSize = filesize($fileStoreDir . $fileNameHashed);	
-			
-			// check file uploaded ok
-			$this->validateUploadStatus($file);
-			
-			// validate quotas
-			$this->validateMaxFileSize($calc, $fileSize);
-			$this->validateTotalQuota($calc, $attachments);
-            $this->validateMaxFileQuantity($attachments);
-						
+		
 			// set the file properties for the db record.
 			$formData->setCreatedDate(new \DateTime());
 			$formData->setOwnedBy($this->options['user']);			
-			$formData->setAttachmentOriginal($fileName);
-			$formData->setAttachmentHashed($fileNameHashed);
-			$formData->setFileExtension($fileExtension);
-			$formData->setAttachment($fileStoreDir . $fileNameHashed);
-			$formData->setFileSize($calc->formatToSIUnit($fileSize, null, true));
-			
-			// check form validation
+
+			// check form validation.
 			if ($this->form->isValid())
 			{
+				// get the SI Units calculator.
+				$calc = $this->container->get('ccdn_component_common.bin.si.units');
+
+				// Where do we keep the files after we are finished here?
+				$fileStoreDir = $this->container->getParameter('ccdn_component_attachment.store.dir');	
+				
+				// get the UploadedFile instance.
+				$file = $this->form['attachment']->getData();
+
+				// sort out the file meta-data.
+				$fileNameOriginal = $file->getClientOriginalName();
+				$fileNameHashed = md5(uniqid(mt_rand(), true));
+				$fileExtension = ($file->guessExtension()) ? $file->guessExtension() : 'bin';
+
+				// shift the file out of tmp dir and into the filestore.
+				$file->move($fileStoreDir, $fileNameHashed);
+
+				// Get file size in bytes, we can convert it to an SIUnit in the formatter below.
+				$fileSize = filesize($fileStoreDir . $fileNameHashed);
+			
+				// Complete remaining fields of entity.
+				$formData->setDescription(($formData->getDescription()) ? $formData->getDescription(): $fileNameOriginal);
+				$formData->setFileNameOriginal($fileNameOriginal);
+				$formData->setFileNameHashed($fileNameHashed);
+				$formData->setFileExtension($fileExtension);
+				$formData->setFileSize($calc->formatToSIUnit($fileSize, null, true));
+				
+				
 				$this->onSuccess($this->form->getData());
 							
 				return true;				
-			} else {
-				@unlink($fileStoreDir . $fileNameHashed);
 			}
-			
 		}
 
 		return false;
@@ -179,14 +170,22 @@ class AttachmentInsertFormHandler
 	 * @access protected
 	 * @param string $file
 	 */
-	protected function validateUploadStatus($file)
-	{
-		if ( ! $file->isValid())
-		{
-			$this->form->addError(new FormError('Error while uploading the file.'));
-			$this->form->addError(new FormError($file->getError()));
-		}
-	}
+//	protected function validateUploadStatus()
+//	{
+//		if ($this->form['attachment'])
+//		{
+//			$file = $this->form['attachment']->getData();
+//			
+//			if ($file)
+//			{
+//				if ( ! $file->isValid())
+//				{
+//					$this->form->addError(new FormError('Error while uploading the file.'));
+//					$this->form->addError(new FormError($file->getError()));
+//				}
+//			}
+//		}
+//	}
 	
 	
 	

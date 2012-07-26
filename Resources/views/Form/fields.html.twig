@@ -33,7 +33,7 @@
 {% block widget_upload %}
 	{%- spaceless -%}
 		{%- set attr = attr|merge({ 'class': attr.class|default('') ~ 'input-file'}) -%}
-		<input type="{{- type -}}" {{ block('widget_attributes') -}}>
+		<input type="{{- type -}}" {{ block('widget_attributes') -}} style="display:block;clear:both;height:100%;width:100%;visibility:visible;">
 	{%- endspaceless -%}
 {% endblock widget_upload %}
 
@@ -41,7 +41,7 @@
 {% block field_errors %}{# errors for next to each field #}
 	{%- spaceless -%}
 	    {%- if errors|length > 0 -%}
-		<div class="alert alert-error span8">
+		<div class="alert alert-error span8" style="display:inline-block;clear:both;">
 		    <ul>
 		        {%- for error in errors -%}
 		            <li>{{- error.messageTemplate|trans(error.messageParameters, 'validators') -}}</li>

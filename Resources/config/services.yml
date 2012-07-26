@@ -6,6 +6,9 @@ parameters:
     
     ccdn_component_attachment.attachment.form.type.class:              CCDNComponent\AttachmentBundle\Form\Type\AttachmentType
     ccdn_component_attachment.attachment.form.insert.handler.class:    CCDNComponent\AttachmentBundle\Form\Handler\AttachmentInsertFormHandler
+    ccdn_component_attachment.validator.upload_quota_disk_space.class:      CCDNComponent\AttachmentBundle\Form\Validator\UploadQuotaDiskSpaceValidator
+    ccdn_component_attachment.validator.upload_quota_file_quantity.class:   CCDNComponent\AttachmentBundle\Form\Validator\UploadQuotaFileQuantityValidator
+    ccdn_component_attachment.validator.upload_quota_file_size.class:       CCDNComponent\AttachmentBundle\Form\Validator\UploadQuotaFileSizeValidator
 
     ccdn_component_attachment.attachment.file.resolver.class:          CCDNComponent\AttachmentBundle\Component\FileResolver
     
@@ -39,6 +42,22 @@ services:
     ccdn_component_attachment.attachment.form.insert.handler:
         class:  %ccdn_component_attachment.attachment.form.insert.handler.class%
         arguments:  [@form.factory, @service_container, @ccdn_component_attachment.attachment.manager]
+        
+    ccdn_component_attachment.validator.upload_quota_disk_space:
+        class: %ccdn_component_attachment.validator.upload_quota_disk_space.class%
+        arguments: [@doctrine, @service_container]
+        tags:
+            - { name: validator.constraint_validator, alias: upload_quota_disk_space }
+    ccdn_component_attachment.validator.upload_quota_file_quantity:
+        class: %ccdn_component_attachment.validator.upload_quota_file_quantity.class%
+        arguments: [@doctrine, @service_container]
+        tags:
+            - { name: validator.constraint_validator, alias: upload_quota_file_quantity }
+    ccdn_component_attachment.validator.upload_quota_file_size:
+        class: %ccdn_component_attachment.validator.upload_quota_file_size.class%
+        arguments: [@doctrine, @service_container]
+        tags:
+            - { name: validator.constraint_validator, alias: upload_quota_file_size }
 
     #
     # Attachment File Resolver.
