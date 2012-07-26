@@ -70,6 +70,20 @@ class UploadQuotaDiskSpaceValidator extends ConstraintValidator
 			// get the SI Units calculator.
 			$calc = $this->container->get('ccdn_component_common.bin.si.units');
 
+			// check if the max_filesize_per_file_in_kb is reached
+			$maxFileSizePerFile = $this->container->getParameter('ccdn_component_attachment.quota_per_user.max_filesize_per_file');		
+	
+			$maxFileSizePerFileInKiB = $calc->formatToSIUnit($maxFileSizePerFile, $calc::KiB, false);
+		
+			// Get file.
+			$fileNameOriginal = $file->getClientOriginalName();
+				
+			// Get file size in bytes, we can convert it to an SIUnit in the formatter below.
+			$fileSize = $file->getClientSize();
+		
+			$fileSizeInKiB = $calc->formatToSIUnit($fileSize, $calc::KiB, false);
+		
+
 			// check if the max_total_quota_in_kb is reached
 			$maxTotalQuota = $this->container->getParameter('ccdn_component_attachment.quota_per_user.max_total_quota');
 			
@@ -85,6 +99,8 @@ class UploadQuotaDiskSpaceValidator extends ConstraintValidator
 			{
 				$totalUsedSpaceInKiB += $calc->formatToSIUnit($attachment->getFileSize(), $calc::KiB, false);
 			}
+			
+			$totalUsedSpaceInKiB += $fileSizeInKiB;
 
 			if ($totalUsedSpaceInKiB > $maxTotalQuotaInKiB)
 			{
