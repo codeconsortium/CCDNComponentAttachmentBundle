@@ -83,7 +83,7 @@
 			{%- for row, attachment in attachments -%}
 				<tr class="marked_read">
 					<td class="center">
-						<input type="checkbox" id="multiselect_{{- attachment.id -}}" name="check_multiselect_{{- attachment.id -}}" data-check-all-responds="true" data-identifier="attachments">
+						<input type="checkbox" id="check_multiselect_{{- attachment.id -}}" name="check_multiselect_{{- attachment.id -}}" data-check-all-responds="true" data-identifier="attachments">
 					</td>
 					<td class="center" style="width:70px;">
 						<a rel="nofollow" href="{{- path('cc_attachment_download', {'attachment_id': attachment.getId }) -}}"><img src="{{- path('cc_attachment_thumbnail', {'attachment_id': attachment.getId }) -}}" alt="{{- attachment.getFileNameOriginal -}}"></a>

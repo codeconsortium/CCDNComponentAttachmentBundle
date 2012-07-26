@@ -40,7 +40,7 @@ class UploadQuotaDiskSpace extends Constraint
 	 */
 	public function addFileDiskSpaceLimitReached()
 	{
-
+		$this->message = $this->container->get('translator')->trans($this->message, array(), 'CCDNComponentAttachmentBundle');
 	}
 	
 	

@@ -183,8 +183,6 @@ class ManageController extends ContainerAware
 			$this->container->get('ccdn_component_attachment.attachment.manager')->bulkDelete($attachments)->flushNow();
 		}
 
-	//	$this->container->get('ccdn_component_attachment.attachment.manager')->updateAllFolderCachesForUser($user);
-
 		return new RedirectResponse($this->container->get('router')->generate('cc_attachment_index'));
 	}
 		

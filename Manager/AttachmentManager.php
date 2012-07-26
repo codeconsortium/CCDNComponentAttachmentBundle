@@ -48,10 +48,11 @@ class AttachmentManager extends BaseManager implements ManagerInterface
 	 */
 	public function bulkDelete($attachments)
 	{
-	
+		$fileStore = $this->container->getParameter('ccdn_component_attachment.store.dir') . '/';
+		
 		foreach ($attachments as $key => $attachment)
 		{
-			if (@unlink($attachment->getAttachment()))
+			if (@unlink(realpath($fileStore . $attachment->getFilenameHashed())))
 			{
 				$this->remove($attachment);
 			}

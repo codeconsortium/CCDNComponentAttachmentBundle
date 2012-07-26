@@ -40,7 +40,7 @@ class UploadQuotaFileQuantity extends Constraint
 	 */
 	public function addFileQuantityLimitReached()
 	{
-
+		$this->message = $this->container->get('translator')->trans($this->message, array(), 'CCDNComponentAttachmentBundle');
 	}
 	
 	
