@@ -75,7 +75,7 @@ class UploadQuotaFileQuantityValidator extends ConstraintValidator
 
 			if (count($attachments) > $maxTotalQuota)
 			{
-				$constraint->addFileQuantityLimitReached();
+				$constraint->addFileQuantityLimitReached($this->container);
 
 				$this->setMessage($constraint->message);
 

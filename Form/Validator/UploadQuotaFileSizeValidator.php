@@ -82,7 +82,7 @@ class UploadQuotaFileSizeValidator extends ConstraintValidator
 		
 			if ($fileSizeInKiB > ($maxFileSizePerFileInKiB + 1))
 			{
-				$constraint->addFileTooBig($fileNameOriginal, $fileSizeInKiB, $maxFileSizePerFileInKiB);
+				$constraint->addFileTooBig($this->container, $fileNameOriginal, $fileSizeInKiB, $maxFileSizePerFileInKiB);
 
 				$this->setMessage($constraint->message);
 

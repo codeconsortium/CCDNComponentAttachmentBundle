@@ -88,7 +88,7 @@ class UploadQuotaDiskSpaceValidator extends ConstraintValidator
 
 			if ($totalUsedSpaceInKiB > $maxTotalQuotaInKiB)
 			{
-				$constraint->addFileDiskSpaceLimitReached();
+				$constraint->addFileDiskSpaceLimitReached($this->container);
 
 				$this->setMessage($constraint->message);
 

@@ -37,9 +37,16 @@
 	<h2>{{- 'title.attachment.index' |trans({}, 'CCDNComponentAttachmentBundle') -}}</h2>
 
 	<form method="POST" action="{{- path('cc_attachment_action_bulk') -}}">
-		
-		<div class="btn-toolbar">
-			<input type="submit" class="btn btn-danger disabled" value="{{- 'link.delete' |trans({}, 'CCDNComponentAttachmentBundle') -}}" name="submit_delete" disabled data-responds-disabled="attachments">
+
+		<div class="btn-toolbar" style="display:block;clear:both;height:75px;vertical-align:top;margin-top:0px;">
+			{%- if pager.haveToPaginate -%}
+				<div class="pull-left" style="display:inline-block;">
+				{{- pagerfanta(pager, 'twitter_bootstrap', {'routeName':'cc_attachment_index_paginated'} ) -}}
+				</div>
+			{%- endif -%}
+			<div class="pull-right" style="display:inline-block;height:36px;line-height:18px;margin:18px 0;">
+				<input type="submit" class="btn btn-danger disabled" value="{{- 'link.delete' |trans({}, 'CCDNComponentAttachmentBundle') -}}" name="submit_delete" disabled data-responds-disabled="attachments">
+			</div>
 		</div>
 		
 {#		{%- if pager.haveToPaginate -%}
@@ -81,14 +88,17 @@
 			{%- endfor -%}
 			</tbody>
 		</table>
-		
-{#		{%- if pager.haveToPaginate -%}
-			{%- if path(app.request.attributes.get('_route')) == 'cc_attachment_for_user' or path(app.request.attributes.get('_route')) == 'cc_attachment_for_user_paginated' -%}
-			    {{- pagerfanta(pager, 'twitter_bootstrap', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{'user_id':user.getId}} ) -}}
-			{%- else -%}
-				{{- pagerfanta(pager, 'twitter_bootstrap', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{}} ) -}}
-		    {%- endif -%}
-		{%- endif -%}#}
+
+		<div class="btn-toolbar" style="display:block;clear:both;height:75px;vertical-align:top;margin-top:0px;">
+			{%- if pager.haveToPaginate -%}
+				<div class="pull-left" style="display:inline-block;">
+				{{- pagerfanta(pager, 'twitter_bootstrap', {'routeName':'cc_attachment_index_paginated'} ) -}}
+				</div>
+			{%- endif -%}
+			<div class="pull-right" style="display:inline-block;height:36px;line-height:18px;margin:18px 0;">
+				<input type="submit" class="btn btn-danger disabled" value="{{- 'link.delete' |trans({}, 'CCDNComponentAttachmentBundle') -}}" name="submit_delete" disabled data-responds-disabled="attachments">
+			</div>
+		</div>
 		
 	</form>
 

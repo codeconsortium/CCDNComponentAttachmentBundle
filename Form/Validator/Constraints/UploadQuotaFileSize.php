@@ -38,9 +38,9 @@ class UploadQuotaFileSize extends Constraint
 	 * @access public
 	 * @param $filename, $size, $limit
 	 */
-	public function addFileTooBig($filename, $size, $limit)
+	public function addFileTooBig($container, $filename, $size, $limit)
 	{
-		$this->message = $this->container->get('translator')->trans($this->message, array('%limit%' => $limit), 'CCDNComponentAttachmentBundle');
+		$this->message = $container->get('translator')->trans($this->message, array('%limit%' => $limit), 'CCDNComponentAttachmentBundle');
 	}
 	
 	
