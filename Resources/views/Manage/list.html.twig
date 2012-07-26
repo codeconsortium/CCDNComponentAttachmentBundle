@@ -20,29 +20,8 @@
 
 {% block sidebar_status %}
 	{{ parent() }}
-	{%- spaceless -%}
 	
-	<div class="well" style="padding: 10px;{# height: 20px;#}">
-		<span class="pull-left"><i class="icon-hdd"></i>&nbsp;{{- quotas['usedKiBPercent'] -}}&#37;&nbsp;</span>
-		<div class="progress progress-danger">
-			<div class="bar" style="width:{{- quotas['usedKiBPercent'] -}}%;"></div>
-		</div>
-		<hr>
-		
-		<span class="label">
-			{{- quotas['usedKiB'] -}}KiB
-			&nbsp;&#47;&nbsp;
-			{{- quotas['maxKiB'] -}}KiB
-		</span>&nbsp;
-		
-		<span class="label">
-			{{- quotas['usedQuantity'] -}}
-			&nbsp;&#47;&nbsp;
-			{{- quotas['maxQuantity'] -}}&nbsp;{{- 'quota.files' | trans({}, 'CCDNComponentAttachmentBundle') -}}
-		</span>
-	</div>
-	
-	{%- endspaceless -%}
+	{%- include 'CCDNComponentAttachmentBundle:Sidebar:quotas.html.twig' -%}
 	
 {% endblock %}
 
@@ -63,13 +42,13 @@
 			<input type="submit" class="btn btn-danger disabled" value="{{- 'link.delete' |trans({}, 'CCDNComponentAttachmentBundle') -}}" name="submit_delete" disabled data-responds-disabled="attachments">
 		</div>
 		
-		{%- if pager.haveToPaginate -%}
+{#		{%- if pager.haveToPaginate -%}
 			{%- if path(app.request.attributes.get('_route')) == 'cc_attachment_for_user' or path(app.request.attributes.get('_route')) == 'cc_attachment_for_user_paginated' -%}
 			    {{- pagerfanta(pager, 'twitter_bootstrap', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{'user_id':user.getId}} ) -}}
 			{%- else -%}
 				{{- pagerfanta(pager, 'twitter_bootstrap', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{}} ) -}}
 		    {%- endif -%}
-		{%- endif -%}
+		{%- endif -%}#}
 		
 		<table class="table">
 			<thead>
@@ -103,13 +82,13 @@
 			</tbody>
 		</table>
 		
-		{%- if pager.haveToPaginate -%}
+{#		{%- if pager.haveToPaginate -%}
 			{%- if path(app.request.attributes.get('_route')) == 'cc_attachment_for_user' or path(app.request.attributes.get('_route')) == 'cc_attachment_for_user_paginated' -%}
 			    {{- pagerfanta(pager, 'twitter_bootstrap', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{'user_id':user.getId}} ) -}}
 			{%- else -%}
 				{{- pagerfanta(pager, 'twitter_bootstrap', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{}} ) -}}
 		    {%- endif -%}
-		{%- endif -%}
+		{%- endif -%}#}
 		
 	</form>
 
