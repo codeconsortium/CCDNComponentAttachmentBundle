@@ -16,8 +16,8 @@ ALTER TABLE CC_Component_Attachment
 	CHANGE attachment_hashed file_name_hashed VARCHAR(255) DEFAULT NULL,
 	CHANGE file_extension file_extension VARCHAR(10) DEFAULT NULL,
 	CHANGE file_size file_size TINYTEXT DEFAULT NULL;
-		
-ALTER TABLE CC_Component_Attachment 
+
+ALTER TABLE CC_Component_Attachment
 	ADD CONSTRAINT FK_3E30D3EE3BB9921A FOREIGN KEY (fk_owned_by_user_id) REFERENCES fos_user(id) ON DELETE SET NULL;
 
 CREATE INDEX IDX_3E30D3EE3BB9921A ON CC_Component_Attachment (fk_owned_by_user_id);

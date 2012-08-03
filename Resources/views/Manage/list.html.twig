@@ -13,23 +13,23 @@
 
 {% block sidebar %}
 	{{ parent() }}
-	
+
 	{%- include 'CCDNComponentAttachmentBundle:Sidebar:sidebar.html.twig' -%}
-	
+
 {% endblock %}
 
 {% block sidebar_status %}
 	{{ parent() }}
-	
+
 	{%- include 'CCDNComponentAttachmentBundle:Sidebar:quotas.html.twig' -%}
-	
+
 {% endblock %}
 
 
 {% block body %}
-	
+
 	{%- spaceless -%}
-	
+
 	{%- include 'CCDNComponentCommonBundle:Flashes:flashes.html.twig' -%}
 
 	{%- include 'CCDNComponentCrumbTrailBundle:Trail:trail.html.twig' with {'crumbs': crumbs } -%}
@@ -48,7 +48,7 @@
 				<input type="submit" class="btn btn-danger disabled" value="{{- 'link.delete' |trans({}, 'CCDNComponentAttachmentBundle') -}}" name="submit_delete" disabled data-responds-disabled="attachments">
 			</div>
 		</div>
-		
+
 {#		{%- if pager.haveToPaginate -%}
 			{%- if path(app.request.attributes.get('_route')) == 'cc_attachment_for_user' or path(app.request.attributes.get('_route')) == 'cc_attachment_for_user_paginated' -%}
 			    {{- pagerfanta(pager, 'twitter_bootstrap', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{'user_id':user.getId}} ) -}}
@@ -56,7 +56,7 @@
 				{{- pagerfanta(pager, 'twitter_bootstrap', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{}} ) -}}
 		    {%- endif -%}
 		{%- endif -%}#}
-		
+
 		<table class="table">
 			<thead>
 				<th class="center" style="width: 18px;"><input type="checkbox" id="check_all" name="check_all" class="hidden" data-compat='interactive-js-compat' data-action-toggle="attachments" data-identifier="attachments" data-qualifier="all"></th>
@@ -99,11 +99,11 @@
 				<input type="submit" class="btn btn-danger disabled" value="{{- 'link.delete' |trans({}, 'CCDNComponentAttachmentBundle') -}}" name="submit_delete" disabled data-responds-disabled="attachments">
 			</div>
 		</div>
-		
+
 	</form>
 
 	{%- include 'CCDNComponentCrumbTrailBundle:Trail:trail.html.twig' with {'crumbs': crumbs } -%}
 
 	{%- endspaceless -%}
-	
+
 {% endblock %}

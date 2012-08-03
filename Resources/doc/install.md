@@ -15,16 +15,16 @@ Installation takes only 9 steps:
 
 1. Download and install the dependencies.
 2. Register bundles with autoload.php.
-3. Register bundles with AppKernel.php.  
+3. Register bundles with AppKernel.php.
 4. Run vendors install script.
-5. Update your app/config/routing.yml. 
-6. Update your app/config/config.yml. 
+5. Update your app/config/routing.yml.
+6. Update your app/config/config.yml.
 7. Update your database schema.
 8. Symlink assets to your public web directory.
 9. Warmup the cache.
-    
+
 ### Step 1: Download and install the dependencies.
-   
+
 Append the following to end of your deps file (found in the root of your Symfony2 installation):
 
 ``` ini
@@ -48,7 +48,7 @@ $loader->registerNamespaces(array(
 
 ### Step 3: Register bundles with AppKernel.php.
 
-In your AppKernel.php add the following bundles to the registerBundles method array:  
+In your AppKernel.php add the following bundles to the registerBundles method array:
 
 ``` php
 // app/AppKernel.php
@@ -69,9 +69,9 @@ From your projects root Symfony directory on the command line run:
 $ php bin/vendors install
 ```
 
-### Step 5: Update your app/config/routing.yml. 
+### Step 5: Update your app/config/routing.yml.
 
-In your app/config/routing.yml add:  
+In your app/config/routing.yml add:
 
 ``` yml
 CCDNComponentAttachmentBundle:
@@ -80,9 +80,9 @@ CCDNComponentAttachmentBundle:
 
 ```
 
-### Step 6: Update your app/config/config.yml. 
+### Step 6: Update your app/config/config.yml.
 
-In your app/config/config.yml add:    
+In your app/config/config.yml add:
 
 ``` yml
 #
@@ -109,7 +109,7 @@ ccdncomponent_attachmentbundle_file_store= "/your/folder/where/you/want/to/store
 ```
 **Warning:**
 
->Set the appropriate layout templates you want under the sections 'layout_templates' and the 
+>Set the appropriate layout templates you want under the sections 'layout_templates' and the
 route to a users profile if you are not using the [CCDNUser\ProfileBundle](http://github.com/codeconsortium/CCDNUserProfileBundle). Otherwise use defaults.
 
 ### Step 7: Update your database schema.

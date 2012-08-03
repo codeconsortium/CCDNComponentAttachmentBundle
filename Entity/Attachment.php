@@ -3,8 +3,8 @@
 /*
  * This file is part of the CCDN AttachmentBundle
  *
- * (c) CCDN (c) CodeConsortium <http://www.codeconsortium.com/> 
- * 
+ * (c) CCDN (c) CodeConsortium <http://www.codeconsortium.com/>
+ *
  * Available on github <http://www.github.com/codeconsortium/>
  *
  * For the full copyright and license information, please view the LICENSE
@@ -14,8 +14,6 @@
 namespace CCDNComponent\AttachmentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="CCDNComponent\AttachmentBundle\Repository\AttachmentRepository")
@@ -24,70 +22,69 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Attachment
 {
 
-	/**
+    /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-	protected $id;
-	
-	/**
+    protected $id;
+
+    /**
      * @ORM\ManyToOne(targetEntity="CCDNUser\UserBundle\Entity\User", cascade={"persist"})
      * @ORM\JoinColumn(name="fk_owned_by_user_id", referencedColumnName="id", onDelete="SET NULL")
-	 */
-	protected $ownedBy;
-	
-	/**
-	 * @ORM\Column(type="datetime", name="created_date")
-	 */
-	protected $createdDate;
-	
-	/**
+     */
+    protected $ownedBy;
+
+    /**
+     * @ORM\Column(type="datetime", name="created_date")
+     */
+    protected $createdDate;
+
+    /**
      * @ORM\Column(type="text", nullable=true)
      */
-	protected $description;
-	
-	/**
-	 * @ORM\Column(type="string", name="file_name_original", length=255, nullable=true)
-	 */	
-	protected $filenameOriginal;
-	
-	/**
+    protected $description;
+
+    /**
+     * @ORM\Column(type="string", name="file_name_original", length=255, nullable=true)
+     */
+    protected $filenameOriginal;
+
+    /**
      * @ORM\Column(type="string", name="file_name_hashed", length=255, nullable=true)
      */
-	protected $filenameHashed;
-	
-	/**
-	 * @ORM\Column(type="string", name="file_extension", length=10, nullable=true)
-	 */
-	protected $fileExtension;
+    protected $filenameHashed;
 
-	/**
-	 * @ORM\Column(type="text", name="file_size", length=255, nullable=true)
-	 */
-	protected $fileSize;
+    /**
+     * @ORM\Column(type="string", name="file_extension", length=10, nullable=true)
+     */
+    protected $fileExtension;
 
-	/**
-	 *
-	 * @var File $attachment
-	 */
-	protected $attachment;
-	
-	public function setAttachment($attachment)
-	{
-		$this->attachment = $attachment;
-	}
-	
-	public function getAttachment()
-	{
-		return $this->attachment;
-	}
+    /**
+     * @ORM\Column(type="text", name="file_size", length=255, nullable=true)
+     */
+    protected $fileSize;
 
+    /**
+     *
+     * @var File $attachment
+     */
+    protected $attachment;
+
+    public function setAttachment($attachment)
+    {
+        $this->attachment = $attachment;
+    }
+
+    public function getAttachment()
+    {
+        return $this->attachment;
+    }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -107,7 +104,7 @@ class Attachment
     /**
      * Get created_date
      *
-     * @return datetime 
+     * @return datetime
      */
     public function getCreatedDate()
     {
@@ -127,7 +124,7 @@ class Attachment
     /**
      * Get description
      *
-     * @return text 
+     * @return text
      */
     public function getDescription()
     {
@@ -147,7 +144,7 @@ class Attachment
     /**
      * Get filenameOriginal
      *
-     * @return string 
+     * @return string
      */
     public function getFilenameOriginal()
     {
@@ -167,7 +164,7 @@ class Attachment
     /**
      * Get filenameHashed
      *
-     * @return string 
+     * @return string
      */
     public function getFilenameHashed()
     {
@@ -187,7 +184,7 @@ class Attachment
     /**
      * Get fileExtension
      *
-     * @return string 
+     * @return string
      */
     public function getFileExtension()
     {
@@ -207,7 +204,7 @@ class Attachment
     /**
      * Get fileSize
      *
-     * @return text 
+     * @return text
      */
     public function getFileSize()
     {
@@ -227,7 +224,7 @@ class Attachment
     /**
      * Get ownedBy
      *
-     * @return CCDNUser\UserBundle\Entity\User 
+     * @return CCDNUser\UserBundle\Entity\User
      */
     public function getOwnedBy()
     {

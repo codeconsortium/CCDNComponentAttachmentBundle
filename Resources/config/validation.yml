@@ -3,7 +3,7 @@ namespaces:
 
 CCDNComponent\AttachmentBundle\Entity\Attachment:
     properties:
-        description: 
+        description:
             - Type: { type: string, groups: [upload] }
         #    - NotBlank: { groups: [upload] }
         #    - MinLength: { limit: 5, groups: [upload] }
