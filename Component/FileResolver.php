@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the CCDN AttachmentBundle
+ * This file is part of the CCDNComponent AttachmentBundle
  *
  * (c) CCDN (c) CodeConsortium <http://www.codeconsortium.com/>
  *
@@ -16,19 +16,64 @@ namespace CCDNComponent\AttachmentBundle\Component;
 class FileResolver
 {
 
+	/**
+	 *
+	 * @access protected
+	 */
     protected $container;
 
+	/**
+	 *
+	 * @access protected
+	 */
     protected $thumbnailLocation;
 
+	/**
+	 *
+	 * @access protected
+	 */
     protected $fileLocation;
+
+	/**
+	 *
+	 * @access protected
+	 */
     protected $fileName;
+
+	/**
+	 *
+	 * @access protected
+	 */
     protected $fileExtension;
 
+	/**
+	 *
+	 * @access protected
+	 */
     protected $fileNameWithDir;
 
+	/**
+	 *
+	 * @access protected
+	 */
     protected $fileData;
+
+	/**
+	 *
+	 * @access protected
+	 */
     protected $isRenderable = false;
+
+	/**
+	 *
+	 * @access protected
+	 */
     protected $headerContentType;
+
+	/**
+	 *
+	 * @access protected
+	 */
     protected $fileSize;
 
     /**

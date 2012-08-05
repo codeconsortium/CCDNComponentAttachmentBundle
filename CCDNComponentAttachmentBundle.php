@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the CCDN AttachmentBundle
+ * This file is part of the CCDNComponent AttachmentBundle
  *
  * (c) CCDN (c) CodeConsortium <http://www.codeconsortium.com/>
  *
