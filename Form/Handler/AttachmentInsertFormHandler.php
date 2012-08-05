@@ -19,7 +19,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-use CCDNComponent\CommonBundle\Manager\ManagerInterface;
+use CCDNComponent\AttachmentBundle\Manager\ManagerInterface;
 
 /**
  *
@@ -255,7 +255,7 @@ class AttachmentInsertFormHandler
      */
     protected function onSuccess($entity)
     {
-        return $this->manager->insert($entity)->flushNow();
+        return $this->manager->insert($entity)->flush();
     }
 
 }

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the CCDN AttachmentBundle
+ * This file is part of the CCDNComponent AttachmentBundle
  *
  * (c) CCDN (c) CodeConsortium <http://www.codeconsortium.com/>
  *
@@ -13,8 +13,8 @@
 
 namespace CCDNComponent\AttachmentBundle\Manager;
 
-use CCDNComponent\CommonBundle\Manager\ManagerInterface;
-use CCDNComponent\CommonBundle\Manager\BaseManager;
+use CCDNComponent\AttachmentBundle\Manager\ManagerInterface;
+use CCDNComponent\AttachmentBundle\Manager\BaseManager;
 
 /**
  *
@@ -27,19 +27,19 @@ class AttachmentManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param  string            $attachment
+     * @param  string $attachment
      * @return AttachmentManager $this
      */
     public function insert($attachment)
     {
-        $this->persist($attachment)->flushNow();
+        $this->persist($attachment)->flush();
 
         return $this;
     }
 
     /**
      * @access public
-     * @param  Array()           $attachments
+     * @param  Array() $attachments
      * @return AttachmentManager $this
      * @link http://www.php.net/manual/en/function.unlink.php
      */
@@ -106,12 +106,6 @@ class AttachmentManager extends BaseManager implements ManagerInterface
 
         $usedQuotaQuantity = $this->getTotalQuantityQuota($attachments);
         $usedQuotaSpaceInKiB = $this->getTotalQuotaInKiB($attachments, $calc);
-
-//		echo 'maxQuotaQuantity: ' . $maxQuotaQuantity .
-//			'<br>usedQuotaQuantity: ' . $usedQuotaQuantity .
-//			'<br>maxQuotaSpaceInKiB: ' . $maxQuotaSpaceInKiB .
-//			'<br>usedQuotaSpaceInKiB: ' . $usedQuotaSpaceInKiB . '<hr>';
-//		die();
 
         $results = array(
             'maxQuantity' => $maxQuotaQuantity,

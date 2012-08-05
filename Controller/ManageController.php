@@ -160,7 +160,7 @@ class ManageController extends ContainerAware
         $attachments = $this->container->get('ccdn_component_attachment.attachment.repository')->findTheseAttachmentsByUserId($objectIds, $user->getId());
 
         if (isset($_POST['submit_delete'])) {
-            $this->container->get('ccdn_component_attachment.attachment.manager')->bulkDelete($attachments)->flushNow();
+            $this->container->get('ccdn_component_attachment.attachment.manager')->bulkDelete($attachments)->flush();
         }
 
         return new RedirectResponse($this->container->get('router')->generate('cc_attachment_index'));
