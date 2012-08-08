@@ -36,7 +36,7 @@
 
 	<h2>{{- 'title.attachment.index' |trans({}, 'CCDNComponentAttachmentBundle') -}}</h2>
 
-	<form method="POST" action="{{- path('cc_attachment_action_bulk') -}}">
+	<form method="POST" action="{{- path('ccdn_component_attachment_bulk_action') -}}">
 	
 		<div class="btn-toolbar" style="display:block !important;clear:both !important;">
 			<div class="pull-left">
@@ -44,14 +44,14 @@
 			</div>
 			{%- if pager.haveToPaginate -%}
 				<div class="pull-right">
-			    	{{- pagerfanta(pager, 'twitter_bootstrap_compact', {'routeName':'cc_attachment_index_paginated'}) -}}
+			    	{{- pagerfanta(pager, 'twitter_bootstrap_compact', {'routeName':'ccdn_component_attachment_index_paginated'}) -}}
 				</div>
 			{%- endif -%}
 			<br><br>
 		</div>
 
 {#		{%- if pager.haveToPaginate -%}
-			{%- if path(app.request.attributes.get('_route')) == 'cc_attachment_for_user' or path(app.request.attributes.get('_route')) == 'cc_attachment_for_user_paginated' -%}
+			{%- if path(app.request.attributes.get('_route')) == 'ccdn_component_attachment_for_user' or path(app.request.attributes.get('_route')) == 'ccdn_component_attachment_for_user_paginated' -%}
 			    {{- pagerfanta(pager, 'twitter_bootstrap', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{'user_id':user.getId}} ) -}}
 			{%- else -%}
 				{{- pagerfanta(pager, 'twitter_bootstrap', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{}} ) -}}
@@ -73,10 +73,10 @@
 						<input type="checkbox" id="check_multiselect_{{- attachment.id -}}" name="check_multiselect_{{- attachment.id -}}" data-check-all-responds="true" data-identifier="attachments">
 					</td>
 					<td class="center" style="width:70px;">
-						<a rel="nofollow" href="{{- path('cc_attachment_download', {'attachment_id': attachment.getId }) -}}"><img src="{{- path('cc_attachment_thumbnail', {'attachment_id': attachment.getId }) -}}" alt="{{- attachment.getFileNameOriginal -}}"></a>
+						<a rel="nofollow" href="{{- path('ccdn_component_attachment_download', {'attachment_id': attachment.getId }) -}}"><img src="{{- path('ccdn_component_attachment_thumbnail', {'attachment_id': attachment.getId }) -}}" alt="{{- attachment.getFileNameOriginal -}}"></a>
 					</td>
 					<td class="left">
-						<a rel="nofollow" href="{{- path('cc_attachment_download', {'attachment_id': attachment.getId }) -}}">{{- attachment.getFileNameOriginal -}}</a>
+						<a rel="nofollow" href="{{- path('ccdn_component_attachment_download', {'attachment_id': attachment.getId }) -}}">{{- attachment.getFileNameOriginal -}}</a>
 						<br>{{- attachment.getDescription -}}
 					</td>
 					<td class="center" style="width: 200px;">{{- attachment.getCreatedDate |date(param('ccdn_component_attachment.manage.list.attachment_uploaded_datetime_format')) -}}</td>
@@ -96,7 +96,7 @@
 			</div>
 			{%- if pager.haveToPaginate -%}
 				<div class="pull-right">
-			    	{{- pagerfanta(pager, 'twitter_bootstrap_compact', {'routeName':'cc_attachment_index_paginated'}) -}}
+			    	{{- pagerfanta(pager, 'twitter_bootstrap_compact', {'routeName':'ccdn_component_attachment_index_paginated'}) -}}
 				</div>
 			{%- endif -%}
 			<br><br>

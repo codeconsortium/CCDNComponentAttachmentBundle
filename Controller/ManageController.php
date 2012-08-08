@@ -50,13 +50,13 @@ class ManageController extends ContainerAware
 
             $crumb_trail = $this->container->get('ccdn_component_crumb.trail')
                 ->add($this->container->get('translator')->trans('crumbs.attachments_index', array(), 'CCDNComponentAttachmentBundle'),
-                    $this->container->get('router')->generate('cc_attachment_index_for_user', array('user_id' => $user_id)), "home");
+                    $this->container->get('router')->generate('ccdn_component_attachment_index_for_user', array('user_id' => $user_id)), "home");
         } else {
             $user = $this->container->get('security.context')->getToken()->getUser();
 
             $crumb_trail = $this->container->get('ccdn_component_crumb.trail')
                 ->add($this->container->get('translator')->trans('crumbs.attachment_index', array(), 'CCDNComponentAttachmentBundle'),
-                    $this->container->get('router')->generate('cc_attachment_index'), "home");
+                    $this->container->get('router')->generate('ccdn_component_attachment_index'), "home");
         }
 
         if ( ! is_object($user) || ! $user instanceof UserInterface) {
@@ -107,16 +107,16 @@ class ManageController extends ContainerAware
             $this->container->get('session')->setFlash('success',
                 $this->container->get('translator')->trans('flash.attachment.upload.success', array('%file_name%' => $formHandler->getForm()->getData()->getFileNameOriginal()), 'CCDNComponentAttachmentBundle'));
 
-            return new RedirectResponse($this->container->get('router')->generate('cc_attachment_index'));
+            return new RedirectResponse($this->container->get('router')->generate('ccdn_component_attachment_index'));
         } else {
             $quotas = $this->container->get('ccdn_component_attachment.attachment.manager')->calculateQuotasForUser($user);
 
             // setup crumb trail.
             $crumb_trail = $this->container->get('ccdn_component_crumb.trail')
                 ->add($this->container->get('translator')->trans('crumbs.attachment_index', array(), 'CCDNComponentAttachmentBundle'),
-                    $this->container->get('router')->generate('cc_attachment_index'), "home")
+                    $this->container->get('router')->generate('ccdn_component_attachment_index'), "home")
                 ->add($this->container->get('translator')->trans('crumbs.attachment_upload', array(), 'CCDNComponentAttachmentBundle'),
-                    $this->container->get('router')->generate('cc_attachment_upload'), "publish");
+                    $this->container->get('router')->generate('ccdn_component_attachment_upload'), "publish");
 
             return $this->container->get('templating')->renderResponse('CCDNComponentAttachmentBundle:Manage:upload.html.' . $this->getEngine(), array(
                 'user_profile_route' => $this->container->getParameter('ccdn_component_attachment.user.profile_route'),
@@ -152,7 +152,7 @@ class ManageController extends ContainerAware
         }
 
         if (count($objectIds) < 1) {
-            return new RedirectResponse($this->container->get('router')->generate('cc_attachment_index'));
+            return new RedirectResponse($this->container->get('router')->generate('ccdn_component_attachment_index'));
         }
 
         $user = $this->container->get('security.context')->getToken()->getUser();
@@ -163,7 +163,7 @@ class ManageController extends ContainerAware
             $this->container->get('ccdn_component_attachment.attachment.manager')->bulkDelete($attachments)->flush();
         }
 
-        return new RedirectResponse($this->container->get('router')->generate('cc_attachment_index'));
+        return new RedirectResponse($this->container->get('router')->generate('ccdn_component_attachment_index'));
     }
 
 

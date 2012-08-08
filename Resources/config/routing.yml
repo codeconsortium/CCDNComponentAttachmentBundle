@@ -1,31 +1,31 @@
-cc_attachment_index:
+ccdn_component_attachment_index:
     pattern: /{_locale}/attachments
     defaults: { _controller: CCDNComponentAttachmentBundle:Manage:index, _locale: en, page: 0, user_id: 0 }
 
-cc_attachment_index_paginated:
+ccdn_component_attachment_index_paginated:
     pattern: /{_locale}/attachments/page/{page}
     defaults: { _controller: CCDNComponentAttachmentBundle:Manage:index, _locale: en, page: 0, user_id: 0 }
 
-cc_attachment_for_user:
+ccdn_component_attachment_for_user:
     pattern: /{_locale}/attachments/for/user/{user_id}
     defaults: { _controller: CCDNComponentAttachmentBundle:Manage:index, _locale: en, page: 0, user_id: 0 }
 
-cc_attachment_for_user_paginated:
+ccdn_component_attachment_for_user_paginated:
     pattern: /{_locale}/attachments/for/user/{user_id}/page/{page}
     defaults: { _controller: CCDNComponentAttachmentBundle:Manage:index, _locale: en, page: 0, user_id: 0 }
 
-cc_attachment_upload:
+ccdn_component_attachment_upload:
     pattern: /{_locale}/attachment/upload
     defaults: { _controller: CCDNComponentAttachmentBundle:Manage:upload, _locale: en }
 
-cc_attachment_thumbnail:
+ccdn_component_attachment_thumbnail:
     pattern: /{_locale}/attachment/{attachment_id}/thumbnail
     defaults: { _controller: CCDNComponentAttachmentBundle:Retriever:thumbnail, _locale: en }
 
-cc_attachment_download:
+ccdn_component_attachment_download:
     pattern: /{_locale}/attachment/{attachment_id}/download
     defaults: { _controller: CCDNComponentAttachmentBundle:Retriever:download, _locale: en }
 
-cc_attachment_action_bulk:
+ccdn_component_attachment_bulk_action:
     pattern: /{_locale}/attachment/action/checked
     defaults: { _controller: CCDNComponentAttachmentBundle:Manage:bulk, _locale: en }
