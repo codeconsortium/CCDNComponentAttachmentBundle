@@ -37,16 +37,17 @@
 	<h2>{{- 'title.attachment.index' |trans({}, 'CCDNComponentAttachmentBundle') -}}</h2>
 
 	<form method="POST" action="{{- path('cc_attachment_action_bulk') -}}">
-
-		<div class="btn-toolbar" style="display:block;clear:both;height:75px;vertical-align:top;margin-top:0px;">
-			{%- if pager.haveToPaginate -%}
-				<div class="pull-left" style="display:inline-block;">
-				{{- pagerfanta(pager, 'twitter_bootstrap', {'routeName':'cc_attachment_index_paginated'} ) -}}
-				</div>
-			{%- endif -%}
-			<div class="pull-right" style="display:inline-block;height:36px;line-height:18px;margin:18px 0;">
+	
+		<div class="btn-toolbar" style="display:block !important;clear:both !important;">
+			<div class="pull-left">
 				<input type="submit" class="btn btn-danger disabled" value="{{- 'link.delete' |trans({}, 'CCDNComponentAttachmentBundle') -}}" name="submit_delete" disabled data-responds-disabled="attachments">
 			</div>
+			{%- if pager.haveToPaginate -%}
+				<div class="pull-right">
+			    	{{- pagerfanta(pager, 'twitter_bootstrap_compact', {'routeName':'cc_attachment_index_paginated'}) -}}
+				</div>
+			{%- endif -%}
+			<br><br>
 		</div>
 
 {#		{%- if pager.haveToPaginate -%}
@@ -89,15 +90,16 @@
 			</tbody>
 		</table>
 
-		<div class="btn-toolbar" style="display:block;clear:both;height:75px;vertical-align:top;margin-top:0px;">
-			{%- if pager.haveToPaginate -%}
-				<div class="pull-left" style="display:inline-block;">
-				{{- pagerfanta(pager, 'twitter_bootstrap', {'routeName':'cc_attachment_index_paginated'} ) -}}
-				</div>
-			{%- endif -%}
-			<div class="pull-right" style="display:inline-block;height:36px;line-height:18px;margin:18px 0;">
+		<div class="btn-toolbar" style="display:block !important;clear:both !important;">
+			<div class="pull-left">
 				<input type="submit" class="btn btn-danger disabled" value="{{- 'link.delete' |trans({}, 'CCDNComponentAttachmentBundle') -}}" name="submit_delete" disabled data-responds-disabled="attachments">
 			</div>
+			{%- if pager.haveToPaginate -%}
+				<div class="pull-right">
+			    	{{- pagerfanta(pager, 'twitter_bootstrap_compact', {'routeName':'cc_attachment_index_paginated'}) -}}
+				</div>
+			{%- endif -%}
+			<br><br>
 		</div>
 
 	</form>
