@@ -31,30 +31,30 @@ class ManageController extends ContainerAware
     /**
      *
      * @access public
-     * @param $user_id, $page
+     * @param Int $page, Int $userId
      * @return RedirectResponse|RenderResponse
      */
-    public function indexAction($page, $user_id)
+    public function indexAction($page, $userId)
     {
 
         if ( ! $this->container->get('security.context')->isGranted('ROLE_USER')) {
             throw new AccessDeniedException('You do not have permission to access this resource!');
         }
 
-        if ($user_id > 0) {
+        if ($userId > 0) {
             if ( ! $this->container->get('security.context')->isGranted('ROLE_MODERATOR')) {
                 throw new AccessDeniedException('You do not have permission to access this resource!');
             }
 
-            $user = $this->container->get('ccdn_user_user.user.repository')->findOneById($user_id);
+            $user = $this->container->get('ccdn_user_user.user.repository')->findOneById($userId);
 
-            $crumb_trail = $this->container->get('ccdn_component_crumb.trail')
+            $crumbs = $this->container->get('ccdn_component_crumb.trail')
                 ->add($this->container->get('translator')->trans('crumbs.attachments_index', array(), 'CCDNComponentAttachmentBundle'),
-                    $this->container->get('router')->generate('ccdn_component_attachment_index_for_user', array('user_id' => $user_id)), "home");
+                    $this->container->get('router')->generate('ccdn_component_attachment_index_for_user', array('userId' => $userId)), "home");
         } else {
             $user = $this->container->get('security.context')->getToken()->getUser();
 
-            $crumb_trail = $this->container->get('ccdn_component_crumb.trail')
+            $crumbs = $this->container->get('ccdn_component_crumb.trail')
                 ->add($this->container->get('translator')->trans('crumbs.attachment_index', array(), 'CCDNComponentAttachmentBundle'),
                     $this->container->get('router')->generate('ccdn_component_attachment_index'), "home");
         }
@@ -65,22 +65,22 @@ class ManageController extends ContainerAware
 
         $quotas = $this->container->get('ccdn_component_attachment.attachment.manager')->calculateQuotasForUser($user);
 
-        $attachments_paginated = $this->container->get('ccdn_component_attachment.attachment.repository')->findForUserById($user->getId());
+        $attachmentsPager = $this->container->get('ccdn_component_attachment.attachment.repository')->findForUserById($user->getId());
 
         // deal with pagination.
-        $attachments_per_page = $this->container->getParameter('ccdn_component_attachment.manage.list.attachments_per_page');
+        $attachmentsPerPage = $this->container->getParameter('ccdn_component_attachment.manage.list.attachments_per_page');
 
-        $attachments_paginated->setMaxPerPage($attachments_per_page);
-        $attachments_paginated->setCurrentPage($page, false, true);
+        $attachmentsPager->setMaxPerPage($attachmentsPerPage);
+        $attachmentsPager->setCurrentPage($page, false, true);
 
         return $this->container->get('templating')->renderResponse('CCDNComponentAttachmentBundle:Manage:list.html.' . $this->getEngine(), array(
             'user' => $user,
             'user_profile_route' => $this->container->getParameter('ccdn_component_attachment.user.profile_route'),
-            'crumbs' => $crumb_trail,
-            'attachments' => $attachments_paginated->getCurrentPageResults(),
-            'pager' => $attachments_paginated,
+            'crumbs' => $crumbs,
+            'attachments' => $attachmentsPager->getCurrentPageResults(),
+            'pager' => $attachmentsPager,
             'quotas' => $quotas,
-            ));
+		));
     }
 
     /**
@@ -112,7 +112,7 @@ class ManageController extends ContainerAware
             $quotas = $this->container->get('ccdn_component_attachment.attachment.manager')->calculateQuotasForUser($user);
 
             // setup crumb trail.
-            $crumb_trail = $this->container->get('ccdn_component_crumb.trail')
+            $crumbs = $this->container->get('ccdn_component_crumb.trail')
                 ->add($this->container->get('translator')->trans('crumbs.attachment_index', array(), 'CCDNComponentAttachmentBundle'),
                     $this->container->get('router')->generate('ccdn_component_attachment_index'), "home")
                 ->add($this->container->get('translator')->trans('crumbs.attachment_upload', array(), 'CCDNComponentAttachmentBundle'),
@@ -120,7 +120,7 @@ class ManageController extends ContainerAware
 
             return $this->container->get('templating')->renderResponse('CCDNComponentAttachmentBundle:Manage:upload.html.' . $this->getEngine(), array(
                 'user_profile_route' => $this->container->getParameter('ccdn_component_attachment.user.profile_route'),
-                'crumbs' => $crumb_trail,
+                'crumbs' => $crumbs,
                 'form' => $form->createView(),
                 'quotas' => $quotas,
             ));
@@ -171,7 +171,7 @@ class ManageController extends ContainerAware
     /**
      *
      * @access protected
-     * @return string
+     * @return String
      */
     protected function getEngine()
     {

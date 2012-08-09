@@ -29,7 +29,7 @@ class AttachmentRepository extends EntityRepository
     /**
      *
      * @access public
-     * @param int $user_id
+     * @param Int $userId
      */
     public function findSingleAttachmentForUserById($attachmentId, $userId)
     {
@@ -50,7 +50,7 @@ class AttachmentRepository extends EntityRepository
     /**
      *
      * @access public
-     * @param int $user_id
+     * @param Int $userId
      */
     public function findForUserById($userId)
     {
@@ -73,7 +73,7 @@ class AttachmentRepository extends EntityRepository
     /**
      *
      * @access public
-     * @param int $user_id
+     * @param Int $userId
      */
     public function findForUserByIdAsArray($userId)
     {
@@ -96,7 +96,7 @@ class AttachmentRepository extends EntityRepository
     /**
         *
         * @access public
-        * @param int $user_id
+        * @param Int $userId
         */
        public function findForUserByIdAsQB($userId)
        {
@@ -116,7 +116,7 @@ class AttachmentRepository extends EntityRepository
     /**
      *
      * @access public
-     * @param array $objectIds, int $userId
+     * @param Array() $objectIds, Int $userId
      */
     public function findTheseAttachmentsByUserId($objectIds, $userId)
     {

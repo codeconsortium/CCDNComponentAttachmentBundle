@@ -30,12 +30,12 @@ class RetrieverController extends ContainerAware
     /**
      *
      * @access public
-     * @param $attachment_id
+     * @param Int $attachmentId
      * @return RedirectResponse|RenderResponse
      */
-    public function thumbnailAction($attachment_id)
+    public function thumbnailAction($attachmentId)
     {
-        $fileRecord = $this->container->get('ccdn_component_attachment.attachment.repository')->findOneById($attachment_id);
+        $fileRecord = $this->container->get('ccdn_component_attachment.attachment.repository')->findOneById($attachmentId);
 
         $fileResolver = $this->container->get('ccdn_component_attachment.attachment.file.resolver');
 
@@ -69,10 +69,10 @@ class RetrieverController extends ContainerAware
     /**
      *
      * @access public
-     * @param $attachment_id
+     * @param Int $attachmentId
      * @return RedirectedResponse|RenderResponse
      */
-    public function downloadAction($attachment_id)
+    public function downloadAction($attachmentId)
     {
         //
         //	Invalidate this action / redirect if user should not have access to it
@@ -83,7 +83,7 @@ class RetrieverController extends ContainerAware
 
         $user = $this->container->get('security.context')->getToken()->getUser();
 
-        $fileRecord = $this->container->get('ccdn_component_attachment.attachment.repository')->findOneById($attachment_id);
+        $fileRecord = $this->container->get('ccdn_component_attachment.attachment.repository')->findOneById($attachmentId);
 
         $fileResolver = $this->container->get('ccdn_component_attachment.attachment.file.resolver');
 
@@ -115,7 +115,7 @@ class RetrieverController extends ContainerAware
     /**
      *
      * @access protected
-     * @return string
+     * @return String
      */
     protected function getEngine()
     {

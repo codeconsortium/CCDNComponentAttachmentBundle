@@ -79,11 +79,11 @@ class FileResolver
     /**
      *
      * @access public
-     * @param $service_container
+     * @param $container
      */
-    public function __construct($service_container)
+    public function __construct($container)
     {
-        $this->container = $service_container;
+        $this->container = $container;
     }
 
     /**

@@ -50,14 +50,6 @@
 			<br><br>
 		</div>
 
-{#		{%- if pager.haveToPaginate -%}
-			{%- if path(app.request.attributes.get('_route')) == 'ccdn_component_attachment_for_user' or path(app.request.attributes.get('_route')) == 'ccdn_component_attachment_for_user_paginated' -%}
-			    {{- pagerfanta(pager, 'twitter_bootstrap', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{'user_id':user.getId}} ) -}}
-			{%- else -%}
-				{{- pagerfanta(pager, 'twitter_bootstrap', {'routeName': path(app.request.attributes.get('_route')), 'routeParams':{}} ) -}}
-		    {%- endif -%}
-		{%- endif -%}#}
-
 		<table class="table">
 			<thead>
 				<th class="center" style="width: 18px;"><input type="checkbox" id="check_all" name="check_all" class="hidden" data-compat='interactive-js-compat' data-action-toggle="attachments" data-identifier="attachments" data-qualifier="all"></th>
@@ -73,10 +65,10 @@
 						<input type="checkbox" id="check_multiselect_{{- attachment.id -}}" name="check_multiselect_{{- attachment.id -}}" data-check-all-responds="true" data-identifier="attachments">
 					</td>
 					<td class="center" style="width:70px;">
-						<a rel="nofollow" href="{{- path('ccdn_component_attachment_download', {'attachment_id': attachment.getId }) -}}"><img src="{{- path('ccdn_component_attachment_thumbnail', {'attachment_id': attachment.getId }) -}}" alt="{{- attachment.getFileNameOriginal -}}"></a>
+						<a rel="nofollow" href="{{- path('ccdn_component_attachment_download', {'attachmentId': attachment.getId }) -}}"><img src="{{- path('ccdn_component_attachment_thumbnail', {'attachmentId': attachment.getId }) -}}" alt="{{- attachment.getFileNameOriginal -}}"></a>
 					</td>
 					<td class="left">
-						<a rel="nofollow" href="{{- path('ccdn_component_attachment_download', {'attachment_id': attachment.getId }) -}}">{{- attachment.getFileNameOriginal -}}</a>
+						<a rel="nofollow" href="{{- path('ccdn_component_attachment_download', {'attachmentId': attachment.getId }) -}}">{{- attachment.getFileNameOriginal -}}</a>
 						<br>{{- attachment.getDescription -}}
 					</td>
 					<td class="center" style="width: 200px;">{{- attachment.getCreatedDate |date(param('ccdn_component_attachment.manage.list.attachment_uploaded_datetime_format')) -}}</td>
@@ -92,7 +84,6 @@
 
 		<div class="btn-toolbar" style="display:block !important;clear:both !important;">
 			<div class="pull-left">
-				<input type="submit" class="btn btn-danger disabled" value="{{- 'link.delete' |trans({}, 'CCDNComponentAttachmentBundle') -}}" name="submit_delete" disabled data-responds-disabled="attachments">
 			</div>
 			{%- if pager.haveToPaginate -%}
 				<div class="pull-right">
