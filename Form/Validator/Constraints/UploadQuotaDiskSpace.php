@@ -29,7 +29,7 @@ class UploadQuotaDiskSpace extends Constraint
      *
      * @access public
      */
-    public $message = 'form.validation_error.quota_disk_space';
+    public $message = 'ccdn_component_attachment.form.validation_error.quota_disk_space';
 
     /**
      *

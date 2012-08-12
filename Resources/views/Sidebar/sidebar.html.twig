@@ -1,7 +1,7 @@
 {%- spaceless -%}
 	{%- set route = app.request.attributes.get('_route') -%}
 
-	<li class="nav-header">{{- 'sidebar.header.attachment' | trans({}, 'CCDNComponentAttachmentBundle') -}}</li>
+	<li class="nav-header">{{- 'ccdn_component_attachment.sidebar.header.attachment' | trans({}, 'CCDNComponentAttachmentBundle') -}}</li>
 
 	{%- if route == 'ccdn_component_attachment_index' -%}
 		<li class="active"><a rel="nofollow" href="{{- path('ccdn_component_attachment_index') -}}"><i class="icon-white icon-file"></i>&nbsp;{{- 'link.attachments.manager' | trans({}, 'CCDNComponentAttachmentBundle') -}}</a></li>
@@ -10,9 +10,9 @@
 	{%- endif -%}
 
 	{%- if route == 'ccdn_component_attachment_upload' -%}
-		<li class="active"><a rel="nofollow" href="{{- path('ccdn_component_attachment_upload') -}}"><i class="icon-white icon-upload"></i>&nbsp;{{- 'link.attachments.upload' | trans({}, 'CCDNComponentAttachmentBundle') -}}</a></li>
+		<li class="active"><a rel="nofollow" href="{{- path('ccdn_component_attachment_upload') -}}"><i class="icon-white icon-upload"></i>&nbsp;{{- 'ccdn_component_attachment.link.upload' | trans({}, 'CCDNComponentAttachmentBundle') -}}</a></li>
 	{%- else -%}
-		<li><a rel="nofollow" href="{{- path('ccdn_component_attachment_upload') -}}"><i class="icon-upload"></i>&nbsp;{{- 'link.attachments.upload' | trans({}, 'CCDNComponentAttachmentBundle') -}}</a></li>
+		<li><a rel="nofollow" href="{{- path('ccdn_component_attachment_upload') -}}"><i class="icon-upload"></i>&nbsp;{{- 'ccdn_component_attachment.link.upload' | trans({}, 'CCDNComponentAttachmentBundle') -}}</a></li>
 	{%- endif -%}
 
 {%- endspaceless -%}

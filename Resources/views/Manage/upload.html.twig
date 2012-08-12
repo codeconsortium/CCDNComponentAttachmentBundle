@@ -8,7 +8,7 @@
 	{{ parent() }}
 {% endblock %}
 
-{% block title %}{{- truncDot('title.attachment.upload' | trans({}, 'CCDNComponentAttachmentBundle'), param('ccdn_component_attachment.seo.title_length')) -}}{% endblock %}
+{% block title %}{{- truncDot('ccdn_component_attachment.title.upload' | trans({}, 'CCDNComponentAttachmentBundle'), param('ccdn_component_attachment.seo.title_length')) -}}{% endblock %}
 
 {% block sidebar %}
 	{{ parent() }}
@@ -33,7 +33,7 @@
 
 	{%- include 'CCDNComponentCrumbTrailBundle:Trail:trail.html.twig' with {'crumbs': crumbs } -%}
 
-	<h2>{{- 'title.attachment.upload' | trans({}, 'CCDNComponentAttachmentBundle') -}}</h2>
+	<h2>{{- 'ccdn_component_attachment.title.upload' | trans({}, 'CCDNComponentAttachmentBundle') -}}</h2>
 
 	{%- form_theme form param('ccdn_component_attachment.manage.upload.form_theme') -%}
 	<form action="{{- path('ccdn_component_attachment_upload') -}}" method="post" {{ form_enctype(form) }} class="form-horizontal">
@@ -44,7 +44,7 @@
 			<div class="control-group"><div class="controls row-fluid">{{- form_row(form._token) -}}</div></div>
 
 			<div class="control-group{{- (form.attachment.vars.errors|length > 0) ? ' error': '' -}}">
-				{{- form_label(form.attachment, null, { 'label': 'form.label.attachment.upload.file'| trans({}, 'CCDNComponentAttachmentBundle')}) -}}
+				{{- form_label(form.attachment, null, { 'label': 'ccdn_component_attachment.form.label.attachment.upload.file'| trans({}, 'CCDNComponentAttachmentBundle')}) -}}
 				<div class="controls row-fluid">
 					{{- form_errors(form.attachment) -}}
 					{{- form_widget(form.attachment) -}}
@@ -52,7 +52,7 @@
 			</div>
 
 			<div class="control-group{{- (form.description.vars.errors|length > 0) ? ' error': '' -}}">
-				{{- form_label(form.description, null, { 'label': 'form.label.attachment.upload.description'| trans({}, 'CCDNComponentAttachmentBundle')}) -}}
+				{{- form_label(form.description, null, { 'label': 'ccdn_component_attachment.form.label.attachment.upload.description'| trans({}, 'CCDNComponentAttachmentBundle')}) -}}
 				<div class="controls row-fluid">
 					{{- form_errors(form.description) -}}
 					{{- form_widget(form.description) -}}
@@ -60,7 +60,7 @@
 			</div>
 
 			<div class="form-actions">
-				<input type="submit" class="btn btn-primary" value="{{- 'form.button.attachment.upload' | trans({}, 'CCDNComponentAttachmentBundle') -}}">
+				<input type="submit" class="btn btn-primary" value="{{- 'ccdn_component_attachment.form.button.attachment.upload' | trans({}, 'CCDNComponentAttachmentBundle') -}}">
 			</div>
 
 		</fieldset>

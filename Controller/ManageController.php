@@ -55,7 +55,7 @@ class ManageController extends ContainerAware
             $user = $this->container->get('security.context')->getToken()->getUser();
 
             $crumbs = $this->container->get('ccdn_component_crumb.trail')
-                ->add($this->container->get('translator')->trans('crumbs.attachment_index', array(), 'CCDNComponentAttachmentBundle'),
+                ->add($this->container->get('translator')->trans('ccdn_component_attachment.crumbs.index', array(), 'CCDNComponentAttachmentBundle'),
                     $this->container->get('router')->generate('ccdn_component_attachment_index'), "home");
         }
 
@@ -105,7 +105,7 @@ class ManageController extends ContainerAware
 
         if ($formHandler->process()) {
             $this->container->get('session')->setFlash('success',
-                $this->container->get('translator')->trans('flash.attachment.upload.success', array('%file_name%' => $formHandler->getForm()->getData()->getFileNameOriginal()), 'CCDNComponentAttachmentBundle'));
+                $this->container->get('translator')->trans('ccdn_component_attachment.flash.attachment.upload.success', array('%file_name%' => $formHandler->getForm()->getData()->getFileNameOriginal()), 'CCDNComponentAttachmentBundle'));
 
             return new RedirectResponse($this->container->get('router')->generate('ccdn_component_attachment_index'));
         } else {
@@ -113,9 +113,9 @@ class ManageController extends ContainerAware
 
             // setup crumb trail.
             $crumbs = $this->container->get('ccdn_component_crumb.trail')
-                ->add($this->container->get('translator')->trans('crumbs.attachment_index', array(), 'CCDNComponentAttachmentBundle'),
+                ->add($this->container->get('translator')->trans('ccdn_component_attachment.crumbs.index', array(), 'CCDNComponentAttachmentBundle'),
                     $this->container->get('router')->generate('ccdn_component_attachment_index'), "home")
-                ->add($this->container->get('translator')->trans('crumbs.attachment_upload', array(), 'CCDNComponentAttachmentBundle'),
+                ->add($this->container->get('translator')->trans('ccdn_component_attachment.crumbs.upload', array(), 'CCDNComponentAttachmentBundle'),
                     $this->container->get('router')->generate('ccdn_component_attachment_upload'), "publish");
 
             return $this->container->get('templating')->renderResponse('CCDNComponentAttachmentBundle:Manage:upload.html.' . $this->getEngine(), array(

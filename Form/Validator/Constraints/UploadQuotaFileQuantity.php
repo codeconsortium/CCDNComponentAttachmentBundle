@@ -29,7 +29,7 @@ class UploadQuotaFileQuantity extends Constraint
      *
      * @access public
      */
-    public $message = 'form.validation_error.quota_file_quantity';
+    public $message = 'ccdn_component_attachment.form.validation_error.quota_file_quantity';
 
     /**
      *
