@@ -60,7 +60,8 @@
 			</div>
 
 			<div class="form-actions">
-				<input type="submit" class="btn btn-primary" value="{{- 'ccdn_component_attachment.form.button.attachment.upload' | trans({}, 'CCDNComponentAttachmentBundle') -}}">
+				<input type="submit" class="btn btn-primary" value="{{- 'ccdn_component_attachment.form.button.attachment.upload' | trans({}, 'CCDNComponentAttachmentBundle') -}}">&nbsp;
+				<a class="btn" href="{{- path('ccdn_component_attachment_index') -}}">{{- 'ccdn_component_attachment.form.button.cancel' | trans({}, 'CCDNComponentAttachmentBundle') -}}</a>
 			</div>
 
 		</fieldset>

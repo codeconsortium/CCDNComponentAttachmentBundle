@@ -4,15 +4,15 @@
 	<li class="nav-header">{{- 'ccdn_component_attachment.sidebar.header.attachment' | trans({}, 'CCDNComponentAttachmentBundle') -}}</li>
 
 	{%- if route == 'ccdn_component_attachment_index' -%}
-		<li class="active"><a rel="nofollow" href="{{- path('ccdn_component_attachment_index') -}}"><i class="icon-white icon-file"></i>&nbsp;{{- 'link.attachments.manager' | trans({}, 'CCDNComponentAttachmentBundle') -}}</a></li>
+		<li class="active"><a rel="nofollow" href="{{- path('ccdn_component_attachment_index') -}}"><i class="icon-white icon-file"></i>&nbsp;{{- 'ccdn_component_attachment.sidebar.link.manage_attachments' | trans({}, 'CCDNComponentAttachmentBundle') -}}</a></li>
 	{%- else -%}
-		<li><a rel="nofollow" href="{{- path('ccdn_component_attachment_index') -}}"><i class="icon-file"></i>&nbsp;{{- 'link.attachments.manager' | trans({}, 'CCDNComponentAttachmentBundle') -}}</a></li>
+		<li><a rel="nofollow" href="{{- path('ccdn_component_attachment_index') -}}"><i class="icon-file"></i>&nbsp;{{- 'ccdn_component_attachment.sidebar.link.manage_attachments' | trans({}, 'CCDNComponentAttachmentBundle') -}}</a></li>
 	{%- endif -%}
 
 	{%- if route == 'ccdn_component_attachment_upload' -%}
-		<li class="active"><a rel="nofollow" href="{{- path('ccdn_component_attachment_upload') -}}"><i class="icon-white icon-upload"></i>&nbsp;{{- 'ccdn_component_attachment.link.upload' | trans({}, 'CCDNComponentAttachmentBundle') -}}</a></li>
+		<li class="active"><a rel="nofollow" href="{{- path('ccdn_component_attachment_upload') -}}"><i class="icon-white icon-upload"></i>&nbsp;{{- 'ccdn_component_attachment.sidebar.link.upload_attachment' | trans({}, 'CCDNComponentAttachmentBundle') -}}</a></li>
 	{%- else -%}
-		<li><a rel="nofollow" href="{{- path('ccdn_component_attachment_upload') -}}"><i class="icon-upload"></i>&nbsp;{{- 'ccdn_component_attachment.link.upload' | trans({}, 'CCDNComponentAttachmentBundle') -}}</a></li>
+		<li><a rel="nofollow" href="{{- path('ccdn_component_attachment_upload') -}}"><i class="icon-upload"></i>&nbsp;{{- 'ccdn_component_attachment.sidebar.link.upload_attachment' | trans({}, 'CCDNComponentAttachmentBundle') -}}</a></li>
 	{%- endif -%}
 
 {%- endspaceless -%}
