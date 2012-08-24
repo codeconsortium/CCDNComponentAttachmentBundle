@@ -23,7 +23,7 @@ ccdn_component_attachment:
     manage:
         list:
             layout_template: CCDNComponentCommonBundle:Layout:layout_body_right.html.twig
-			 attachments_per_page: 20
+			attachments_per_page: 20
             attachment_uploaded_datetime_format: "d-m-Y - H:i"
         upload:
             layout_template: CCDNComponentCommonBundle:Layout:layout_body_right.html.twig
