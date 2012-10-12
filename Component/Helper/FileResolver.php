@@ -11,7 +11,7 @@
  * file that was distributed with this source code.
  */
 
-namespace CCDNComponent\AttachmentBundle\Component;
+namespace CCDNComponent\AttachmentBundle\Component\Helper;
 
 class FileResolver
 {
