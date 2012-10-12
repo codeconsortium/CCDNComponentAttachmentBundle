@@ -114,7 +114,7 @@ class AttachmentInsertFormHandler
             // check form validation.
             if ($this->form->isValid()) {
                 // get the SI Units calculator.
-                $calc = $this->container->get('ccdn_component_common.bin.si.units');
+                $calc = $this->container->get('ccdn_component_common.component.helper.bin_si_units');
 
                 // Where do we keep the files after we are finished here?
                 $fileStoreDir = $this->container->getParameter('ccdn_component_attachment.store.dir');
@@ -239,7 +239,7 @@ class AttachmentInsertFormHandler
     public function getForm()
     {
         if (! $this->form) {
-            $attachmentType = $this->container->get('ccdn_component_attachment.attachment.form.type');
+            $attachmentType = $this->container->get('ccdn_component_attachment.form.type.attachment');
 
             $this->form = $this->factory->create($attachmentType);
         }

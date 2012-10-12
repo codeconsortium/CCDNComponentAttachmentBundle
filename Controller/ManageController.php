@@ -46,7 +46,7 @@ class ManageController extends ContainerAware
                 throw new AccessDeniedException('You do not have permission to access this resource!');
             }
 
-            $user = $this->container->get('ccdn_user_user.user.repository')->findOneById($userId);
+            $user = $this->container->get('ccdn_user_user.repository.user')->findOneById($userId);
 
             $crumbs = $this->container->get('ccdn_component_crumb.trail')
                 ->add($this->container->get('translator')->trans('crumbs.attachments_index', array(), 'CCDNComponentAttachmentBundle'),
@@ -63,9 +63,9 @@ class ManageController extends ContainerAware
             throw new NotFoundHttpException('the user does not exist.');
         }
 
-        $quotas = $this->container->get('ccdn_component_attachment.attachment.manager')->calculateQuotasForUser($user);
+        $quotas = $this->container->get('ccdn_component_attachment.manager.attachment')->calculateQuotasForUser($user);
 
-        $attachmentsPager = $this->container->get('ccdn_component_attachment.attachment.repository')->findForUserById($user->getId());
+        $attachmentsPager = $this->container->get('ccdn_component_attachment.repository.attachment')->findForUserById($user->getId());
 
         // deal with pagination.
         $attachmentsPerPage = $this->container->getParameter('ccdn_component_attachment.manage.list.attachments_per_page');
@@ -99,7 +99,7 @@ class ManageController extends ContainerAware
 
         $user = $this->container->get('security.context')->getToken()->getUser();
 
-        $formHandler = $this->container->get('ccdn_component_attachment.attachment.form.insert.handler')->setOptions(array('user' => $user));
+        $formHandler = $this->container->get('ccdn_component_attachment.form.handler.attachment_upload')->setOptions(array('user' => $user));
 
         $form = $formHandler->getForm();
 
@@ -109,7 +109,7 @@ class ManageController extends ContainerAware
 
             return new RedirectResponse($this->container->get('router')->generate('ccdn_component_attachment_index'));
         } else {
-            $quotas = $this->container->get('ccdn_component_attachment.attachment.manager')->calculateQuotasForUser($user);
+            $quotas = $this->container->get('ccdn_component_attachment.manager.attachment')->calculateQuotasForUser($user);
 
             // setup crumb trail.
             $crumbs = $this->container->get('ccdn_component_crumb.trail')
@@ -157,10 +157,10 @@ class ManageController extends ContainerAware
 
         $user = $this->container->get('security.context')->getToken()->getUser();
 
-        $attachments = $this->container->get('ccdn_component_attachment.attachment.repository')->findTheseAttachmentsByUserId($objectIds, $user->getId());
+        $attachments = $this->container->get('ccdn_component_attachment.repository.attachment')->findTheseAttachmentsByUserId($objectIds, $user->getId());
 
         if (isset($_POST['submit_delete'])) {
-            $this->container->get('ccdn_component_attachment.attachment.manager')->bulkDelete($attachments)->flush();
+            $this->container->get('ccdn_component_attachment.manager.attachment')->bulkDelete($attachments)->flush();
         }
 
         return new RedirectResponse($this->container->get('router')->generate('ccdn_component_attachment_index'));

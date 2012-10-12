@@ -66,7 +66,7 @@ class UploadQuotaFileQuantityValidator extends ConstraintValidator
             $maxTotalQuota = $this->container->getParameter('ccdn_component_attachment.quota_per_user.max_files_quantity');
 
             // Get all attachments for user
-            $attachments = $this->container->get('ccdn_component_attachment.attachment.repository')->findForUserById($user->getId());
+            $attachments = $this->container->get('ccdn_component_attachment.repository.attachment')->findForUserById($user->getId());
 
             if (count($attachments) > ($maxTotalQuota - 1)) {
                 $constraint->addFileQuantityLimitReached($this->container);

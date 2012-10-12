@@ -1,26 +1,26 @@
 parameters:
 
-    ccdn_component_attachment.attachment.repository.class:                  CCDNComponent\AttachmentBundle\Repository\AttachmentRepository
+    ccdn_component_attachment.repository.attachment.class:                  CCDNComponent\AttachmentBundle\Repository\AttachmentRepository
 
-    ccdn_component_attachment.attachment.manager.class:                     CCDNComponent\AttachmentBundle\Manager\AttachmentManager
+    ccdn_component_attachment.manager.attachment.class:                     CCDNComponent\AttachmentBundle\Manager\AttachmentManager
 
-    ccdn_component_attachment.attachment.form.type.class:                   CCDNComponent\AttachmentBundle\Form\Type\AttachmentType
-    ccdn_component_attachment.attachment.form.insert.handler.class:         CCDNComponent\AttachmentBundle\Form\Handler\AttachmentInsertFormHandler
-    ccdn_component_attachment.validator.upload_quota_disk_space.class:      CCDNComponent\AttachmentBundle\Form\Validator\UploadQuotaDiskSpaceValidator
-    ccdn_component_attachment.validator.upload_quota_file_quantity.class:   CCDNComponent\AttachmentBundle\Form\Validator\UploadQuotaFileQuantityValidator
-    ccdn_component_attachment.validator.upload_quota_file_size.class:       CCDNComponent\AttachmentBundle\Form\Validator\UploadQuotaFileSizeValidator
+    ccdn_component_attachment.form.type.attachment.class:                   CCDNComponent\AttachmentBundle\Form\Type\AttachmentType
+    ccdn_component_attachment.form.handler.attachment_upload.class:         CCDNComponent\AttachmentBundle\Form\Handler\AttachmentInsertFormHandler
+    ccdn_component_attachment.form.validator.upload_quota_disk_space.class:      CCDNComponent\AttachmentBundle\Form\Validator\UploadQuotaDiskSpaceValidator
+    ccdn_component_attachment.form.validator.upload_quota_file_quantity.class:   CCDNComponent\AttachmentBundle\Form\Validator\UploadQuotaFileQuantityValidator
+    ccdn_component_attachment.form.validator.upload_quota_file_size.class:       CCDNComponent\AttachmentBundle\Form\Validator\UploadQuotaFileSizeValidator
 
-    ccdn_component_attachment.attachment.file.resolver.class:               CCDNComponent\AttachmentBundle\Component\Helper\FileResolver
+    ccdn_component_attachment.component.helper.file_resolver.class:               CCDNComponent\AttachmentBundle\Component\Helper\FileResolver
 
-    ccdn_component_attachment.dashboard.integrator.class:                   CCDNComponent\AttachmentBundle\Component\Dashboard\DashboardIntegrator
+    ccdn_component_attachment.component.dashboard.integrator.class:                   CCDNComponent\AttachmentBundle\Component\Dashboard\DashboardIntegrator
 
 services:
 
     #
     # Repositories.
     #
-    ccdn_component_attachment.attachment.repository:
-        class: %ccdn_component_attachment.attachment.repository.class%
+    ccdn_component_attachment.repository.attachment:
+        class: %ccdn_component_attachment.repository.attachment.class%
         factory_service: doctrine.orm.default_entity_manager
         factory_method: getRepository
         arguments:
@@ -29,32 +29,32 @@ services:
     #
     # Managers.
     #
-    ccdn_component_attachment.attachment.manager:
-        class:  %ccdn_component_attachment.attachment.manager.class%
+    ccdn_component_attachment.manager.attachment:
+        class:  %ccdn_component_attachment.manager.attachment.class%
         arguments:  [@doctrine, @service_container]
 
     #
     # Attachment Forms.
     #
-    ccdn_component_attachment.attachment.form.type:
-        class:  %ccdn_component_attachment.attachment.form.type.class%
+    ccdn_component_attachment.form.type.attachment:
+        class:  %ccdn_component_attachment.form.type.attachment.class%
         arguments:  [@doctrine]
-    ccdn_component_attachment.attachment.form.insert.handler:
-        class:  %ccdn_component_attachment.attachment.form.insert.handler.class%
-        arguments:  [@form.factory, @service_container, @ccdn_component_attachment.attachment.manager]
+    ccdn_component_attachment.form.handler.attachment_upload:
+        class:  %ccdn_component_attachment.form.handler.attachment_upload.class%
+        arguments:  [@form.factory, @service_container, @ccdn_component_attachment.manager.attachment]
 
-    ccdn_component_attachment.validator.upload_quota_disk_space:
-        class: %ccdn_component_attachment.validator.upload_quota_disk_space.class%
+    ccdn_component_attachment.form.validator.upload_quota_disk_space:
+        class: %ccdn_component_attachment.form.validator.upload_quota_disk_space.class%
         arguments: [@doctrine, @service_container]
         tags:
             - { name: validator.constraint_validator, alias: upload_quota_disk_space }
-    ccdn_component_attachment.validator.upload_quota_file_quantity:
-        class: %ccdn_component_attachment.validator.upload_quota_file_quantity.class%
+    ccdn_component_attachment.form.validator.upload_quota_file_quantity:
+        class: %ccdn_component_attachment.form.validator.upload_quota_file_quantity.class%
         arguments: [@doctrine, @service_container]
         tags:
             - { name: validator.constraint_validator, alias: upload_quota_file_quantity }
-    ccdn_component_attachment.validator.upload_quota_file_size:
-        class: %ccdn_component_attachment.validator.upload_quota_file_size.class%
+    ccdn_component_attachment.form.validator.upload_quota_file_size:
+        class: %ccdn_component_attachment.form.validator.upload_quota_file_size.class%
         arguments: [@doctrine, @service_container]
         tags:
             - { name: validator.constraint_validator, alias: upload_quota_file_size }
@@ -62,15 +62,15 @@ services:
     #
     # Attachment File Resolver.
     #
-    ccdn_component_attachment.attachment.file.resolver:
-        class: %ccdn_component_attachment.attachment.file.resolver.class%
+    ccdn_component_attachment.component.helper.file_resolver:
+        class: %ccdn_component_attachment.component.helper.file_resolver.class%
         arguments: [@service_container]
 
     #
     # Dashboard Integrator.
     #
-    ccdn_component_attachment.dashboard.integrator:
-        class: %ccdn_component_attachment.dashboard.integrator.class%
+    ccdn_component_attachment.component.dashboard.integrator:
+        class: %ccdn_component_attachment.component.dashboard.integrator.class%
         arguments: [@service_container]
         tags:
             - { name: ccdn_component_dashboard.integrator }

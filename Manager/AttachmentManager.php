@@ -93,9 +93,9 @@ class AttachmentManager extends BaseManager implements ManagerInterface
      */
     public function calculateQuotasForUser($user)
     {
-        $attachments = $this->container->get('ccdn_component_attachment.attachment.repository')->findForUserByIdAsArray($user->getId());
+        $attachments = $this->container->get('ccdn_component_attachment.repository.attachment')->findForUserByIdAsArray($user->getId());
 
-        $calc = $this->container->get('ccdn_component_common.bin.si.units');
+        $calc = $this->container->get('ccdn_component_common.component.helper.bin_si_units');
 
         // get max_files_quantity quota
         $maxQuotaQuantity = $this->container->getParameter('ccdn_component_attachment.quota_per_user.max_files_quantity');

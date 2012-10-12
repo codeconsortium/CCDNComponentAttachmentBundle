@@ -63,7 +63,7 @@ class UploadQuotaDiskSpaceValidator extends ConstraintValidator
             $user = $this->container->get('security.context')->getToken()->getUser();
 
             // get the SI Units calculator.
-            $calc = $this->container->get('ccdn_component_common.bin.si.units');
+            $calc = $this->container->get('ccdn_component_common.component.helper.bin_si_units');
 
             // check if the max_filesize_per_file_in_kb is reached
             $maxFileSizePerFile = $this->container->getParameter('ccdn_component_attachment.quota_per_user.max_filesize_per_file');
@@ -87,7 +87,7 @@ class UploadQuotaDiskSpaceValidator extends ConstraintValidator
             $totalUsedSpaceInKiB = 0;
 
             // Get all attachments for user
-            $attachments = $this->container->get('ccdn_component_attachment.attachment.repository')->findForUserById($user->getId());
+            $attachments = $this->container->get('ccdn_component_attachment.repository.attachment')->findForUserById($user->getId());
 
             foreach ($attachments as $key => $attachment) {
                 $totalUsedSpaceInKiB += $calc->formatToSIUnit($attachment->getFileSize(), $calc::KiB, false);

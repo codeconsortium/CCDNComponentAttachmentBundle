@@ -35,9 +35,9 @@ class RetrieverController extends ContainerAware
      */
     public function thumbnailAction($attachmentId)
     {
-        $fileRecord = $this->container->get('ccdn_component_attachment.attachment.repository')->findOneById($attachmentId);
+        $fileRecord = $this->container->get('ccdn_component_attachment.repository.attachment')->findOneById($attachmentId);
 
-        $fileResolver = $this->container->get('ccdn_component_attachment.attachment.file.resolver');
+        $fileResolver = $this->container->get('ccdn_component_attachment.component.helper.file_resolver');
 
         // What icon will we show if we cannot find what you are looking for?
         $thumbnailLocation = $this->container->getParameter('kernel.root_dir') . '/../web/bundles/ccdncomponentcommon/images/icons/Silver/32x32/';
@@ -83,9 +83,9 @@ class RetrieverController extends ContainerAware
 
         $user = $this->container->get('security.context')->getToken()->getUser();
 
-        $fileRecord = $this->container->get('ccdn_component_attachment.attachment.repository')->findOneById($attachmentId);
+        $fileRecord = $this->container->get('ccdn_component_attachment.repository.attachment')->findOneById($attachmentId);
 
-        $fileResolver = $this->container->get('ccdn_component_attachment.attachment.file.resolver');
+        $fileResolver = $this->container->get('ccdn_component_attachment.component.helper.file_resolver');
 
         // What icon will we show if we cannot find what you are looking for?
         $thumbnailLocation = $this->container->getParameter('kernel.root_dir') . '/../web/bundles/ccdncomponentcommon/images/icons/Silver/32x32/';
