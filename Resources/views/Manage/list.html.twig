@@ -1,4 +1,4 @@
-{% extends param('ccdn_component_attachment.manage.list.layout_template') %}
+{% extends ccdn_component_attachment.manage.list.layout_template %}
 
 {% block stylesheets %}
 	{{ parent() }}
@@ -9,7 +9,7 @@
 	<script src="{{- asset('bundles/ccdncomponentcommon/js/ccdn/jquery.checkboxes.js') -}}" type="text/javascript"></script>
 {% endblock %}
 
-{% block title %}{{- truncDot('ccdn_component_attachment.title.index' |trans({}, 'CCDNComponentAttachmentBundle'), param('ccdn_component_attachment.seo.title_length')) -}}{% endblock %}
+{% block title %}{{- truncDot('ccdn_component_attachment.title.index' |trans({}, 'CCDNComponentAttachmentBundle'), ccdn_component_attachment.seo.title_length) -}}{% endblock %}
 
 {% block sidebar %}
 	{{ parent() }}
@@ -65,7 +65,7 @@
 						<a rel="nofollow" href="{{- path('ccdn_component_attachment_download', {'attachmentId': attachment.getId }) -}}">{{- attachment.getFileNameOriginal -}}</a>
 						<br>{{- attachment.getDescription -}}
 					</td>
-					<td class="center" style="width: 200px;">{{- attachment.getCreatedDate |date(param('ccdn_component_attachment.manage.list.attachment_uploaded_datetime_format')) -}}</td>
+					<td class="center" style="width: 200px;">{{- attachment.getCreatedDate |date(ccdn_component_attachment.manage.list.attachment_uploaded_datetime_format) -}}</td>
 					<td class="center" style="width: 80px;">{{- attachment.getFileSize -}}</td>
 				</tr>
 			{%- else -%}

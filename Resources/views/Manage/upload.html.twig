@@ -1,4 +1,4 @@
-{% extends param('ccdn_component_attachment.manage.upload.layout_template') %}
+{% extends ccdn_component_attachment.manage.upload.layout_template %}
 
 {% block stylesheets %}
 	{{ parent() }}
@@ -8,7 +8,7 @@
 	{{ parent() }}
 {% endblock %}
 
-{% block title %}{{- truncDot('ccdn_component_attachment.title.upload' | trans({}, 'CCDNComponentAttachmentBundle'), param('ccdn_component_attachment.seo.title_length')) -}}{% endblock %}
+{% block title %}{{- truncDot('ccdn_component_attachment.title.upload' | trans({}, 'CCDNComponentAttachmentBundle'), ccdn_component_attachment.seo.title_length) -}}{% endblock %}
 
 {% block sidebar %}
 	{{ parent() }}
@@ -29,7 +29,7 @@
 
 	<h2>{{- 'ccdn_component_attachment.title.upload' | trans({}, 'CCDNComponentAttachmentBundle') -}}</h2>
 
-	{%- form_theme form param('ccdn_component_attachment.manage.upload.form_theme') -%}
+	{%- form_theme form ccdn_component_attachment.manage.upload.form_theme -%}
 	<form action="{{- path('ccdn_component_attachment_upload') -}}" method="post" {{ form_enctype(form) }} class="form-horizontal">
 		<fieldset>
 
