@@ -34,7 +34,7 @@ class UploadQuotaFileSize extends Constraint
     /**
      *
      * @access public
-     * @param $filename, $size, $limit
+     * @param $container, string $filename, string $size, string $limit
      */
     public function addFileTooBig($container, $filename, $size, $limit)
     {

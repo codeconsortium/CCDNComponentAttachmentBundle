@@ -34,7 +34,7 @@ class UploadQuotaDiskSpace extends Constraint
     /**
      *
      * @access public
-     * @param $filename, $size, $limit
+     * @param $container
      */
     public function addFileDiskSpaceLimitReached($container)
     {

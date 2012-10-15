@@ -226,7 +226,7 @@ class FileResolver
     /**
      *
      * @access public
-     * @return string $this->fileData
+     * @return string $fileData
      */
     public function getFileData()
     {
@@ -238,7 +238,7 @@ class FileResolver
     /**
      *
      * @access public
-     * @return string $this->fileData
+     * @return string $fileData
      */
     public function getFileThumbnailData()
     {
@@ -281,7 +281,7 @@ class FileResolver
     /**
      *
      * @access public
-     * @return Array()
+     * @return array
      */
     public function getHTTPHeaders()
     {

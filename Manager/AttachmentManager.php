@@ -27,8 +27,8 @@ class AttachmentManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param  string $attachment
-     * @return AttachmentManager $this
+     * @param string $attachment
+     * @return self
      */
     public function insert($attachment)
     {
@@ -39,8 +39,8 @@ class AttachmentManager extends BaseManager implements ManagerInterface
 
     /**
      * @access public
-     * @param  Array() $attachments
-     * @return AttachmentManager $this
+     * @param array $attachments
+     * @return self
      * @link http://www.php.net/manual/en/function.unlink.php
      */
     public function bulkDelete($attachments)
@@ -59,7 +59,7 @@ class AttachmentManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param  Array() $attachments
+     * @param  array $attachments
      * @return int
      */
     public function getTotalQuotaInKiB($attachments, $calc)
@@ -77,7 +77,7 @@ class AttachmentManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param  Array() $attachments
+     * @param  array $attachments
      * @return int
      */
     public function getTotalQuantityQuota($attachments)
@@ -88,8 +88,8 @@ class AttachmentManager extends BaseManager implements ManagerInterface
     /**
      *
      * @access public
-     * @param  Array() $attachments
-     * @return Array()
+     * @param  array $attachments
+     * @return array
      */
     public function calculateQuotasForUser($user)
     {

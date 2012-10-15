@@ -31,7 +31,7 @@ class ManageController extends ContainerAware
     /**
      *
      * @access public
-     * @param Int $page, Int $userId
+     * @param int $page, int $userId
      * @return RedirectResponse|RenderResponse
      */
     public function indexAction($page, $userId)
@@ -171,7 +171,7 @@ class ManageController extends ContainerAware
     /**
      *
      * @access protected
-     * @return String
+     * @return string
      */
     protected function getEngine()
     {

@@ -34,7 +34,7 @@ class UploadQuotaFileQuantity extends Constraint
     /**
      *
      * @access public
-     * @param $filename, $size, $limit
+     * @param $container
      */
     public function addFileQuantityLimitReached($container)
     {

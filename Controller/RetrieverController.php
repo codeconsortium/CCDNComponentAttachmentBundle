@@ -30,7 +30,7 @@ class RetrieverController extends ContainerAware
     /**
      *
      * @access public
-     * @param Int $attachmentId
+     * @param int $attachmentId
      * @return RedirectResponse|RenderResponse
      */
     public function thumbnailAction($attachmentId)
@@ -69,7 +69,7 @@ class RetrieverController extends ContainerAware
     /**
      *
      * @access public
-     * @param Int $attachmentId
+     * @param int $attachmentId
      * @return RedirectedResponse|RenderResponse
      */
     public function downloadAction($attachmentId)
@@ -115,7 +115,7 @@ class RetrieverController extends ContainerAware
     /**
      *
      * @access protected
-     * @return String
+     * @return string
      */
     protected function getEngine()
     {

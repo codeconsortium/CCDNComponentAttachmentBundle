@@ -83,8 +83,8 @@ class AttachmentInsertFormHandler
     /**
      *
      * @access public
-     * @param Array() $options
-     * @return $this
+     * @param array $options
+     * @return self
      */
     public function setOptions(array $options = null )
     {
@@ -152,29 +152,7 @@ class AttachmentInsertFormHandler
     /**
      *
      * @access protected
-     * @param string $file
-     */
-//	protected function validateUploadStatus()
-//	{
-//		if ($this->form['attachment'])
-//		{
-//			$file = $this->form['attachment']->getData();
-//
-//			if ($file)
-//			{
-//				if ( ! $file->isValid())
-//				{
-//					$this->form->addError(new FormError('Error while uploading the file.'));
-//					$this->form->addError(new FormError($file->getError()));
-//				}
-//			}
-//		}
-//	}
-
-    /**
-     *
-     * @access protected
-     * @param Object $calc, string $fileSize
+     * @param object $calc, string $fileSize
      */
     protected function validateMaxFileSize($calc, $fileSize)
     {
@@ -194,7 +172,7 @@ class AttachmentInsertFormHandler
     /**
      *
      * @access protected
-     * @param Object $calc, Array() $attachments
+     * @param object $calc, array $attachments
      */
     protected function validateTotalQuota($calc, $attachments)
     {
@@ -218,7 +196,7 @@ class AttachmentInsertFormHandler
     /**
      *
      * @access protected
-     * @param Array() $attachments
+     * @param array $attachments
      */
     protected function validateMaxFileQuantity($attachments)
     {
@@ -234,7 +212,7 @@ class AttachmentInsertFormHandler
     /**
      *
      * @access public
-     * @return Form
+     * @return Form $form
      */
     public function getForm()
     {

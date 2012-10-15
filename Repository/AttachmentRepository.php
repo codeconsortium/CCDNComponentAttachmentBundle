@@ -29,7 +29,7 @@ class AttachmentRepository extends EntityRepository
     /**
      *
      * @access public
-     * @param Int $userId
+     * @param int $attachmentId, int $userId
      */
     public function findSingleAttachmentForUserById($attachmentId, $userId)
     {
@@ -50,7 +50,7 @@ class AttachmentRepository extends EntityRepository
     /**
      *
      * @access public
-     * @param Int $userId
+     * @param int $userId
      */
     public function findForUserById($userId)
     {
@@ -73,7 +73,7 @@ class AttachmentRepository extends EntityRepository
     /**
      *
      * @access public
-     * @param Int $userId
+     * @param int $userId
      */
     public function findForUserByIdAsArray($userId)
     {
@@ -94,29 +94,29 @@ class AttachmentRepository extends EntityRepository
     }
 
     /**
-        *
-        * @access public
-        * @param Int $userId
-        */
-       public function findForUserByIdAsQB($userId)
-       {
-           $qb = $this->getEntityManager()->createQueryBuilder('a');
-           $qb->select('a')
-               ->from('CCDNComponentAttachmentBundle:Attachment', 'a')
-               ->where($qb->expr()->eq('a.ownedBy', '?1'))
-               ->setParameter('1', $userId);
+     *
+     * @access public
+     * @param int $userId
+     */
+    public function findForUserByIdAsQB($userId)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder('a');
+        $qb->select('a')
+            ->from('CCDNComponentAttachmentBundle:Attachment', 'a')
+            ->where($qb->expr()->eq('a.ownedBy', '?1'))
+            ->setParameter('1', $userId);
 
-           try {
-               return $qb->getQuery()->getResult();
-           } catch (\Doctrine\ORM\NoResultException $e) {
-               return null;
-           }
-       }
+        try {
+            return $qb->getQuery()->getResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
 
     /**
      *
      * @access public
-     * @param Array() $objectIds, Int $userId
+     * @param array $objectIds, int $userId
      */
     public function findTheseAttachmentsByUserId($objectIds, $userId)
     {
