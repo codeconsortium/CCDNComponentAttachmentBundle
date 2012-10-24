@@ -151,66 +151,6 @@ class AttachmentInsertFormHandler
 
     /**
      *
-     * @access protected
-     * @param object $calc, string $fileSize
-     */
-    protected function validateMaxFileSize($calc, $fileSize)
-    {
-        // check if the max_filesize_per_file_in_kb is reached
-        $maxFileSizePerFile = $this->container->getParameter('ccdn_component_attachment.quota_per_user.max_filesize_per_file');
-        $maxFileSizePerFileInKiB = $calc->formatToSIUnit($maxFileSizePerFile, $calc::KiB, false);
-
-        $fileSizeInKiB = $calc->formatToSIUnit($fileSize, $calc::KiB, false);
-
-        if ($fileSizeInKiB > ($maxFileSizePerFileInKiB + 1)) {
-            // limit reached. reject this upload!
-            $this->form->addError(new FormError('The file size limit is ' . $maxFileSizePerFileInKiB . 'KiB. The file you are trying to upload is ' . $fileSizeInKiB . 'KiB.'));
-        }
-
-    }
-
-    /**
-     *
-     * @access protected
-     * @param object $calc, array $attachments
-     */
-    protected function validateTotalQuota($calc, $attachments)
-    {
-        // check if the max_total_quota_in_kb is reached
-        $maxTotalQuota = $this->container->getParameter('ccdn_component_attachment.quota_per_user.max_total_quota');
-        $maxTotalQuotaInKiB = $calc->formatToSIUnit($maxTotalQuota, $calc::KiB, false);
-
-        // work out total used so far.
-        $totalUsedSpaceInKiB = 0;
-
-        foreach ($attachments as $key => $attachment) {
-            $totalUsedSpaceInKiB += $calc->formatToSIUnit($attachment->getFileSize(), $calc::KiB, false);
-        }
-
-        if ($totalUsedSpaceInKiB > $maxTotalQuotaInKiB) {
-            // limit reached. reject this upload!
-            $this->form->addError(new FormError('You have used up all (' . $maxTotalQuotaInKiB . 'KiB) of the allowed space (' . $totalUsedSpaceInKiB . 'KiB) in your attachments! Delete some attachments to free up room.'));
-        }
-    }
-
-    /**
-     *
-     * @access protected
-     * @param array $attachments
-     */
-    protected function validateMaxFileQuantity($attachments)
-    {
-        // check if the max_files_quantity is reached
-        $maxFilesQuantity = $this->container->getParameter('ccdn_component_attachment.quota_per_user.max_files_quantity');
-
-        if (count($attachments) >= $maxFilesQuantity) {
-            // limit reached. reject this upload!
-            $this->form->addError(new FormError("You have reached the maximum number of allowed files in your attachments!"));
-        }
-    }
-
-    /**
-     *
      * @access public
      * @return Form $form
      */
