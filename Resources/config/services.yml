@@ -1,19 +1,20 @@
 parameters:
 
-    ccdn_component_attachment.repository.attachment.class:                  CCDNComponent\AttachmentBundle\Repository\AttachmentRepository
+    ccdn_component_attachment.repository.attachment.class:                      CCDNComponent\AttachmentBundle\Repository\AttachmentRepository
 
-    ccdn_component_attachment.manager.attachment.class:                     CCDNComponent\AttachmentBundle\Manager\AttachmentManager
+    ccdn_component_attachment.manager.attachment.class:                         CCDNComponent\AttachmentBundle\Manager\AttachmentManager
 
-    ccdn_component_attachment.form.type.attachment.class:                   CCDNComponent\AttachmentBundle\Form\Type\AttachmentType
-    ccdn_component_attachment.form.handler.attachment_upload.class:         CCDNComponent\AttachmentBundle\Form\Handler\AttachmentInsertFormHandler
-    ccdn_component_attachment.form.validator.upload_quota_disk_space.class:      CCDNComponent\AttachmentBundle\Form\Validator\UploadQuotaDiskSpaceValidator
-    ccdn_component_attachment.form.validator.upload_quota_file_quantity.class:   CCDNComponent\AttachmentBundle\Form\Validator\UploadQuotaFileQuantityValidator
-    ccdn_component_attachment.form.validator.upload_quota_file_size.class:       CCDNComponent\AttachmentBundle\Form\Validator\UploadQuotaFileSizeValidator
+    ccdn_component_attachment.form.type.attachment.class:                       CCDNComponent\AttachmentBundle\Form\Type\AttachmentType
+    ccdn_component_attachment.form.handler.attachment_upload.class:             CCDNComponent\AttachmentBundle\Form\Handler\AttachmentInsertFormHandler
+    ccdn_component_attachment.form.validator.upload_quota_disk_space.class:     CCDNComponent\AttachmentBundle\Form\Validator\UploadQuotaDiskSpaceValidator
+    ccdn_component_attachment.form.validator.upload_quota_file_quantity.class:  CCDNComponent\AttachmentBundle\Form\Validator\UploadQuotaFileQuantityValidator
+    ccdn_component_attachment.form.validator.upload_quota_file_size.class:      CCDNComponent\AttachmentBundle\Form\Validator\UploadQuotaFileSizeValidator
 
-    ccdn_component_attachment.component.helper.file_resolver.class:               CCDNComponent\AttachmentBundle\Component\Helper\FileResolver
+    ccdn_component_attachment.component.helper.file_resolver.class:             CCDNComponent\AttachmentBundle\Component\Helper\FileResolver
 
-    ccdn_component_attachment.component.dashboard.integrator.class:                   CCDNComponent\AttachmentBundle\Component\Dashboard\DashboardIntegrator
-
+    ccdn_component_attachment.component.dashboard.integrator.class:             CCDNComponent\AttachmentBundle\Component\Dashboard\DashboardIntegrator
+    ccdn_component_attachment.component.route_referer_ignore.list.class:        CCDNComponent\AttachmentBundle\Component\RouteRefererIgnore\RouteRefererIgnoreList
+    
 services:
 
     #
@@ -74,3 +75,11 @@ services:
         arguments: [@service_container]
         tags:
             - { name: ccdn_component_dashboard.integrator }
+
+    #
+    # Route Referer.
+    #
+    ccdn_component_attachment.component.route_referer_ignore.list:
+        class: %ccdn_component_attachment.component.route_referer_ignore.list.class%
+        tags:
+            - { name: ccdn_user_security.route_referer_ignore }
