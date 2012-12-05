@@ -14,12 +14,12 @@ ccdn_component_attachment:
         engine: twig
     store:
         dir: %ccdncomponent_attachmentbundle_file_store%
+	seo:
+		title_length: 67
     quota_per_user:
         max_files_quantity: 20
         max_filesize_per_file: 400KiB
         max_total_quota: 2000KiB
-	seo:
-		title_length: 67
     manage:
         list:
             layout_template: CCDNComponentCommonBundle:Layout:layout_body_right.html.twig
