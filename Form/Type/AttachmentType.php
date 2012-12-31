@@ -48,7 +48,7 @@ class AttachmentType extends AbstractType
     /**
      *
      * @access public
-     * @param FormBuilder $builder, array $options
+     * @param FormBuilderInterface $builder, array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
