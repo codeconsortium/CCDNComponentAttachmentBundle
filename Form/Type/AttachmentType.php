@@ -50,7 +50,7 @@ class AttachmentType extends AbstractType
      * @access public
      * @param FormBuilder $builder, array $options
      */
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('attachment', 'file', array('required' => true));
         $builder->add('description', 'text');
