@@ -40,18 +40,22 @@ class Configuration implements ConfigurationInterface
         // configure your bundle. See the documentation linked above for
         // more information on that topic.
         $rootNode
+	        ->addDefaultsIfNotSet()
             ->children()
                 ->arrayNode('user')
+			        ->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('profile_route')->defaultValue('ccdn_user_profile_show_by_id')->end()
                     ->end()
                 ->end()
                 ->arrayNode('template')
+			        ->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('engine')->defaultValue('twig')->end()
                     ->end()
                 ->end()
                 ->arrayNode('store')
+			        ->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('dir')->end()
                     ->end()
@@ -94,7 +98,8 @@ class Configuration implements ConfigurationInterface
         $node
             ->children()
                 ->arrayNode('quota_per_user')
-                    ->children()
+	                ->addDefaultsIfNotSet()
+	                ->children()
                         ->scalarNode('max_files_quantity')->defaultValue('20')->end()
                         ->scalarNode('max_filesize_per_file')->defaultValue('200')->end()
                         ->scalarNode('max_total_quota')->defaultValue('1000')->end()
