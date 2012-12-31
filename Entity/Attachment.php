@@ -17,56 +17,51 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="CCDNComponent\AttachmentBundle\Repository\AttachmentRepository")
- * @ORM\Table(name="CC_Component_Attachment")
  */
 class Attachment
 {
 
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+	 * @var int $id
      */
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CCDNUser\UserBundle\Entity\User", cascade={"persist"})
-     * @ORM\JoinColumn(name="fk_owned_by_user_id", referencedColumnName="id", onDelete="SET NULL")
+	 * @var User $ownedBy
      */
     protected $ownedBy;
 
     /**
-     * @ORM\Column(type="datetime", name="created_date")
+     * @var \DateTime $createdDate
      */
     protected $createdDate;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @var string $description
      */
     protected $description;
 
     /**
-     * @ORM\Column(type="string", name="file_name_original", length=255, nullable=true)
+     * @var string $filenameOriginal
      */
     protected $filenameOriginal;
 
     /**
-     * @ORM\Column(type="string", name="file_name_hashed", length=255, nullable=true)
+     * @var string $filenameHashed
      */
     protected $filenameHashed;
 
     /**
-     * @ORM\Column(type="string", name="file_extension", length=10, nullable=true)
+     * @var string $fileExtension
      */
     protected $fileExtension;
 
     /**
-     * @ORM\Column(type="text", name="file_size", length=255, nullable=true)
+     * @var string $fileSize
      */
     protected $fileSize;
 
     /**
-     *
      * @var File $attachment
      */
     protected $attachment;
