@@ -28,12 +28,12 @@ CCDNComponent\AttachmentBundle\Entity\Attachment:
             type: string
             name: "file_size"
             nullable: true
-    manyToOne:
-        ownedBy:
-            targetEntity: CCDNUser\UserBundle\Entity\User
-            cascade: ["persist"]
-            nullable: true
-            joinColumn:
-                name: fk_owned_by_user_id
-                referencedColumnName: id
-                onDelete: SET NULL
+#    manyToOne:
+#        ownedBy:
+#            targetEntity: CCDNUser\UserBundle\Entity\User
+#            cascade: ["persist"]
+#            nullable: true
+#            joinColumn:
+#                name: fk_owned_by_user_id
+#                referencedColumnName: id
+#                onDelete: SET NULL

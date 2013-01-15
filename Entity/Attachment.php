@@ -20,61 +20,34 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Attachment
 {
+    const ENDPOINT = 'attachment';
 
-    /**
-	 * @var int $id
-     */
+    /** @var integer $id */
     protected $id;
 
-    /**
-	 * @var User $ownedBy
-     */
+    /** @var User $ownedBy */
     protected $ownedBy;
 
-    /**
-     * @var \DateTime $createdDate
-     */
+    /** @var \DateTime $createdDate */
     protected $createdDate;
 
-    /**
-     * @var string $description
-     */
+    /** @var string $description */
     protected $description;
 
-    /**
-     * @var string $filenameOriginal
-     */
+    /** @var string $filenameOriginal */
     protected $filenameOriginal;
 
-    /**
-     * @var string $filenameHashed
-     */
+    /** @var string $filenameHashed */
     protected $filenameHashed;
 
-    /**
-     * @var string $fileExtension
-     */
+    /** @var string $fileExtension */
     protected $fileExtension;
 
-    /**
-     * @var string $fileSize
-     */
+    /** @var string $fileSize */
     protected $fileSize;
 
-    /**
-     * @var File $attachment
-     */
+    /** @var File $attachment */
     protected $attachment;
-
-    public function setAttachment($attachment)
-    {
-        $this->attachment = $attachment;
-    }
-
-    public function getAttachment()
-    {
-        return $this->attachment;
-    }
 
     /**
      * Get id
@@ -84,6 +57,25 @@ class Attachment
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @param $attachment
+     * @return Attachment
+     */
+    public function setAttachment($attachment)
+    {
+        $this->attachment = $attachment;
+
+        return $this;
+    }
+
+    /**
+     * @return File
+     */
+    public function getAttachment()
+    {
+        return $this->attachment;
     }
 
     /**
