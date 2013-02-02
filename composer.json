@@ -1,7 +1,7 @@
 {
     "name": "codeconsortium/ccdn-component-attachment-bundle",
     "type": "symfony-bundle",
-    "description": "CCDN Forum attachment bundle",
+    "description": "CCDN Component Attachment Bundle",
     "keywords": ["forum", "board"],
     "homepage": "http://github.com/codeconsortium/CCDNComponentAttachmentBundle",
     "license": "MIT",
