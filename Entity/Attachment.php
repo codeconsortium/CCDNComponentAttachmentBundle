@@ -13,6 +13,7 @@
 
 namespace CCDNComponent\AttachmentBundle\Entity;
 
+use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -25,7 +26,7 @@ class Attachment
     /** @var integer $id */
     protected $id;
 
-    /** @var User $ownedBy */
+    /** @var UserInterface $ownedBy */
     protected $ownedBy;
 
     /** @var \DateTime $createdDate */
@@ -201,9 +202,9 @@ class Attachment
     /**
      * Set ownedBy
      *
-     * @param CCDNUser\UserBundle\Entity\User $ownedBy
+     * @param UserInterface $ownedBy
      */
-    public function setOwnedBy(\CCDNUser\UserBundle\Entity\User $ownedBy)
+    public function setOwnedBy(UserInterface $ownedBy)
     {
         $this->ownedBy = $ownedBy;
     }
@@ -211,7 +212,7 @@ class Attachment
     /**
      * Get ownedBy
      *
-     * @return CCDNUser\UserBundle\Entity\User
+     * @return UserInterface
      */
     public function getOwnedBy()
     {
