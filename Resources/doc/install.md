@@ -3,10 +3,9 @@ Installing CCDNComponent AttachmentBundle 1.x
 
 ## Dependencies:
 
-1. [PagerFanta](https://github.com/whiteoctober/Pagerfanta).
-2. [PagerFantaBundle](http://github.com/whiteoctober/WhiteOctoberPagerfantaBundle).
-3. [CCDNComponent CommonBundle](https://github.com/codeconsortium/CommonBundle).
-4. [CCDNComponent CrumbTrailBundle](https://github.com/codeconsortium/CrumbTrailBundle).
+1. [PagerFantaBundle](http://github.com/whiteoctober/WhiteOctoberPagerfantaBundle).
+2. [CCDNComponent CommonBundle](https://github.com/codeconsortium/CommonBundle).
+3. [CCDNComponent CrumbTrailBundle](https://github.com/codeconsortium/CrumbTrailBundle).
 
 ## Installation:
 
