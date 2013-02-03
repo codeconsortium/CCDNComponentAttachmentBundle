@@ -34,30 +34,33 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('attachment');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        /** @var ArrayNodeDefinition $rootNode  */
+        $rootNode = $treeBuilder->root('ccdn_component_attachment');
+
         $rootNode
 	        ->addDefaultsIfNotSet()
+            ->canBeUnset()
             ->children()
                 ->arrayNode('user')
 			        ->addDefaultsIfNotSet()
+                    ->canBeUnset()
                     ->children()
                         ->scalarNode('profile_route')->defaultValue('ccdn_user_profile_show_by_id')->end()
                     ->end()
                 ->end()
                 ->arrayNode('template')
 			        ->addDefaultsIfNotSet()
+                    ->canBeUnset()
                     ->children()
                         ->scalarNode('engine')->defaultValue('twig')->end()
                     ->end()
                 ->end()
                 ->arrayNode('store')
 			        ->addDefaultsIfNotSet()
+                    ->canBeUnset()
                     ->children()
-                        ->scalarNode('dir')->end()
+                        ->scalarNode('dir')->defaultValue('%ccdn_component_attachment_file_store%')->end()
                     ->end()
                 ->end()
             ->end();
@@ -77,6 +80,8 @@ class Configuration implements ConfigurationInterface
     protected function addSEOSection(ArrayNodeDefinition $node)
     {
         $node
+            ->addDefaultsIfNotSet()
+            ->canBeUnset()
             ->children()
                 ->arrayNode('seo')
                     ->addDefaultsIfNotSet()
@@ -96,9 +101,12 @@ class Configuration implements ConfigurationInterface
     protected function addQuotaSection(ArrayNodeDefinition $node)
     {
         $node
+            ->addDefaultsIfNotSet()
+            ->canBeUnset()
             ->children()
                 ->arrayNode('quota_per_user')
-	                ->addDefaultsIfNotSet()
+                    ->addDefaultsIfNotSet()
+                    ->canBeUnset()
 	                ->children()
                         ->scalarNode('max_files_quantity')->defaultValue('20')->end()
                         ->scalarNode('max_filesize_per_file')->defaultValue('200')->end()
@@ -116,6 +124,8 @@ class Configuration implements ConfigurationInterface
     protected function addAttachmentSection(ArrayNodeDefinition $node)
     {
         $node
+            ->addDefaultsIfNotSet()
+            ->canBeUnset()
             ->children()
                 ->arrayNode('manage')
                     ->addDefaultsIfNotSet()
@@ -123,6 +133,7 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->arrayNode('list')
                             ->addDefaultsIfNotSet()
+                            ->canBeUnset()
                             ->children()
                                 ->scalarNode('layout_template')->defaultValue('CCDNComponentCommonBundle:Layout:layout_body_right.html.twig')->end()
                                 ->scalarNode('attachments_per_page')->defaultValue('20')->end()
@@ -131,6 +142,7 @@ class Configuration implements ConfigurationInterface
                         ->end()
                         ->arrayNode('upload')
                             ->addDefaultsIfNotSet()
+                            ->canBeUnset()
                             ->children()
                                 ->scalarNode('layout_template')->defaultValue('CCDNComponentCommonBundle:Layout:layout_body_right.html.twig')->end()
                                 ->scalarNode('form_theme')->defaultValue('CCDNComponentAttachmentBundle:Form:fields.html.twig')->end()

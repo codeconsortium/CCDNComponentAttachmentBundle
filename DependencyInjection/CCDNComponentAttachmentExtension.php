@@ -51,14 +51,13 @@ class CCDNComponentAttachmentExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
-        $container->setParameter('ccdn_component_attachment.template.engine', $config['template']['engine']);
         $container->setParameter('ccdn_component_attachment.user.profile_route', $config['user']['profile_route']);
-        $container->setParameter('ccdn_component_attachment.store.dir', $config['store']['dir']);
+        $container->setParameter('ccdn_component_attachment.template.engine', $config['template']['engine']);
+//        $container->setParameter('ccdn_component_attachment.store.dir', $config['store']['dir']);
 
         $this->getSEOSection($container, $config);
         $this->getQuotaSection($container, $config);
         $this->getAttachmentSection($container, $config);
-
     }
 
     /**
