@@ -1,53 +1,51 @@
-Installing CCDNComponent AttachmentBundle 1.2
+Installing CCDNComponent AttachmentBundle 1.x
 =============================================
 
 ## Dependencies:
 
 1. [PagerFanta](https://github.com/whiteoctober/Pagerfanta).
 2. [PagerFantaBundle](http://github.com/whiteoctober/WhiteOctoberPagerfantaBundle).
-3. [CCDNComponent CommonBundle](https://github.com/codeconsortium/CommonBundle/tree/v1.2).
-4. [CCDNComponent CrumbTrailBundle](https://github.com/codeconsortium/CrumbTrailBundle/tree/v1.2).
+3. [CCDNComponent CommonBundle](https://github.com/codeconsortium/CommonBundle).
+4. [CCDNComponent CrumbTrailBundle](https://github.com/codeconsortium/CrumbTrailBundle).
 
 ## Installation:
 
-Installation takes only 9 steps:
+Installation takes only 4 steps:
 
-1. Download and install the dependencies.
-2. Register bundles with autoload.php.
-3. Register bundles with AppKernel.php.
-4. Run vendors install script.
-5. Update your app/config/routing.yml.
-6. Update your app/config/config.yml.
-7. Update your database schema.
-8. Symlink assets to your public web directory.
-9. Warmup the cache.
+1. Download and install dependencies via Composer.
+2. Register bundles with AppKernel.php.
+3. Update your app/config/routing.yml.
+4. Update your database schema.
 
-### Step 1: Download and install the dependencies.
+### Step 1: Download and install dependencies via Composer.
 
 Append the following to end of your deps file (found in the root of your Symfony2 installation):
 
-``` ini
-[CCDNComponentAttachmentBundle]
-    git=http://github.com/codeconsortium/AttachmentBundle.git
-    target=/bundles/CCDNComponent/AttachmentBundle
-    version=v1.2
+``` js
+// composer.json
+{
+    // ...
+    "require": {
+        // ...
+        "codeconsortium/ccdn-component-attachment-bundle": "dev-master"
+    }
+}
 ```
 
-### Step 2: Register bundles with autoload.php.
+NOTE: Please replace ``dev-master`` in the snippet above with the latest stable branch, for example ``2.0.*``.
 
-Add the following to the registerNamespaces array in the method by appending it to the end of the array.
+Then, you can install the new dependencies by running Composer's ``update``
+command from the directory where your ``composer.json`` file is located:
 
-``` php
-// app/autoload.php
-$loader->registerNamespaces(array(
-    'CCDNComponent'    => __DIR__.'/../vendor/bundles',
-	**...**
-));
+``` bash
+$ php composer.phar update
 ```
 
-### Step 3: Register bundles with AppKernel.php.
+### Step 2: Register bundles with AppKernel.php.
 
-In your AppKernel.php add the following bundles to the registerBundles method array:
+Now, Composer will automatically download all required files, and install them
+for you. All that is left to do is to update your ``AppKernel.php`` file, and
+register the new bundle:
 
 ``` php
 // app/AppKernel.php
@@ -55,20 +53,12 @@ public function registerBundles()
 {
     $bundles = array(
 		new CCDNComponent\AttachmentBundle\CCDNComponentAttachmentBundle(),
-		**...**
+		...
 	);
 }
 ```
 
-### Step 4: Run vendors install script.
-
-From your projects root Symfony directory on the command line run:
-
-``` bash
-$ php bin/vendors install
-```
-
-### Step 5: Update your app/config/routing.yml.
+### Step 3: Update your app/config/routing.yml.
 
 In your app/config/routing.yml add:
 
@@ -76,42 +66,37 @@ In your app/config/routing.yml add:
 CCDNComponentAttachmentBundle:
     resource: "@CCDNComponentAttachmentBundle/Resources/config/routing.yml"
     prefix: /
-
 ```
 
-### Step 6: Update your app/config/config.yml.
+You can change the route of the standalone route to any route you like, it is included for convenience.
 
-In your app/config/config.yml add:
+### Step 4: Update your database schema.
 
-``` yml
-#
-# for CCDNComponent AttachmentBundle
-#
-ccdn_component_attachment:
-    user:
-        profile_route: ccdn_user_profile_show_by_id
-    template:
-        engine: twig
-    store:
-        dir: %ccdncomponent_attachmentbundle_file_store%
-    quota_per_user:
-        max_files_quantity: 20
-        max_filesize_per_file: 400KiB
-        max_total_quota: 2000KiB
+Make sure to add the ForumBundle to doctrines mapping configuration:
 
 ```
-
-and in your app/config/parameters.ini add and set the value to the directory where you want to keep your attachment files:
-
-``` ini
-ccdncomponent_attachmentbundle_file_store= "/your/folder/where/you/want/to/store/attachments"
+# app/config/config.yml
+# Doctrine Configuration
+doctrine:
+    orm:
+        default_entity_manager: default
+        auto_generate_proxy_classes: "%kernel.debug%"
+        resolve_target_entities:
+            Symfony\Component\Security\Core\User\UserInterface: FOS\UserBundle\Entity\User
+        entity_managers:
+            default:
+                mappings:
+                    FOSUserBundle: ~
+                    CCDNComponentAttachmentBundle:
+                        mapping:              true
+                        type:                 yml
+                        dir:                  "Resources/config/doctrine"
+                        alias:                ~
+                        prefix:               CCDNComponent\AttachmentBundle\Entity
+                        is_bundle:            true
 ```
-**Warning:**
 
->Set the appropriate layout templates you want under the sections 'layout_templates' and the
-route to a users profile if you are not using the [CCDNUser\ProfileBundle](http://github.com/codeconsortium/CCDNUserProfileBundle). Otherwise use defaults.
-
-### Step 7: Update your database schema.
+> FOSUserBundle is noted as an additional example, you can add multiple bundles here. You should however choose a UserBundle of your own and change the user entity that UserInterface will resolve to.
 
 From your projects root Symfony directory on the command line run:
 
@@ -125,23 +110,9 @@ Take the SQL that is output and update your database manually.
 
 > Please take care when updating your database, check the output SQL before applying it.
 
-### Step 8: Symlink assets to your public web directory.
-
-From your projects root Symfony directory on the command line run:
-
-``` bash
-$ php app/console assets:install --symlink web/
-```
-
-### Step 9: Warmup the cache.
-
-From your projects root Symfony directory on the command line run:
-
-``` bash
-$ php app/console cache:warmup
-```
-
 ## Next Steps.
+
+Change the layout template you wish to use for each page by changing the configs under the labelled section 'layout_templates'.
 
 Installation should now be complete!
 
