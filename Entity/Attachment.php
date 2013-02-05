@@ -13,21 +13,19 @@
 
 namespace CCDNComponent\AttachmentBundle\Entity;
 
-use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
+
+use CCDNComponent\AttachmentBundle\Model\Attachment as AbstractAttachment;
 
 /**
  * @ORM\Entity(repositoryClass="CCDNComponent\AttachmentBundle\Repository\AttachmentRepository")
  */
-class Attachment
+class Attachment extends AbstractAttachment
 {
     const ENDPOINT = 'attachment';
 
     /** @var integer $id */
     protected $id;
-
-    /** @var UserInterface $ownedBy */
-    protected $ownedBy;
 
     /** @var \DateTime $createdDate */
     protected $createdDate;
@@ -49,6 +47,11 @@ class Attachment
 
     /** @var File $attachment */
     protected $attachment;
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     /**
      * Get id
@@ -197,25 +200,5 @@ class Attachment
     public function getFileSize()
     {
         return $this->fileSize;
-    }
-
-    /**
-     * Set ownedBy
-     *
-     * @param UserInterface $ownedBy
-     */
-    public function setOwnedBy(UserInterface $ownedBy)
-    {
-        $this->ownedBy = $ownedBy;
-    }
-
-    /**
-     * Get ownedBy
-     *
-     * @return UserInterface
-     */
-    public function getOwnedBy()
-    {
-        return $this->ownedBy;
     }
 }
