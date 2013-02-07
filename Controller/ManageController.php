@@ -75,7 +75,6 @@ class ManageController extends ContainerAware
 
         return $this->container->get('templating')->renderResponse('CCDNComponentAttachmentBundle:Manage:list.html.' . $this->getEngine(), array(
             'user' => $user,
-            'user_profile_route' => $this->container->getParameter('ccdn_component_attachment.user.profile_route'),
             'crumbs' => $crumbs,
             'attachments' => $attachmentsPager->getCurrentPageResults(),
             'pager' => $attachmentsPager,
@@ -119,7 +118,6 @@ class ManageController extends ContainerAware
                     $this->container->get('router')->generate('ccdn_component_attachment_upload'), "publish");
 
             return $this->container->get('templating')->renderResponse('CCDNComponentAttachmentBundle:Manage:upload.html.' . $this->getEngine(), array(
-                'user_profile_route' => $this->container->getParameter('ccdn_component_attachment.user.profile_route'),
                 'crumbs' => $crumbs,
                 'form' => $form->createView(),
                 'quotas' => $quotas,

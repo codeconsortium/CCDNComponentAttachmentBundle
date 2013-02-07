@@ -8,8 +8,6 @@ All available configuration options are listed below with their default values.
 # for CCDNComponent AttachmentBundle
 #
 ccdn_component_attachment:
-    user:
-        profile_route:        ccdn_user_profile_show_by_id
     template:
         engine:               twig
     store:
