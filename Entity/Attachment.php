@@ -17,9 +17,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 use CCDNComponent\AttachmentBundle\Model\Attachment as AbstractAttachment;
 
-/**
- * @ORM\Entity(repositoryClass="CCDNComponent\AttachmentBundle\Repository\AttachmentRepository")
- */
 class Attachment extends AbstractAttachment
 {
     const ENDPOINT = 'attachment';
