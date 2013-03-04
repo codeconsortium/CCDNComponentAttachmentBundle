@@ -52,8 +52,15 @@ class AttachmentType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('attachment', 'file', array('required' => true));
-        $builder->add('description', 'text');
+        $builder->add('attachment', 'file', array(
+			'required' => true,
+			'label' => 'ccdn_component_attachment.form.label.attachment.upload.file',
+			'translation_domain' => 'CCDNComponentAttachmentBundle'
+		));
+        $builder->add('description', 'bb_editor', array(
+			'label' => 'ccdn_component_attachment.form.label.attachment.upload.description',
+			'translation_domain' => 'CCDNComponentAttachmentBundle'
+        ));
 
     }
 
