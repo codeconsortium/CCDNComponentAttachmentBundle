@@ -12,34 +12,34 @@
 {% endblock %}
 
 
-{% block body %}
+{% block body_content %}
 
 	{%- spaceless -%}
 
-	{%- include 'CCDNComponentCommonBundle:Flashes:flashes.html.twig' -%}
+	<section>
+		{%- form_theme form ccdn_component_attachment.manage.upload.form_theme -%}
+		<form action="{{- path('ccdn_component_attachment_upload') -}}" method="post" {{ form_enctype(form) }} class="form-horizontal">
+			<fieldset>
 
-	{%- form_theme form ccdn_component_attachment.manage.upload.form_theme -%}
-	<form action="{{- path('ccdn_component_attachment_upload') -}}" method="post" {{ form_enctype(form) }} class="form-horizontal">
-		<fieldset>
-
-			<div class="control-group form-title">
-				<div class="controls">
-					<h3>{{- 'ccdn_component_attachment.title.upload' | trans({}, 'CCDNComponentAttachmentBundle') -}}</h3>
+				<div class="control-group form-title">
+					<div class="controls">
+						<h3>{{- 'ccdn_component_attachment.title.upload' | trans({}, 'CCDNComponentAttachmentBundle') -}}</h3>
+					</div>
 				</div>
-			</div>
 
-			{{- form_errors(form) -}}
+				{{- form_errors(form) -}}
 
-			{{- form_widget(form) -}}
+				{{- form_widget(form) -}}
 			
-			<div class="form-actions">
-				<input type="submit" class="btn btn-primary" value="{{- 'ccdn_component_attachment.form.button.attachment.upload' | trans({}, 'CCDNComponentAttachmentBundle') -}}">&nbsp;
-				<a class="btn" href="{{- path('ccdn_component_attachment_index') -}}">{{- 'ccdn_component_attachment.form.button.cancel' | trans({}, 'CCDNComponentAttachmentBundle') -}}</a>
-			</div>
+				<div class="form-actions">
+					<input type="submit" class="btn btn-primary" value="{{- 'ccdn_component_attachment.form.button.attachment.upload' | trans({}, 'CCDNComponentAttachmentBundle') -}}">
+					<a class="btn" href="{{- path('ccdn_component_attachment_index') -}}">{{- 'ccdn_component_attachment.form.button.cancel' | trans({}, 'CCDNComponentAttachmentBundle') -}}</a>
+				</div>
 
-		</fieldset>
-	</form>
-
+			</fieldset>
+		</form>
+	</section>
+	
 	{%- endspaceless -%}
 
-{% endblock %}
+{% endblock body_content %}
