@@ -19,10 +19,14 @@ abstract class Attachment
 {
     /** @var UserInterface $ownedBy */
     protected $ownedBy;
-
+	
+	/**
+	 *
+	 * @access public
+	 */
     public function __construct()
     {
-
+        // your own logic
     }
 
     /**

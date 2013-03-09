@@ -45,9 +45,14 @@ class Attachment extends AbstractAttachment
     /** @var File $attachment */
     protected $attachment;
 
+	/**
+	 *
+	 * @access public
+	 */
     public function __construct()
     {
         parent::__construct();
+        // your own logic
     }
 
     /**

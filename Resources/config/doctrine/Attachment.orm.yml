@@ -8,26 +8,26 @@ CCDNComponent\AttachmentBundle\Entity\Attachment:
             generator: { strategy: AUTO }
     fields:
         createdDate:
-            name: "created_date"
             type: datetime
+            column: created_date
         description:
             type: text
             nullable: true
         filenameOriginal:
             type: string
-            name: "file_name_original"
+            column: file_name_original
             nullable: true
         filenameHashed:
             type: string
-            name: "file_name_hashed"
+            column: file_name_hashed
             nullable: true
         fileExtension:
             type: string
-            name: "file_extension"
+            column: file_extension
             nullable: true
         fileSize:
             type: string
-            name: "file_size"
+            column: file_size
             nullable: true
     manyToOne:
         ownedBy:
