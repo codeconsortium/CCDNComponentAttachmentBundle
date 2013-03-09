@@ -30,16 +30,6 @@ abstract class Attachment
     }
 
     /**
-     * Set ownedBy
-     *
-     * @param UserInterface $ownedBy
-     */
-    public function setOwnedBy(UserInterface $ownedBy)
-    {
-        $this->ownedBy = $ownedBy;
-    }
-
-    /**
      * Get ownedBy
      *
      * @return UserInterface
@@ -47,5 +37,18 @@ abstract class Attachment
     public function getOwnedBy()
     {
         return $this->ownedBy;
+    }
+	
+    /**
+     * Set ownedBy
+     *
+     * @param UserInterface $ownedBy
+	 * @return Attachment
+     */
+    public function setOwnedBy(UserInterface $ownedBy)
+    {
+        $this->ownedBy = $ownedBy;
+		
+		return $this;
     }
 }

@@ -88,10 +88,13 @@ class Attachment extends AbstractAttachment
      * Set created_date
      *
      * @param datetime $createdDate
+	 * @return Attachment
      */
     public function setCreatedDate($createdDate)
     {
         $this->createdDate = $createdDate;
+		
+		return $this;
     }
 
     /**
@@ -108,10 +111,13 @@ class Attachment extends AbstractAttachment
      * Set description
      *
      * @param text $description
+	 * @return Attachment
      */
     public function setDescription($description)
     {
         $this->description = $description;
+		
+		return $this;
     }
 
     /**
@@ -128,10 +134,13 @@ class Attachment extends AbstractAttachment
      * Set filenameOriginal
      *
      * @param string $filenameOriginal
+	 * @return Attachment
      */
     public function setFilenameOriginal($filenameOriginal)
     {
         $this->filenameOriginal = $filenameOriginal;
+		
+		return $this;
     }
 
     /**
@@ -148,10 +157,13 @@ class Attachment extends AbstractAttachment
      * Set filenameHashed
      *
      * @param string $filenameHashed
+	 * @return Attachment
      */
     public function setFilenameHashed($filenameHashed)
     {
         $this->filenameHashed = $filenameHashed;
+		
+		return $this;
     }
 
     /**
@@ -168,10 +180,13 @@ class Attachment extends AbstractAttachment
      * Set fileExtension
      *
      * @param string $fileExtension
+	 * @return Attachment
      */
     public function setFileExtension($fileExtension)
     {
         $this->fileExtension = $fileExtension;
+		
+		return $this;
     }
 
     /**
@@ -188,10 +203,13 @@ class Attachment extends AbstractAttachment
      * Set fileSize
      *
      * @param text $fileSize
+	 * @return Attachment
      */
     public function setFileSize($fileSize)
     {
         $this->fileSize = $fileSize;
+		
+		return $this;
     }
 
     /**
