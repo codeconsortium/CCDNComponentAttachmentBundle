@@ -1,6 +1,6 @@
 CCDNComponent\AttachmentBundle\Entity\Attachment:
     type: entity
-    table: CC_Component_Attachment
+    table: cc_component_attachment
     repositoryClass: CCDNComponent\AttachmentBundle\Repository\AttachmentRepository
     id:
         id:
