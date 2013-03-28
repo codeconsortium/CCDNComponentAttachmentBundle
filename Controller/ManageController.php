@@ -17,17 +17,17 @@ use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\User\UserInterface;
 
-use FOS\UserBundle\Model\UserInterface;
+use CCDNComponent\AttachmentBundle\Controller\ManageBaseController;
 
 /**
  *
  * @author Reece Fowell <reece@codeconsortium.com>
  * @version 1.0
  */
-class ManageController extends ContainerAware
+class ManageController extends ManageBaseController
 {
-
     /**
      *
      * @access public
@@ -36,27 +36,20 @@ class ManageController extends ContainerAware
      */
     public function indexAction($page, $userId)
     {
+		$this->isAuthorised('ROLE_USER');
 
-        if ( ! $this->container->get('security.context')->isGranted('ROLE_USER')) {
-            throw new AccessDeniedException('You do not have permission to access this resource!');
-        }
-
+		$crumbs = $this->getCrumbs();
+		
         if ($userId > 0) {
-            if ( ! $this->container->get('security.context')->isGranted('ROLE_MODERATOR')) {
-                throw new AccessDeniedException('You do not have permission to access this resource!');
-            }
+			$this->isAuthorised('ROLE_MODERATOR');
 
             $user = $this->container->get('ccdn_user_user.repository.user')->findOneById($userId);
 
-            $crumbs = $this->container->get('ccdn_component_crumb.trail')
-                ->add($this->container->get('translator')->trans('crumbs.attachments_index', array(), 'CCDNComponentAttachmentBundle'),
-                    $this->container->get('router')->generate('ccdn_component_attachment_index_for_user', array('userId' => $userId)), "home");
+            $crumbs->add($this->trans('crumbs.attachments_index'), $this->path('ccdn_component_attachment_index_for_user', array('userId' => $userId)));
         } else {
             $user = $this->container->get('security.context')->getToken()->getUser();
 
-            $crumbs = $this->container->get('ccdn_component_crumb.trail')
-                ->add($this->container->get('translator')->trans('ccdn_component_attachment.crumbs.index', array(), 'CCDNComponentAttachmentBundle'),
-                    $this->container->get('router')->generate('ccdn_component_attachment_index'), "home");
+            $crumbs->add($this->trans('ccdn_component_attachment.crumbs.index'), $this->path('ccdn_component_attachment_index'));
         }
 
         if ( ! is_object($user) || ! $user instanceof UserInterface) {
@@ -73,7 +66,7 @@ class ManageController extends ContainerAware
         $attachmentsPager->setMaxPerPage($attachmentsPerPage);
         $attachmentsPager->setCurrentPage($page, false, true);
 
-        return $this->container->get('templating')->renderResponse('CCDNComponentAttachmentBundle:Manage:list.html.' . $this->getEngine(), array(
+        return $this->renderResponse('CCDNComponentAttachmentBundle:Manage:list.html.', array(
             'user' => $user,
             'crumbs' => $crumbs,
             'attachments' => $attachmentsPager->getCurrentPageResults(),
@@ -89,35 +82,28 @@ class ManageController extends ContainerAware
      */
     public function uploadAction()
     {
-        //
-        //	Invalidate this action / redirect if user should not have access to it
-        //
-        if ( ! $this->container->get('security.context')->isGranted('ROLE_USER')) {
-            throw new AccessDeniedException('You do not have permission to use this resource!');
-        }
+		$this->isAuthorised('ROLE_USER');
 
-        $user = $this->container->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
 
-        $formHandler = $this->container->get('ccdn_component_attachment.form.handler.attachment_upload')->setOptions(array('user' => $user));
+        //$formHandler = $this->container->get('ccdn_component_attachment.form.handler.attachment_upload')->setOptions(array('user' => $user));
+		$formHandler = $this->getFormHandlerToUploadFiles($user);
 
         $form = $formHandler->getForm();
 
         if ($formHandler->process()) {
-            $this->container->get('session')->setFlash('success',
-                $this->container->get('translator')->trans('ccdn_component_attachment.flash.attachment.upload.success', array('%file_name%' => $formHandler->getForm()->getData()->getFileNameOriginal()), 'CCDNComponentAttachmentBundle'));
+            $this->setFlash('success', $this->trans('ccdn_component_attachment.flash.attachment.upload.success', array('%file_name%' => $formHandler->getForm()->getData()->getFileNameOriginal())));
 
-            return new RedirectResponse($this->container->get('router')->generate('ccdn_component_attachment_index'));
+            return $this->redirectResponse($this->path('ccdn_component_attachment_index'));
         } else {
             $quotas = $this->container->get('ccdn_component_attachment.manager.attachment')->calculateQuotasForUser($user);
 
             // setup crumb trail.
-            $crumbs = $this->container->get('ccdn_component_crumb.trail')
-                ->add($this->container->get('translator')->trans('ccdn_component_attachment.crumbs.index', array(), 'CCDNComponentAttachmentBundle'),
-                    $this->container->get('router')->generate('ccdn_component_attachment_index'), "home")
-                ->add($this->container->get('translator')->trans('ccdn_component_attachment.crumbs.upload', array(), 'CCDNComponentAttachmentBundle'),
-                    $this->container->get('router')->generate('ccdn_component_attachment_upload'), "publish");
+            $crumbs = $this->getCrumbs()
+                ->add($this->trans('ccdn_component_attachment.crumbs.index'), $this->path('ccdn_component_attachment_index'))
+                ->add($this->trans('ccdn_component_attachment.crumbs.upload'), $this->path('ccdn_component_attachment_upload'));
 
-            return $this->container->get('templating')->renderResponse('CCDNComponentAttachmentBundle:Manage:upload.html.' . $this->getEngine(), array(
+            return $this->renderResponse('CCDNComponentAttachmentBundle:Manage:upload.html.', array(
                 'crumbs' => $crumbs,
                 'form' => $form->createView(),
                 'quotas' => $quotas,
@@ -132,48 +118,23 @@ class ManageController extends ContainerAware
      */
     public function bulkAction()
     {
-        if ( ! $this->container->get('security.context')->isGranted('ROLE_USER')) {
-            throw new AccessDeniedException('You do not have access to this section.');
-        }
+		$this->isAuthorised('ROLE_USER');
 
         // get all the message id's
-        $objectIds = array();
-        $ids = $_POST;
-        foreach ($ids as $objectKey => $objectId) {
-            if (substr($objectKey, 0, 18) == 'check_multiselect_') {
-                $id = (int) substr($objectKey, 18, (strlen($objectKey) - 18));
-
-                if (is_int($id) == true) {
-                    $objectIds[] = $id;
-                }
-            }
+		$attachmentIds = $this->getCheckedItemIds('check_');
+			
+        if (count($attachmentIds) < 1) {
+            return $this->redirectResponse($this->container->get('router')->generate('ccdn_component_attachment_index'));
         }
 
-        if (count($objectIds) < 1) {
-            return new RedirectResponse($this->container->get('router')->generate('ccdn_component_attachment_index'));
-        }
+        $user = $this->getUser();
 
-        $user = $this->container->get('security.context')->getToken()->getUser();
-
-        $attachments = $this->container->get('ccdn_component_attachment.repository.attachment')->findTheseAttachmentsByUserId($objectIds, $user->getId());
+        $attachments = $this->container->get('ccdn_component_attachment.repository.attachment')->findTheseAttachmentsByUserId($attachmentIds, $user->getId());
 
         if (isset($_POST['submit_delete'])) {
             $this->container->get('ccdn_component_attachment.manager.attachment')->bulkDelete($attachments)->flush();
         }
 
-        return new RedirectResponse($this->container->get('router')->generate('ccdn_component_attachment_index'));
+        return $this->redirectResponse($this->path('ccdn_component_attachment_index'));
     }
-
-
-
-    /**
-     *
-     * @access protected
-     * @return string
-     */
-    protected function getEngine()
-    {
-        return $this->container->getParameter('ccdn_component_attachment.template.engine');
-    }
-
 }

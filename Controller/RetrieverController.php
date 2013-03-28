@@ -19,14 +19,15 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
+use CCDNComponent\AttachmentBundle\Controller\BaseController;
+
 /**
  *
  * @author Reece Fowell <reece@codeconsortium.com>
  * @version 1.0
  */
-class RetrieverController extends ContainerAware
+class RetrieverController extends BaseController
 {
-
     /**
      *
      * @access public
@@ -74,12 +75,7 @@ class RetrieverController extends ContainerAware
      */
     public function downloadAction($attachmentId)
     {
-        //
-        //	Invalidate this action / redirect if user should not have access to it
-        //
-        if ( ! $this->container->get('security.context')->isGranted('ROLE_USER')) {
-            throw new AccessDeniedException('You do not have permission to use this resource!');
-        }
+        $this->isAuthorised('ROLE_USER');
 
         $user = $this->container->get('security.context')->getToken()->getUser();
 
@@ -97,29 +93,13 @@ class RetrieverController extends ContainerAware
         $fileResolver->setFileName($fileRecord->getFileNameHashed());
         $fileResolver->setFileExtension($fileRecord->getFileExtension());
 
-        if ($fileResolver->locateFile()) {
-            if ( ! $fileResolver->loadFileData()) {
-                throw new NotFoundHttpException('file data unable to be loaded.');
-            }
-        } else {
-            throw new NotFoundHttpException('file was not located.');
-        }
-
+		$this->isFound($fileResolver->locateFile(), 'file data unable to be loaded.');
+		$this->isFound($fileResolver->loadFileData(), 'file was not located.');
+		
         return new Response(
             $fileResolver->getFileData(),
             200,
             $fileResolver->getHTTPHeaders()
         );
     }
-
-    /**
-     *
-     * @access protected
-     * @return string
-     */
-    protected function getEngine()
-    {
-        return $this->container->getParameter('ccdn_component_attachment.template.engine');
-    }
-
 }
