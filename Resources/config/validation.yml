@@ -11,6 +11,6 @@ CCDNComponent\AttachmentBundle\Entity\Attachment:
         attachment:
             - NotNull: { groups: [upload] }
             - File: { groups: [upload] }
-            - "CCDNComponentAttachmentBundle:UploadQuotaFileSize": { groups: [upload] }
-            - "CCDNComponentAttachmentBundle:UploadQuotaDiskSpace": { groups: [upload] }
-            - "CCDNComponentAttachmentBundle:UploadQuotaFileQuantity": { groups: [upload] }
+#            - "CCDNComponentAttachmentBundle:UploadQuotaFileSize": { groups: [upload] }
+#            - "CCDNComponentAttachmentBundle:UploadQuotaDiskSpace": { groups: [upload] }
+#            - "CCDNComponentAttachmentBundle:UploadQuotaFileQuantity": { groups: [upload] }

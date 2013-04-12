@@ -1,19 +1,6 @@
 parameters:
 
-    ccdn_component_attachment.repository.attachment.class:                      CCDNComponent\AttachmentBundle\Repository\AttachmentRepository
-
-    ccdn_component_attachment.manager.attachment.class:                         CCDNComponent\AttachmentBundle\Manager\AttachmentManager
-
-    ccdn_component_attachment.form.type.attachment.class:                       CCDNComponent\AttachmentBundle\Form\Type\AttachmentType
-    ccdn_component_attachment.form.handler.attachment_upload.class:             CCDNComponent\AttachmentBundle\Form\Handler\AttachmentInsertFormHandler
-    ccdn_component_attachment.form.validator.upload_quota_disk_space.class:     CCDNComponent\AttachmentBundle\Form\Validator\UploadQuotaDiskSpaceValidator
-    ccdn_component_attachment.form.validator.upload_quota_file_quantity.class:  CCDNComponent\AttachmentBundle\Form\Validator\UploadQuotaFileQuantityValidator
-    ccdn_component_attachment.form.validator.upload_quota_file_size.class:      CCDNComponent\AttachmentBundle\Form\Validator\UploadQuotaFileSizeValidator
-
-    ccdn_component_attachment.component.helper.file_resolver.class:             CCDNComponent\AttachmentBundle\Component\Helper\FileResolver
-
-    ccdn_component_attachment.component.dashboard.integrator.class:             CCDNComponent\AttachmentBundle\Component\Dashboard\DashboardIntegrator
-    ccdn_component_attachment.component.route_referer_ignore.list.class:        CCDNComponent\AttachmentBundle\Component\RouteRefererIgnore\RouteRefererIgnoreList
+    # Service Parameters defined in app/config
     
 services:
 
@@ -25,38 +12,118 @@ services:
         factory_service: doctrine.orm.default_entity_manager
         factory_method: getRepository
         arguments:
-            - 'CCDNComponent\AttachmentBundle\Entity\Attachment'
+            - %ccdn_component_attachment.entity.attachment.class%
+
+    ccdn_component_attachment.repository.folder:
+        class: %ccdn_component_attachment.repository.folder.class%
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+            - %ccdn_component_attachment.entity.folder.class%
+
+    ccdn_component_attachment.repository.registry:
+        class: %ccdn_component_attachment.repository.registry.class%
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+            - %ccdn_component_attachment.entity.registry.class%
+
+    #
+    # Gateways.
+    #
+    ccdn_component_attachment.gateway_bag:
+        class: %ccdn_component_attachment.gateway_bag.class%
+        arguments: [@service_container]
+
+    ccdn_component_attachment.gateway.attachment:
+        class: %ccdn_component_attachment.gateway.attachment.class%
+        arguments:
+            - @doctrine
+            - @ccdn_component_attachment.gateway_bag
+            - %ccdn_component_attachment.entity.attachment.class%
+
+    ccdn_component_attachment.gateway.folder:
+        class: %ccdn_component_attachment.gateway.folder.class%
+        arguments:
+            - @doctrine
+            - @ccdn_component_attachment.gateway_bag
+            - %ccdn_component_attachment.entity.folder.class%
+
+    ccdn_component_attachment.gateway.registry:
+        class: %ccdn_component_attachment.gateway.registry.class%
+        arguments:
+            - @doctrine
+            - @ccdn_component_attachment.gateway_bag
+            - %ccdn_component_attachment.entity.registry.class%
 
     #
     # Managers.
     #
+    ccdn_component_attachment.manager_bag:
+        class: %ccdn_component_attachment.manager_bag.class%
+        arguments: [@service_container]
+
     ccdn_component_attachment.manager.attachment:
-        class:  %ccdn_component_attachment.manager.attachment.class%
-        arguments:  [@doctrine, @service_container]
+        class: %ccdn_component_attachment.manager.attachment.class%
+        arguments:
+            - @doctrine
+            - @security.context
+            - @ccdn_component_attachment.gateway.attachment
+            - @ccdn_component_attachment.manager_bag
+
+    ccdn_component_attachment.manager.folder:
+        class: %ccdn_component_attachment.manager.folder.class%
+        arguments:
+            - @doctrine
+            - @security.context
+            - @ccdn_component_attachment.gateway.folder
+            - @ccdn_component_attachment.manager_bag
+
+    ccdn_component_attachment.manager.registry:
+        class: %ccdn_component_attachment.manager.registry.class%
+        arguments:
+            - @doctrine
+            - @security.context
+            - @ccdn_component_attachment.gateway.registry
+            - @ccdn_component_attachment.manager_bag
 
     #
     # Attachment Forms.
     #
-    ccdn_component_attachment.form.type.attachment:
-        class:  %ccdn_component_attachment.form.type.attachment.class%
-        arguments:  [@doctrine]
+    ccdn_component_attachment.form.type.attachment_upload:
+        class: %ccdn_component_attachment.form.type.attachment_upload.class%
+        arguments: 
+            - @doctrine
+
     ccdn_component_attachment.form.handler.attachment_upload:
-        class:  %ccdn_component_attachment.form.handler.attachment_upload.class%
-        arguments:  [@form.factory, @service_container, @ccdn_component_attachment.manager.attachment]
+        class: %ccdn_component_attachment.form.handler.attachment_upload.class%
+        arguments:
+            - @form.factory
+            - @ccdn_component_attachment.form.type.attachment_upload
+            - @ccdn_component_attachment.manager.attachment
+            - @ccdn_component_attachment.component.helper.file_manager
 
     ccdn_component_attachment.form.validator.upload_quota_disk_space:
         class: %ccdn_component_attachment.form.validator.upload_quota_disk_space.class%
-        arguments: [@doctrine, @service_container]
+        arguments:
+            - @doctrine
+            - @service_container
         tags:
             - { name: validator.constraint_validator, alias: upload_quota_disk_space }
+
     ccdn_component_attachment.form.validator.upload_quota_file_quantity:
         class: %ccdn_component_attachment.form.validator.upload_quota_file_quantity.class%
-        arguments: [@doctrine, @service_container]
+        arguments:
+            - @doctrine
+            - @service_container
         tags:
             - { name: validator.constraint_validator, alias: upload_quota_file_quantity }
+
     ccdn_component_attachment.form.validator.upload_quota_file_size:
         class: %ccdn_component_attachment.form.validator.upload_quota_file_size.class%
-        arguments: [@doctrine, @service_container]
+        arguments:
+            - @doctrine
+            - @service_container
         tags:
             - { name: validator.constraint_validator, alias: upload_quota_file_size }
 
@@ -65,7 +132,14 @@ services:
     #
     ccdn_component_attachment.component.helper.file_resolver:
         class: %ccdn_component_attachment.component.helper.file_resolver.class%
-        arguments: [@service_container]
+        arguments:
+            - @service_container
+
+    ccdn_component_attachment.component.helper.file_manager:
+        class: %ccdn_component_attachment.component.helper.file_manager.class%
+        arguments:
+            - @ccdn_component_common.component.helper.bin_si_units
+            - %ccdn_component_attachment.store.dir%
 
     #
     # Dashboard Integrator.

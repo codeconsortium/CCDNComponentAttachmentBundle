@@ -30,7 +30,7 @@ CCDNComponent\AttachmentBundle\Entity\Attachment:
             column: file_size
             nullable: true
     manyToOne:
-        ownedBy:
+        ownedByUser:
             targetEntity: Symfony\Component\Security\Core\User\UserInterface
             #cascade: ["persist"]
             nullable: true

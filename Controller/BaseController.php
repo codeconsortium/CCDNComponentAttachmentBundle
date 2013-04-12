@@ -55,19 +55,25 @@ class BaseController extends ContainerAware
 	 * @var \Symfony\Component\Security\Core\SecurityContext $securityContext
 	 */
 	private $securityContext;
-	
+
+	/**
+	 *
+	 * @var \CCDNComponent\AttachmentBundle\Manager\FolderManager $folderManager
+	 */
+	private $folderManager;
+		
 	/**
 	 *
 	 * @var \CCDNComponent\AttachmentBundle\Manager\AttachmentManager $attachmentManager
 	 */
 	private $attachmentManager;
 	
-	/** 
-	 * 
-	 * @var \CCDNComponent\AttachmentBundle\Manager\PolicyManager $policyManager;
+	/**
+	 *
+	 * @var \CCDNComponent\AttachmentBundle\Manager\RegistryManager $registryManager
 	 */
-	private $policyManager;
-		
+	private $registryManager;
+	
 	/**
 	 *
 	 * @access protected
@@ -323,6 +329,20 @@ class BaseController extends ContainerAware
 	/**
 	 *
 	 * @access protected
+	 * @return \CCDNComponent\AttachmentBundle\Manager\FolderManager
+	 */
+	protected function getFolderManager()
+	{
+		if (null == $this->folderManager) {
+			$this->folderManager = $this->container->get('ccdn_component_attachment.manager.folder');
+		}
+		
+		return $this->folderManager;
+	}
+	
+	/**
+	 *
+	 * @access protected
 	 * @return \CCDNComponent\AttachmentBundle\Manager\AttachmentManager
 	 */
 	protected function getAttachmentManager()
@@ -337,15 +357,15 @@ class BaseController extends ContainerAware
 	/**
 	 *
 	 * @access protected
-	 * @return \CCDNComponent\AttachmentBundle\Manager\PolicyManager
+	 * @return \CCDNComponent\AttachmentBundle\Manager\RegistryManager
 	 */
-	protected function getPolicyManager()
+	protected function getRegistryManager()
 	{
-		if (null == $this->policyManager) {
-			$this->policyManager = $this->container->get('ccdn_component_attachment.manager.policy');
+		if (null == $this->registryManager) {
+			$this->registryManager = $this->container->get('ccdn_component_attachment.manager.registry');
 		}
 		
-		return $this->policyManager;
+		return $this->registryManager;
 	}
 	
 	/**
@@ -354,6 +374,6 @@ class BaseController extends ContainerAware
 	 */
 	protected function getCrumbs()
 	{
-		return $this->container->get('ccdn_component_crumb.trail');
+		return $this->container->get('ccdn_component_crumb_trail.component.trail');
 	}
 }

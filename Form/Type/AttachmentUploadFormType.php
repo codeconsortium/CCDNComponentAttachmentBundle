@@ -21,30 +21,8 @@ use Symfony\Component\Form\FormBuilderInterface;
  * @author Reece Fowell <reece@codeconsortium.com>
  * @version 1.0
  */
-class AttachmentType extends AbstractType
+class AttachmentUploadFormType extends AbstractType
 {
-
-    /**
-     *
-     * @access private
-     */
-    private $options;
-
-    public function __construct()
-    {
-        $this->options = array();
-    }
-
-    /**
-     *
-     * @access public
-     * @param array $options
-     */
-    public function setOptions(array $options)
-    {
-        $this->options = $options;
-    }
-
     /**
      *
      * @access public
@@ -52,16 +30,21 @@ class AttachmentType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('attachment', 'file', array(
-			'required' => true,
-			'label' => 'ccdn_component_attachment.form.label.attachment.upload.file',
-			'translation_domain' => 'CCDNComponentAttachmentBundle'
-		));
-        $builder->add('description', 'bb_editor', array(
-			'label' => 'ccdn_component_attachment.form.label.attachment.upload.description',
-			'translation_domain' => 'CCDNComponentAttachmentBundle'
-        ));
-
+        $builder
+			->add('attachment', 'file',
+				array(
+					'required' => true,
+					'label' => 'ccdn_component_attachment.form.label.attachment.upload.file',
+					'translation_domain' => 'CCDNComponentAttachmentBundle'
+				)
+			)
+			->add('description', 'bb_editor',
+				array(
+					'label' => 'ccdn_component_attachment.form.label.attachment.upload.description',
+					'translation_domain' => 'CCDNComponentAttachmentBundle'
+		        )
+			)
+		;
     }
 
     /**
@@ -93,5 +76,4 @@ class AttachmentType extends AbstractType
     {
         return 'Attachment';
     }
-
 }

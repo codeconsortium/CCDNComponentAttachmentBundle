@@ -17,8 +17,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 abstract class Attachment
 {
-    /** @var UserInterface $ownedBy */
-    protected $ownedBy;
+    /** @var UserInterface $ownedByUser */
+    protected $ownedByUser;
 	
 	/**
 	 *
@@ -30,24 +30,24 @@ abstract class Attachment
     }
 
     /**
-     * Get ownedBy
+     * Get ownedByUser
      *
      * @return UserInterface
      */
-    public function getOwnedBy()
+    public function getOwnedByUser()
     {
-        return $this->ownedBy;
+        return $this->ownedByUser;
     }
 	
     /**
-     * Set ownedBy
+     * Set ownedByUser
      *
-     * @param UserInterface $ownedBy
+     * @param UserInterface $ownedByUser
 	 * @return Attachment
      */
-    public function setOwnedBy(UserInterface $ownedBy)
+    public function setOwnedByUser(UserInterface $ownedByUser)
     {
-        $this->ownedBy = $ownedBy;
+        $this->ownedByUser = $ownedByUser;
 		
 		return $this;
     }

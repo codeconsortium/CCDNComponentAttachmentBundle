@@ -38,7 +38,7 @@ class ManageBaseController extends BaseController
 	{
 		$formHandler = $this->container->get('ccdn_component_attachment.form.handler.attachment_upload');
 			
-		$formHandler->setOptions(array('user' => $user));
+		$formHandler->setUser($user);
 		
 		return $formHandler;
 	}

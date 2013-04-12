@@ -36,7 +36,7 @@ class AttachmentRepository extends EntityRepository
         $query = $this->getEntityManager()
             ->createQuery('
                 SELECT a, FROM CCDNComponentAttachmentBundle:Attachment a
-                WHERE a.ownedBy = :userId AND a.id = :attachmentId
+                WHERE a.ownedByUser = :userId AND a.id = :attachmentId
                 GROUP BY a.id')
             ->setParameters(array('attachmentId' => $attachmentId, 'userId' => $userId));
 
@@ -57,8 +57,8 @@ class AttachmentRepository extends EntityRepository
         $query = $this->getEntityManager()
             ->createQuery('
                 SELECT a, u FROM CCDNComponentAttachmentBundle:Attachment a
-                LEFT JOIN a.ownedBy u
-                WHERE a.ownedBy = :userId
+                LEFT JOIN a.ownedByUser u
+                WHERE a.ownedByUser = :userId
                 GROUP BY a.id
                 ORDER BY a.createdDate DESC')
             ->setParameter('userId', $userId);
@@ -80,8 +80,8 @@ class AttachmentRepository extends EntityRepository
         $query = $this->getEntityManager()
             ->createQuery('
                 SELECT a, u FROM CCDNComponentAttachmentBundle:Attachment a
-                LEFT JOIN a.ownedBy u
-                WHERE a.ownedBy = :userId
+                LEFT JOIN a.ownedByUser u
+                WHERE a.ownedByUser = :userId
                 GROUP BY a.id
                 ORDER BY a.createdDate DESC')
             ->setParameter('userId', $userId);
@@ -103,7 +103,7 @@ class AttachmentRepository extends EntityRepository
         $qb = $this->getEntityManager()->createQueryBuilder('a');
         $qb->select('a')
             ->from('CCDNComponentAttachmentBundle:Attachment', 'a')
-            ->where($qb->expr()->eq('a.ownedBy', '?1'))
+            ->where($qb->expr()->eq('a.ownedByUser', '?1'))
             ->setParameter('1', $userId);
 
         try {
@@ -124,7 +124,7 @@ class AttachmentRepository extends EntityRepository
         $query = $qb->add('select', 'a')
             ->from('CCDNComponentAttachmentBundle:Attachment', 'a')
             ->where($qb->expr()->andx(
-                $qb->expr()->eq('a.ownedBy', '?1'),
+                $qb->expr()->eq('a.ownedByUser', '?1'),
                 $qb->expr()->in('a.id', '?2')))
             ->setParameters(array('1' => $userId, '2' => array_values($objectIds)))
             ->getQuery();

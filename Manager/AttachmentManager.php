@@ -13,24 +13,51 @@
 
 namespace CCDNComponent\AttachmentBundle\Manager;
 
-use CCDNComponent\AttachmentBundle\Manager\ManagerInterface;
+use CCDNComponent\AttachmentBundle\Manager\BaseManagerInterface;
 use CCDNComponent\AttachmentBundle\Manager\BaseManager;
+
+use CCDNComponent\AttachmentBundle\Entity\Attachment;
 
 /**
  *
  * @author Reece Fowell <reece@codeconsortium.com>
  * @version 1.0
  */
-class AttachmentManager extends BaseManager implements ManagerInterface
+class AttachmentManager extends BaseManager implements BaseManagerInterface
 {
+	/**
+	 *
+	 * @access public
+	 * @param int $userId
+	 * @param int $page
+	 * @return \Pagerfanta\Pagerfanta
+	 */	
+ 	public function findAllAttachmentsPaginatedForUserById($userId, $page)
+	{
+		if (null == $userId || ! is_numeric($userId) || $userId == 0) {
+			throw new \Exception('User id "' . $userId . '" is invalid!');
+		}
+		
+		$params = array(':userId' => $userId);
+	
+		$qb = $this->createSelectQuery(array('a', 'a_owned_by'));
+	
+		$qb
+			->join('a.ownedByUser', 'a_owned_by')
+			->where('a.ownedByUser = :userId')
+			->setParameters($params)
+			->addOrderBy('a.createdDate', 'DESC');
 
+		return $this->gateway->paginateQuery($qb, $this->getAttachmentsPerPageOnFolders(), $page);
+	}
+	
     /**
      *
      * @access public
      * @param string $attachment
      * @return self
      */
-    public function insert($attachment)
+    public function saveUpload(Attachment $attachment)
     {
         $this->persist($attachment)->flush();
 
@@ -93,19 +120,20 @@ class AttachmentManager extends BaseManager implements ManagerInterface
      */
     public function calculateQuotasForUser($user)
     {
-        $attachments = $this->container->get('ccdn_component_attachment.repository.attachment')->findForUserByIdAsArray($user->getId());
+        //$attachments = $this->container->get('ccdn_component_attachment.repository.attachment')->findForUserByIdAsArray($user->getId());
+		$attachments = array();
 
-        $calc = $this->container->get('ccdn_component_common.component.helper.bin_si_units');
+        //$calc = $this->container->get('ccdn_component_common.component.helper.bin_si_units');
 
         // get max_files_quantity quota
-        $maxQuotaQuantity = $this->container->getParameter('ccdn_component_attachment.quota_per_user.max_files_quantity');
+        $maxQuotaQuantity = $this->managerBag->getQuotaFileQuantity();//$this->container->getParameter('ccdn_component_attachment.quota_per_user.max_files_quantity');
 
         // get max_total_quota_in_kb quota
-        $maxQuotaSpace = $this->container->getParameter('ccdn_component_attachment.quota_per_user.max_total_quota');
-        $maxQuotaSpaceInKiB = $calc->formatToSIUnit($maxQuotaSpace, $calc::KiB, false);
+        $maxQuotaSpace = $this->managerBag->getQuotaDiskSpace();//$this->container->getParameter('ccdn_component_attachment.quota_per_user.max_total_quota');
+        $maxQuotaSpaceInKiB = 99;//$calc->formatToSIUnit($maxQuotaSpace, $calc::KiB, false);
 
-        $usedQuotaQuantity = $this->getTotalQuantityQuota($attachments);
-        $usedQuotaSpaceInKiB = $this->getTotalQuotaInKiB($attachments, $calc);
+        $usedQuotaQuantity = 0;//$this->getTotalQuantityQuota($attachments);
+        $usedQuotaSpaceInKiB = 0;//$this->getTotalQuotaInKiB($attachments, $calc);
 
         $results = array(
             'maxQuantity' => $maxQuotaQuantity,
@@ -118,5 +146,4 @@ class AttachmentManager extends BaseManager implements ManagerInterface
 
         return $results;
     }
-
 }

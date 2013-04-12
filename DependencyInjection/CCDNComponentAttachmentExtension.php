@@ -29,9 +29,10 @@ use Symfony\Component\Config\FileLocator;
  */
 class CCDNComponentAttachmentExtension extends Extension
 {
-
     /**
-     * {@inheritDoc}
+	 *
+     * @access public
+	 * @return string
      */
     public function getAlias()
     {
@@ -39,7 +40,10 @@ class CCDNComponentAttachmentExtension extends Extension
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * @access public
+	 * @param array $config
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      */
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -48,45 +52,175 @@ class CCDNComponentAttachmentExtension extends Extension
 
         $config = $processor->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.yml');
-
+		// Class file namespaces.
+        $this
+			->getEntitySection($config, $container)
+	        ->getRepositorySection($config, $container)
+	        ->getGatewaySection($config, $container)
+	        ->getManagerSection($config, $container)
+	        ->getFormSection($config, $container)
+			->getComponentSection($config, $container)
+		;
+			
+		// Configuration stuff.
         $container->setParameter('ccdn_component_attachment.template.engine', $config['template']['engine']);
         $container->setParameter('ccdn_component_attachment.store.dir', $config['store']['dir']);
 
-        $this->getSEOSection($container, $config);
-        $this->getQuotaSection($container, $config);
-        $this->getAttachmentSection($container, $config);
+        $this
+			->getSEOSection($config, $container)
+	        ->getQuotaSection($config, $container)
+	        ->getAttachmentSection($config, $container)
+		;
+		
+		// Load Service definitions.
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('services.yml');
     }
+	
+    /**
+     *
+     * @access private
+	 * @param array $config
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+	 * @return \CCDNComponent\AttachmentBundle\DependencyInjection\CCDNComponentAttachmentExtension
+     */
+    private function getEntitySection(array $config, ContainerBuilder $container)
+    {
+        $container->setParameter('ccdn_component_attachment.entity.folder.class', $config['entity']['folder']['class']);
+        $container->setParameter('ccdn_component_attachment.entity.attachment.class', $config['entity']['attachment']['class']);
+        $container->setParameter('ccdn_component_attachment.entity.registry.class', $config['entity']['registry']['class']);
+		
+		return $this;
+	}
+	
+    /**
+     *
+     * @access private
+	 * @param array $config
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+	 * @return \CCDNComponent\AttachmentBundle\DependencyInjection\CCDNComponentAttachmentExtension
+     */
+    private function getRepositorySection(array $config, ContainerBuilder $container)
+    {
+        $container->setParameter('ccdn_component_attachment.repository.folder.class', $config['repository']['folder']['class']);
+        $container->setParameter('ccdn_component_attachment.repository.attachment.class', $config['repository']['attachment']['class']);
+        $container->setParameter('ccdn_component_attachment.repository.registry.class', $config['repository']['registry']['class']);
+		
+		return $this;
+	}
+	
+    /**
+     *
+     * @access private
+	 * @param array $config
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+	 * @return \CCDNComponent\AttachmentBundle\DependencyInjection\CCDNComponentAttachmentExtension
+     */
+    private function getGatewaySection(array $config, ContainerBuilder $container)
+    {
+        $container->setParameter('ccdn_component_attachment.gateway_bag.class', $config['gateway_bag']['class']);
+
+        $container->setParameter('ccdn_component_attachment.gateway.folder.class', $config['gateway']['folder']['class']);
+        $container->setParameter('ccdn_component_attachment.gateway.attachment.class', $config['gateway']['attachment']['class']);
+        $container->setParameter('ccdn_component_attachment.gateway.registry.class', $config['gateway']['registry']['class']);
+		
+		return $this;
+	}
+	
+    /**
+     *
+     * @access private
+	 * @param array $config
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+	 * @return \CCDNComponent\AttachmentBundle\DependencyInjection\CCDNComponentAttachmentExtension
+     */
+    private function getManagerSection(array $config, ContainerBuilder $container)
+    {
+        $container->setParameter('ccdn_component_attachment.manager_bag.class', $config['manager_bag']['class']);
+
+        $container->setParameter('ccdn_component_attachment.manager.folder.class', $config['manager']['folder']['class']);
+        $container->setParameter('ccdn_component_attachment.manager.attachment.class', $config['manager']['attachment']['class']);
+        $container->setParameter('ccdn_component_attachment.manager.registry.class', $config['manager']['registry']['class']);
+		
+		return $this;
+	}
+	
+    /**
+     *
+     * @access private
+	 * @param array $config
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+	 * @return \CCDNComponent\AttachmentBundle\DependencyInjection\CCDNComponentAttachmentExtension
+     */
+    private function getFormSection(array $config, ContainerBuilder $container)
+    {
+        $container->setParameter('ccdn_component_attachment.form.type.attachment_upload.class', $config['form']['type']['attachment_upload']['class']);
+        $container->setParameter('ccdn_component_attachment.form.handler.attachment_upload.class', $config['form']['handler']['attachment_upload']['class']);
+		
+        $container->setParameter('ccdn_component_attachment.form.validator.upload_quota_disk_space.class', $config['form']['validator']['upload_quota_disk_space']['class']);
+        $container->setParameter('ccdn_component_attachment.form.validator.upload_quota_file_quantity.class', $config['form']['validator']['upload_quota_file_quantity']['class']);
+        $container->setParameter('ccdn_component_attachment.form.validator.upload_quota_file_size.class', $config['form']['validator']['upload_quota_file_size']['class']);
+		
+		return $this;
+	}
 
     /**
      *
-     * @access protected
-     * @param $container, $config
+     * @access private
+	 * @param array $config
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+	 * @return \CCDNComponent\AttachmentBundle\DependencyInjection\CCDNComponentAttachmentExtension
      */
-    protected function getSEOSection($container, $config)
+    private function getComponentSection(array $config, ContainerBuilder $container)
+    {		
+        $container->setParameter('ccdn_component_attachment.component.dashboard.integrator.class', $config['component']['dashboard']['integrator']['class']);		
+
+        $container->setParameter('ccdn_component_attachment.component.helper.file_resolver.class', $config['component']['helper']['file_resolver']['class']);		
+        $container->setParameter('ccdn_component_attachment.component.helper.file_manager.class', $config['component']['helper']['file_manager']['class']);		
+		
+        $container->setParameter('ccdn_component_attachment.component.route_referer_ignore.list.class', $config['component']['route_referer_ignore']['list']['class']);		
+		
+		return $this;
+	}
+	
+    /**
+     *
+     * @access private
+	 * @param array $config
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+	 * @return \CCDNComponent\AttachmentBundle\DependencyInjection\CCDNComponentAttachmentExtension
+     */
+    private function getSEOSection(array $config, ContainerBuilder $container)
     {
         $container->setParameter('ccdn_component_attachment.seo.title_length', $config['seo']['title_length']);
+		
+		return $this;
     }
 
     /**
      *
-     * @access protected
-     * @param $container, $config
+     * @access private
+	 * @param array $config
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+	 * @return \CCDNComponent\AttachmentBundle\DependencyInjection\CCDNComponentAttachmentExtension
      */
-    protected function getQuotaSection($container, $config)
+    private function getQuotaSection(array $config, ContainerBuilder $container)
     {
         $container->setParameter('ccdn_component_attachment.quota_per_user.max_files_quantity', $config['quota_per_user']['max_files_quantity']);
         $container->setParameter('ccdn_component_attachment.quota_per_user.max_filesize_per_file', $config['quota_per_user']['max_filesize_per_file']);
         $container->setParameter('ccdn_component_attachment.quota_per_user.max_total_quota', $config['quota_per_user']['max_total_quota']);
+		
+		return $this;
     }
 
     /**
      *
-     * @access protected
-     * @param $container, $config
+     * @access private
+	 * @param array $config
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+	 * @return \CCDNComponent\AttachmentBundle\DependencyInjection\CCDNComponentAttachmentExtension
      */
-    protected function getAttachmentSection($container, $config)
+    private function getAttachmentSection(array $config, ContainerBuilder $container)
     {
         $container->setParameter('ccdn_component_attachment.manage.list.layout_template', $config['manage']['list']['layout_template']);
         $container->setParameter('ccdn_component_attachment.manage.list.attachments_per_page', $config['manage']['list']['attachments_per_page']);
@@ -94,6 +228,7 @@ class CCDNComponentAttachmentExtension extends Extension
 
         $container->setParameter('ccdn_component_attachment.manage.upload.layout_template', $config['manage']['upload']['layout_template']);
         $container->setParameter('ccdn_component_attachment.manage.upload.form_theme', $config['manage']['upload']['form_theme']);
+		
+		return $this;
     }
-
 }
