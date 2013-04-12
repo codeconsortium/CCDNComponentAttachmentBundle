@@ -56,8 +56,6 @@ class ManageController extends ManageBaseController
 
         $user = $this->getUser();
 
-        $quotas = $this->getAttachmentManager()->calculateQuotasForUser($user);
-
 		$attachmentsPager = $this->getAttachmentManager()->findAllAttachmentsPaginatedForUserById($user->getId(), $page);
 
         return $this->renderResponse('CCDNComponentAttachmentBundle:Manage:list.html.',
@@ -66,7 +64,6 @@ class ManageController extends ManageBaseController
 	            'crumbs' => $crumbs,
 	            'attachments' => $attachmentsPager->getCurrentPageResults(),
 	            'pager' => $attachmentsPager,
-	            'quotas' => $quotas,
 			)
 		);
     }
@@ -87,8 +84,6 @@ class ManageController extends ManageBaseController
 
             return $this->redirectResponse($this->path('ccdn_component_attachment_index'));
         } else {
-            $quotas = $this->container->get('ccdn_component_attachment.manager.attachment')->calculateQuotasForUser($this->getUser());
-
             // setup crumb trail.
             $crumbs = $this->getCrumbs()
                 ->add($this->trans('ccdn_component_attachment.crumbs.index'), $this->path('ccdn_component_attachment_index'))
@@ -98,7 +93,6 @@ class ManageController extends ManageBaseController
 				array(
 	                'crumbs' => $crumbs,
 	                'form' => $formHandler->getForm()->createView(),
-	                'quotas' => $quotas,
 	            )
 			);
         }

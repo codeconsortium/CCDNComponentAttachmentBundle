@@ -20,6 +20,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use CCDNComponent\AttachmentBundle\Controller\BaseController;
+use CCDNComponent\AttachmentBundle\Entity\Attachment;
 
 /**
  *
@@ -28,27 +29,18 @@ use CCDNComponent\AttachmentBundle\Controller\BaseController;
  */
 class RetrieverController extends BaseController
 {
-    /**
-     *
-     * @access public
-     * @param int $attachmentId
-     * @return RedirectResponse|RenderResponse
-     */
-    public function thumbnailAction($attachmentId)
-    {
-        $fileRecord = $this->container->get('ccdn_component_attachment.repository.attachment')->findOneById($attachmentId);
-
+	private function getFileResolver(Attachment $attachment)
+	{
         $fileResolver = $this->container->get('ccdn_component_attachment.component.helper.file_resolver');
 
         // What icon will we show if we cannot find what you are looking for?
         $thumbnailLocation = $this->container->getParameter('kernel.root_dir') . '/../web/bundles/ccdncomponentcommon/images/icons/Silver/32x32/';
-
         $fileResolver->setThumbnailIconLocationForUnresolvableFiles($thumbnailLocation);
 
         // Where are the attachment files stored?
         $fileResolver->setFileLocation($this->container->getParameter('ccdn_component_attachment.store.dir'));
-        $fileResolver->setFileName($fileRecord->getFileNameHashed());
-        $fileResolver->setFileExtension($fileRecord->getFileExtension());
+        $fileResolver->setFileName($attachment->getPrivateKey());
+        $fileResolver->setFileExtension($attachment->getFileExtension());
 
         if ($fileResolver->locateFile()) {
             if ( ! $fileResolver->loadFileData()) {
@@ -59,7 +51,22 @@ class RetrieverController extends BaseController
             // mystery icon, do nothing.
             $fileResolver->useThumbnailIconTypeUnresolvable();
         }
-
+	
+		return $fileResolver;
+	}
+	
+    /**
+     *
+     * @access public
+     * @param int $publicKey
+     * @return RedirectResponse|RenderResponse
+     */
+    public function thumbnailAction($scale, $publicKey)
+    {
+        $attachment = $this->getAttachmentManager()->findOneAttachmentByPublicKey($publicKey);
+		
+		$fileResolver = $this->getFileResolver($attachment);
+		
         return new Response(
             $fileResolver->getFileThumbnailData(),
             200,
@@ -70,28 +77,16 @@ class RetrieverController extends BaseController
     /**
      *
      * @access public
-     * @param int $attachmentId
+     * @param int $publicKey
      * @return RedirectedResponse|RenderResponse
      */
-    public function downloadAction($attachmentId)
+    public function downloadAction($publicKey)
     {
         $this->isAuthorised('ROLE_USER');
 
-        $user = $this->container->get('security.context')->getToken()->getUser();
+        $attachment = $this->getAttachmentManager()->findOneAttachmentByPublicKey($publicKey);
 
-        $fileRecord = $this->container->get('ccdn_component_attachment.repository.attachment')->findOneById($attachmentId);
-
-        $fileResolver = $this->container->get('ccdn_component_attachment.component.helper.file_resolver');
-
-        // What icon will we show if we cannot find what you are looking for?
-        $thumbnailLocation = $this->container->getParameter('kernel.root_dir') . '/../web/bundles/ccdncomponentcommon/images/icons/Silver/32x32/';
-
-        $fileResolver->setThumbnailIconLocationForUnresolvableFiles($thumbnailLocation);
-
-        // Where are the attachment files stored?
-        $fileResolver->setFileLocation($this->container->getParameter('ccdn_component_attachment.store.dir'));
-        $fileResolver->setFileName($fileRecord->getFileNameHashed());
-        $fileResolver->setFileExtension($fileRecord->getFileExtension());
+		$fileResolver = $this->getFileResolver($attachment);
 
 		$this->isFound($fileResolver->locateFile(), 'file data unable to be loaded.');
 		$this->isFound($fileResolver->loadFileData(), 'file was not located.');

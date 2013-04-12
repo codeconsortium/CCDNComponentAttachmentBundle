@@ -172,12 +172,13 @@ class CCDNComponentAttachmentExtension extends Extension
 	 * @return \CCDNComponent\AttachmentBundle\DependencyInjection\CCDNComponentAttachmentExtension
      */
     private function getComponentSection(array $config, ContainerBuilder $container)
-    {		
-        $container->setParameter('ccdn_component_attachment.component.dashboard.integrator.class', $config['component']['dashboard']['integrator']['class']);		
+    {	
+        $container->setParameter('ccdn_component_attachment.component.twig_extension.get_attachment_quotas.class', $config['component']['twig_extension']['get_attachment_quotas']['class']);		
 
         $container->setParameter('ccdn_component_attachment.component.helper.file_resolver.class', $config['component']['helper']['file_resolver']['class']);		
         $container->setParameter('ccdn_component_attachment.component.helper.file_manager.class', $config['component']['helper']['file_manager']['class']);		
-		
+
+        $container->setParameter('ccdn_component_attachment.component.dashboard.integrator.class', $config['component']['dashboard']['integrator']['class']);		
         $container->setParameter('ccdn_component_attachment.component.route_referer_ignore.list.class', $config['component']['route_referer_ignore']['list']['class']);		
 		
 		return $this;

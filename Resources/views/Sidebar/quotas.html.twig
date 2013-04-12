@@ -1,13 +1,8 @@
 {%- spaceless -%}
+	{%- set quotas = getAttachmentQuotas(app.user) -%}
 	{%- if quotas is defined -%}
 		<li class="divider"></li>
 		<li>
-			<span class="pull-left"><i class="icon-hdd"></i>&nbsp;{{- quotas['usedKiBPercent'] -}}&#37;&nbsp;</span>
-			<div class="progress progress-danger">
-				<div class="bar" style="width:{{- quotas['usedKiBPercent'] -}}%;"></div>
-			</div>
-			<hr>
-
 			<span class="label">
 				{{- quotas['usedKiB'] -}}KiB
 				&nbsp;&#47;&nbsp;
@@ -19,6 +14,13 @@
 				&nbsp;&#47;&nbsp;
 				{{- quotas['maxQuantity'] -}}&nbsp;{{- 'ccdn_component_attachment.quota.files' | trans({}, 'CCDNComponentAttachmentBundle') -}}
 			</span>
+			
+			<hr>
+			
+			<span class="pull-left"><i class="icon-hdd"></i>&nbsp;{{- quotas['usedKiBPercent'] -}}&#37;&nbsp;</span>
+			<div class="progress progress-danger">
+				<div class="bar" style="width:{{- quotas['usedKiBPercent'] -}}%;"></div>
+			</div>
 		</li>
 	{%- endif -%}
 

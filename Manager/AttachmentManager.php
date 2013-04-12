@@ -25,6 +25,24 @@ use CCDNComponent\AttachmentBundle\Entity\Attachment;
  */
 class AttachmentManager extends BaseManager implements BaseManagerInterface
 {
+	public function findOneAttachmentByPublicKey($publicKey)
+	{
+		if (null == $publicKey) {
+			throw new \Exception('Attachment Public Hash Key: "' . $publicKey . '" is invalid!');
+		}
+		
+		$params = array(':publicKey' => $publicKey);
+	
+		$qb = $this->createSelectQuery(array('a', 'a_owned_by'));
+	
+		$qb
+			->join('a.ownedByUser', 'a_owned_by')
+			->where('a.publicKey = :publicKey')
+		;
+		
+		return $this->gateway->findAttachment($qb, $params);
+	}
+	
 	/**
 	 *
 	 * @access public

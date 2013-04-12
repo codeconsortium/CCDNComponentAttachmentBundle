@@ -45,11 +45,18 @@
 								<input type="checkbox" id="check_multiselect_{{- attachment.id -}}" name="check_multiselect_{{- attachment.id -}}" data-check-all-responds="true" data-identifier="attachments">
 							</td>
 							<td class="center" style="width:70px;">
-								<a rel="nofollow" href="{{- path('ccdn_component_attachment_download', {'attachmentId': attachment.getId }) -}}"><img src="{{- path('ccdn_component_attachment_thumbnail', {'attachmentId': attachment.getId }) -}}" alt="{{- attachment.getFileNameOriginal -}}"></a>
+								<a rel="nofollow" href="{{- path('ccdn_component_attachment_download', {'publicKey': attachment.getPublicKey }) -}}">
+									<img src="{{- path('ccdn_component_attachment_thumbnail', {'publicKey': attachment.getPublicKey }) -}}" alt="{{- attachment.getFileNameOriginal -}}">
+								</a>
 							</td>
 							<td class="left">
-								<a rel="nofollow" href="{{- path('ccdn_component_attachment_download', {'attachmentId': attachment.getId }) -}}">{{- attachment.getFileNameOriginal -}}</a>
-								<br>{{- attachment.getDescription -}}
+								<a rel="nofollow" href="{{- path('ccdn_component_attachment_download', {'publicKey': attachment.getPublicKey }) -}}">
+									{{- attachment.getFileNameOriginal -}}
+								</a>
+								
+								<br>
+								
+								{{- attachment.getDescription -}}
 							</td>
 							<td class="center" style="width: 200px;">{{- attachment.getCreatedDate |date(ccdn_component_attachment.manage.list.attachment_uploaded_datetime_format) -}}</td>
 							<td class="center" style="width: 80px;">{{- attachment.getFileSize -}}</td>

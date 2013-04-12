@@ -33,9 +33,12 @@ class Attachment extends AbstractAttachment
     /** @var string $filenameOriginal */
     protected $filenameOriginal;
 
-    /** @var string $filenameHashed */
-    protected $filenameHashed;
+    /** @var string $publicKey */
+    protected $publicKey;
 
+    /** @var string $privateKey */
+    protected $privateKey;
+	
     /** @var string $fileExtension */
     protected $fileExtension;
 
@@ -154,28 +157,51 @@ class Attachment extends AbstractAttachment
     }
 
     /**
-     * Set filenameHashed
+     * Set publicKey
      *
-     * @param string $filenameHashed
+     * @param string $publicKey
 	 * @return Attachment
      */
-    public function setFilenameHashed($filenameHashed)
+    public function setPublicKey($publicKey)
     {
-        $this->filenameHashed = $filenameHashed;
+        $this->publicKey = $publicKey;
 		
 		return $this;
     }
 
     /**
-     * Get filenameHashed
+     * Get publicKey
      *
      * @return string
      */
-    public function getFilenameHashed()
+    public function getPublicKey()
     {
-        return $this->filenameHashed;
+        return $this->publicKey;
+    }
+	
+    /**
+     * Set privateKey
+     *
+     * @param string $privateKey
+	 * @return Attachment
+     */
+    public function setPrivateKey($privateKey)
+    {
+        $this->privateKey = $privateKey;
+		
+		return $this;
     }
 
+    /**
+     * Get privateKey
+     *
+     * @return string
+     */
+    public function getPrivateKey()
+    {
+        return $this->privateKey;
+    }
+	
     /**
      * Set fileExtension
      *

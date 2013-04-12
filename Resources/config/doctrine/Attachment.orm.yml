@@ -17,9 +17,13 @@ CCDNComponent\AttachmentBundle\Entity\Attachment:
             type: string
             column: file_name_original
             nullable: true
-        filenameHashed:
+        publicKey:
             type: string
-            column: file_name_hashed
+            column: public_hash_key
+            nullable: true
+        privateKey:
+            type: string
+            column: private_hash_key
             nullable: true
         fileExtension:
             type: string

@@ -27,20 +27,22 @@ class FileManager
 	/**
 	 *
 	 * @access protected
-	 * @var \CCDNComponent\AttachmentBundle\Entity\Attachment $attachment
+	 * @var Object $calc
 	 */
-    protected $attachment;
+    protected $calc;
 
 	/**
 	 *
 	 * @access protected
-	 * @var Object $file
+	 * @var string $fileStoreDir
 	 */
-    protected $file;
+    protected $fileStoreDir;
 
 	/**
 	 *
 	 * @access public
+	 * @param Object $calc
+	 * @param string $fileStoreDir
 	 */
 	public function __construct($calc, $fileStoreDir)
 	{		
@@ -49,12 +51,13 @@ class FileManager
 		
         // Where do we keep the files after we are finished here?
         $this->fileStoreDir = $fileStoreDir;
-		
 	}
 	
 	/**
 	 *
 	 * @access public
+	 * @param \CCDNComponent\AttachmentBundle\Entity\Attachment $attachment
+	 * @param $file
 	 * @param \Symfony\Component\Security\Core\User\UserInterface $user
 	 */
 	public function saveFile(Attachment $attachment, $file, UserInterface $owner)
@@ -74,7 +77,8 @@ class FileManager
         $attachment
 			->setDescription(($attachment->getDescription()) ?: $fileNameOriginal)
 	        ->setFileNameOriginal($fileNameOriginal)
-	        ->setFileNameHashed($fileNameHashed)
+	        ->setPublicKey($fileNameHashed)
+	        ->setPrivateKey($fileNameHashed)
 	        ->setFileExtension($fileExtension)
 	        ->setFileSize($this->calc->formatToSIUnit($fileSize, null, true))
 			->setOwnedByUser($owner)

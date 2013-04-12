@@ -141,6 +141,14 @@ services:
             - @ccdn_component_common.component.helper.bin_si_units
             - %ccdn_component_attachment.store.dir%
 
+
+    ccdn_component_attachment.component.twig_extension.get_attachment_quotas:
+        class: %ccdn_component_attachment.component.twig_extension.get_attachment_quotas.class%
+        arguments:
+            - @ccdn_component_attachment.manager.attachment
+        tags:
+            - { name: twig.extension }
+
     #
     # Dashboard Integrator.
     #

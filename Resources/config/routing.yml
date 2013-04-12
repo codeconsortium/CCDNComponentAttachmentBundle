@@ -19,11 +19,11 @@ ccdn_component_attachment_upload:
     defaults: { _controller: CCDNComponentAttachmentBundle:Manage:upload, _locale: en }
 
 ccdn_component_attachment_thumbnail:
-    pattern: /{_locale}/attachment/{attachmentId}/thumbnail
-    defaults: { _controller: CCDNComponentAttachmentBundle:Retriever:thumbnail, _locale: en }
+    pattern: /{_locale}/attachment/thumbnail/{scale}/{publicKey}
+    defaults: { _controller: CCDNComponentAttachmentBundle:Retriever:thumbnail, _locale: en, scale: 20 }
 
 ccdn_component_attachment_download:
-    pattern: /{_locale}/attachment/{attachmentId}/download
+    pattern: /{_locale}/attachment/download/{publicKey}
     defaults: { _controller: CCDNComponentAttachmentBundle:Retriever:download, _locale: en }
 
 ccdn_component_attachment_bulk_action:
