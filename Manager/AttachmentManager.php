@@ -13,6 +13,8 @@
 
 namespace CCDNComponent\AttachmentBundle\Manager;
 
+use Symfony\Component\Security\Core\User\UserInterface;
+
 use CCDNComponent\AttachmentBundle\Manager\BaseManagerInterface;
 use CCDNComponent\AttachmentBundle\Manager\BaseManager;
 
@@ -25,6 +27,12 @@ use CCDNComponent\AttachmentBundle\Entity\Attachment;
  */
 class AttachmentManager extends BaseManager implements BaseManagerInterface
 {
+	/**
+	 *
+	 * @access public
+	 * @param int $publicKey
+	 * @return array
+	 */	
 	public function findOneAttachmentByPublicKey($publicKey)
 	{
 		if (null == $publicKey) {
@@ -43,6 +51,31 @@ class AttachmentManager extends BaseManager implements BaseManagerInterface
 		return $this->gateway->findAttachment($qb, $params);
 	}
 	
+	/**
+	 *
+	 * @access public
+	 * @param int $userId
+	 * @return array
+	 */	
+ 	public function findAllAttachmentsForUserById($userId)
+	{
+		if (null == $userId || ! is_numeric($userId) || $userId == 0) {
+			throw new \Exception('User id "' . $userId . '" is invalid!');
+		}
+		
+		$params = array(':userId' => $userId);
+	
+		$qb = $this->createSelectQuery(array('a', 'a_owned_by'));
+	
+		$qb
+			->join('a.ownedByUser', 'a_owned_by')
+			->where('a.ownedByUser = :userId')
+			->addOrderBy('a.createdDate', 'DESC')
+		;
+
+		return $this->gateway->findAttachments($qb, $params);
+	}
+
 	/**
 	 *
 	 * @access public
@@ -107,7 +140,7 @@ class AttachmentManager extends BaseManager implements BaseManagerInterface
      * @param  array $attachments
      * @return int
      */
-    public function getTotalQuotaInKiB($attachments, $calc)
+    public function getTotalFileQuotaUsedInKiB($attachments, $calc)
     {
         // work out total used so far.
         $totalUsedSpaceInKiB = 0;
@@ -116,7 +149,7 @@ class AttachmentManager extends BaseManager implements BaseManagerInterface
             $totalUsedSpaceInKiB += $calc->formatToSIUnit($attachment->getFileSize(), $calc::KiB, false);
         }
 
-        return $totalUsedSpaceInKiB;
+		return $totalUsedSpaceInKiB;
     }
 
     /**
@@ -125,7 +158,7 @@ class AttachmentManager extends BaseManager implements BaseManagerInterface
      * @param  array $attachments
      * @return int
      */
-    public function getTotalQuantityQuota($attachments)
+    public function getTotalFileQuantity($attachments)
     {
         return count($attachments);
     }
@@ -136,30 +169,30 @@ class AttachmentManager extends BaseManager implements BaseManagerInterface
      * @param  array $attachments
      * @return array
      */
-    public function calculateQuotasForUser($user)
+    public function calculateQuotasForUser(UserInterface $user)
     {
-        //$attachments = $this->container->get('ccdn_component_attachment.repository.attachment')->findForUserByIdAsArray($user->getId());
-		$attachments = array();
+		$attachments = $this->findAllAttachmentsForUserById($user->getId());
 
-        //$calc = $this->container->get('ccdn_component_common.component.helper.bin_si_units');
+        $calc = $this->managerBag->getSIUnitCalc();
 
         // get max_files_quantity quota
-        $maxQuotaQuantity = $this->managerBag->getQuotaFileQuantity();//$this->container->getParameter('ccdn_component_attachment.quota_per_user.max_files_quantity');
+        $fileSizeQuota = $this->managerBag->getQuotaFileSize();
+		$fileQuantityQuota = $this->managerBag->getQuotaFileQuantity();
+        $fileQuantityUsed = $this->getTotalFileQuantity($attachments);
 
         // get max_total_quota_in_kb quota
-        $maxQuotaSpace = $this->managerBag->getQuotaDiskSpace();//$this->container->getParameter('ccdn_component_attachment.quota_per_user.max_total_quota');
-        $maxQuotaSpaceInKiB = 99;//$calc->formatToSIUnit($maxQuotaSpace, $calc::KiB, false);
-
-        $usedQuotaQuantity = 0;//$this->getTotalQuantityQuota($attachments);
-        $usedQuotaSpaceInKiB = 0;//$this->getTotalQuotaInKiB($attachments, $calc);
+        $totalSpaceQuota = $this->managerBag->getQuotaDiskSpace();
+        $totalSpaceInKiBQuota = $calc->formatToSIUnit($totalSpaceQuota, $calc::KiB, false);
+        $totalSpaceInKiBUsed = $this->getTotalFileQuotaUsedInKiB($attachments, $calc);
 
         $results = array(
-            'maxQuantity' => $maxQuotaQuantity,
-            'usedQuantity' => $usedQuotaQuantity,
-            'usedQuantityPercent' => round(($usedQuotaQuantity / $maxQuotaQuantity) * 100),
-            'maxKiB' => $maxQuotaSpaceInKiB,
-            'usedKiB' => $usedQuotaSpaceInKiB,
-            'usedKiBPercent' => round(($usedQuotaSpaceInKiB / $maxQuotaSpaceInKiB) * 100),
+			'fileSizeQuota' => $fileSizeQuota,
+            'fileQuantityQuota' => $fileQuantityQuota,
+            'fileQuantityUsed' => $fileQuantityUsed,
+            'fileQuantityUsedPercent' => round(($fileQuantityUsed / $fileQuantityQuota) * 100),
+            'totalKiBQuota' => $totalSpaceInKiBQuota,
+            'totalKiBUsed' => $totalSpaceInKiBUsed,
+            'totalKiBUsedPercent' => round(($totalSpaceInKiBUsed / $totalSpaceInKiBQuota) * 100),
         );
 
         return $results;

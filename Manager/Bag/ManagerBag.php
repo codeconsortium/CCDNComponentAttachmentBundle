@@ -55,6 +55,13 @@ class ManagerBag implements ManagerBagInterface
 	/**
 	 *
 	 * @access protected
+	 * @var Object $binSIUnitCalc
+	 */
+	protected $binSIUnitCalc;
+	
+	/**
+	 *
+	 * @access protected
 	 * @var int $attachmentsPerPageOnFolders
 	 */
 	protected $attachmentsPerPageOnFolders;
@@ -131,6 +138,20 @@ class ManagerBag implements ManagerBagInterface
 		}
 		
 		return $this->registryManager;		
+	}
+	
+	/**
+	 *
+	 * @access public
+	 * @return Object
+	 */
+	public function getSIUnitCalc()
+	{
+		if (null == $this->binSIUnitCalc) {
+			$this->binSIUnitCalc = $this->container->get('ccdn_component_common.component.helper.bin_si_units');
+		}
+		
+		return $this->binSIUnitCalc;
 	}
 	
 	/**

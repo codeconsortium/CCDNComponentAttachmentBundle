@@ -25,13 +25,14 @@ class QuotaExtension extends \Twig_Extension
 	/**
 	 *
 	 * @access protected
+	 * @param \CCDNComponent\AttachmentBundle\Manager\BaseManagerInterface
 	 */
 	protected $attachmentManager;
 	
 	/**
 	 *
 	 * @access public
-	 * @param $container
+	 * @param \CCDNComponent\AttachmentBundle\Manager\BaseManagerInterface $attachmentManager
 	 */
 	public function __construct($attachmentManager)
 	{

@@ -73,6 +73,8 @@ class FileManager
         // Get file size in bytes, we can convert it to an SIUnit in the formatter below.
         $fileSize = filesize($this->fileStoreDir . $fileNameHashed);
 		
+		$calc = $this->calc;
+		
         // Complete remaining fields of entity.
         $attachment
 			->setDescription(($attachment->getDescription()) ?: $fileNameOriginal)
@@ -80,7 +82,7 @@ class FileManager
 	        ->setPublicKey($fileNameHashed)
 	        ->setPrivateKey($fileNameHashed)
 	        ->setFileExtension($fileExtension)
-	        ->setFileSize($this->calc->formatToSIUnit($fileSize, null, true))
+	        ->setFileSize($calc->formatToSIUnit($fileSize, $calc::KiB, true))
 			->setOwnedByUser($owner)
 			->setCreatedDate(new \DateTime())
 		;
