@@ -62,6 +62,13 @@ class ManagerBag implements ManagerBagInterface
 	/**
 	 *
 	 * @access protected
+	 * @var Object $fileManager
+	 */
+	protected $fileManager;
+	
+	/**
+	 *
+	 * @access protected
 	 * @var int $attachmentsPerPageOnFolders
 	 */
 	protected $attachmentsPerPageOnFolders;
@@ -152,6 +159,20 @@ class ManagerBag implements ManagerBagInterface
 		}
 		
 		return $this->binSIUnitCalc;
+	}
+	
+	/**
+	 *
+	 * @access public
+	 * @return Object
+	 */
+	public function getFileManager()
+	{
+		if (null == $this->fileManager) {
+			$this->fileManager = $this->container->get('ccdn_component_attachment.component.helper.file_manager');
+		}
+		
+		return $this->fileManager;
 	}
 	
 	/**

@@ -93,9 +93,16 @@ class FileManager
 	/**
 	 *
 	 * @access public
+	 * @link http://www.php.net/manual/en/function.unlink.php
 	 */
-	public function deleteFile()
+	public function deleteFile(Attachment $attachment)
 	{
-		return true;
+		$file = realpath($this->fileStoreDir . $attachment->getPrivateKey());
+		
+		if (@unlink($file)) {
+			return true;			
+		} else {
+			return false;
+		}
 	}
 }

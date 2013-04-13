@@ -102,6 +102,37 @@ class AttachmentManager extends BaseManager implements BaseManagerInterface
 		return $this->gateway->paginateQuery($qb, $this->getAttachmentsPerPageOnFolders(), $page);
 	}
 	
+	/**
+	 *
+	 * @access public
+	 * @param arrays $attachmentIds
+	 * @param int $userId
+	 * @return \Pagerfanta\Pagerfanta
+	 */	
+ 	public function findTheseAttachmentsByUserId($attachmentIds, $userId)
+	{
+		if (null == $userId || ! is_numeric($userId) || $userId == 0) {
+			throw new \Exception('User id "' . $userId . '" is invalid!');
+		}
+		
+		if (null == $attachmentIds || ! is_array($attachmentIds) || count($attachmentIds) < 1) {
+			throw new \Exception('Attachment Ids must be an array and contain at least one id');
+		}
+		
+		$params = array(':userId' => $userId);
+	
+		$qb = $this->createSelectQuery(array('a'));
+	
+		$qb
+			->where('a.ownedByUser = :userId')
+			->andWhere($qb->expr()->in('a.id', $attachmentIds))
+			->setParameters($params)
+			->addOrderBy('a.createdDate', 'DESC')
+		;
+
+		return $this->gateway->findAttachments($qb, $params);
+	}
+	
     /**
      *
      * @access public
@@ -116,21 +147,23 @@ class AttachmentManager extends BaseManager implements BaseManagerInterface
     }
 
     /**
+	 *
      * @access public
      * @param array $attachments
      * @return self
-     * @link http://www.php.net/manual/en/function.unlink.php
      */
     public function bulkDelete($attachments)
     {
-        $fileStore = $this->container->getParameter('ccdn_component_attachment.store.dir') . '/';
-
+		$fileManager = $this->managerBag->getFileManager();
+		
         foreach ($attachments as $key => $attachment) {
-            if (@unlink(realpath($fileStore . $attachment->getFilenameHashed()))) {
+            if ($fileManager->deleteFile($attachment)) {
                 $this->remove($attachment);
             }
         }
 
+		$this->flush();
+		
         return $this;
     }
 

@@ -107,19 +107,19 @@ class ManageController extends ManageBaseController
     {
 		$this->isAuthorised('ROLE_USER');
 
-        // get all the message id's
+        // get all the attachment id's
 		$attachmentIds = $this->getCheckedItemIds('check_');
-			
+		
         if (count($attachmentIds) < 1) {
-            return $this->redirectResponse($this->container->get('router')->generate('ccdn_component_attachment_index'));
+            return $this->redirectResponse($this->path('ccdn_component_attachment_index'));
         }
 
         $user = $this->getUser();
+		
+        $attachments = $this->getAttachmentManager()->findTheseAttachmentsByUserId($attachmentIds, $user->getId());
 
-        $attachments = $this->container->get('ccdn_component_attachment.repository.attachment')->findTheseAttachmentsByUserId($attachmentIds, $user->getId());
-
-        if (isset($_POST['submit_delete'])) {
-            $this->container->get('ccdn_component_attachment.manager.attachment')->bulkDelete($attachments)->flush();
+        if ($this->getSubmitAction() == 'delete') {
+            $this->getAttachmentManager()->bulkDelete($attachments)->flush();
         }
 
         return $this->redirectResponse($this->path('ccdn_component_attachment_index'));
