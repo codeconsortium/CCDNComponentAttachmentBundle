@@ -28,7 +28,9 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 class Configuration implements ConfigurationInterface
 {
     /**
-     * {@inheritDoc}
+     *
+	 * @access public
+	 * @return \Symfony\Component\Config\Definition\Builder\TreeBuilder
      */
     public function getConfigTreeBuilder()
     {
