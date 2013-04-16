@@ -24,22 +24,31 @@ use Symfony\Component\Validator\Constraint;
  */
 class UploadQuotaFileQuantity extends Constraint
 {
-
     /**
      *
      * @access public
      */
     public $message = 'ccdn_component_attachment.form.validation_error.quota_file_quantity';
 
-    /**
-     *
-     * @access public
-     * @param $container
-     */
-    public function addFileQuantityLimitReached($container)
-    {
-        $this->message = $container->get('translator')->trans($this->message, array(), 'CCDNComponentAttachmentBundle');
-    }
+//    /**
+//     *
+//     * @access public
+//     * @param $container
+//     */
+//    public function addFileQuantityLimitReached($container)
+//    {
+//        $this->message = $container->get('translator')->trans($this->message, array(), 'CCDNComponentAttachmentBundle');
+//    }
+
+	/**
+	 *
+	 * @access public
+	 * @return int
+	 */
+	public function getTargets()
+	{
+	    return self::CLASS_CONSTRAINT;
+	}
 
     /**
      *
@@ -48,7 +57,6 @@ class UploadQuotaFileQuantity extends Constraint
      */
     public function validatedBy()
     {
-        return 'upload_quota_file_quantity';
+        return 'UploadQuotaFileQuantityValidator';
     }
-
 }

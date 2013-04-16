@@ -16,6 +16,8 @@ namespace CCDNComponent\AttachmentBundle\Form\Validator;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Constraint;
 
+use CCDNComponent\AttachmentBundle\Manager\BaseManagerInterface;
+
 /**
  *
  * @author Reece Fowell <reece@codeconsortium.com>
@@ -25,68 +27,47 @@ use Symfony\Component\Validator\Constraint;
  */
 class UploadQuotaFileSizeValidator extends ConstraintValidator
 {
+    /**
+     *
+     * @access protected
+	 * @var \CCDNComponent\AttachmentBundle\Manager\BaseManagerInterface $attachmentManager
+     */
+    protected $attachmentManager;
 
     /**
      *
      * @access protected
+	 * @var Object $binSICalculator
      */
-    protected $doctrine;
-
-    /**
-     *
-     * @access protected
-     */
-    protected $container;
-
+	protected $binSICalculator;
+	
     /**
      *
      * @access public
-     * @param $doctrine, $container
+	 * @param \CCDNComponent\AttachmentBundle\Manager\BaseManagerInterface $attachmentManager
      */
-    public function __construct($doctrine, $container)
+    public function __construct(BaseManagerInterface $attachmentManager, $binSICalculator)
     {
-        $this->doctrine = $doctrine;
-
-        $this->container = $container;
+        $this->attachmentManager = $attachmentManager;
+		$this->binSICalculator = $binSICalculator;
     }
-
-    /**
-     *
-     * @access public
-     * @param $file, Constraint $constraint
-     * @return bool
-     */
-    public function isValid($file, Constraint $constraint)
+	
+	/**
+	 *
+	 * @access public
+	 * @param \CCDNComponent\AttachmentBundle\Entity\Attachment $attachment
+	 * @param \Symfony\Component\Validator\Constraint $constraint
+	 * @return bool
+	 */
+	public function validate($attachment, Constraint $constraint)
     {
-        if ($file) {
-            // get the SI Units calculator.
-            $calc = $this->container->get('ccdn_component_common.component.helper.bin_si_units');
-
-            // check if the max_filesize_per_file_in_kb is reached
-            $maxFileSizePerFile = $this->container->getParameter('ccdn_component_attachment.quota_per_user.max_filesize_per_file');
-
-            $maxFileSizePerFileInKiB = $calc->formatToSIUnit($maxFileSizePerFile, $calc::KiB, false);
-
-            // Get file.
-            $fileNameOriginal = $file->getClientOriginalName();
-
-            // Get file size in bytes, we can convert it to an SIUnit in the formatter below.
-            $fileSize = $file->getClientSize();
-
-            $fileSizeInKiB = $calc->formatToSIUnit($fileSize, $calc::KiB, false);
-
-            if ($fileSizeInKiB > ($maxFileSizePerFileInKiB + 1)) {
-                $constraint->addFileTooBig($this->container, $fileNameOriginal, $fileSizeInKiB, $maxFileSizePerFileInKiB);
-
-                $this->setMessage($constraint->message);
-
-                return false;
-            } else {
-                return true;
-            }
-        } else {
-            return true;
-        }
+		$calc = $this->binSICalculator;
+		$sizeOfFile = $calc->formatToSIUnit($attachment->getAttachment(), $calc::KiB, false);
+	
+		$quotas = $this->attachmentManager->calculateQuotasForUserAndRetain($attachment->getOwnedByUser());
+		
+		if ($sizeOfFile > $quotas['fileSizeQuota']) {
+			$this->context->addViolationAtSubPath('attachment', $constraint->message, array(), null);
+		}
     }
-
 }

@@ -2,6 +2,10 @@ namespaces:
     CCDNComponentAttachmentBundle: CCDNComponent\AttachmentBundle\Form\Validator\Constraints\
 
 CCDNComponent\AttachmentBundle\Entity\Attachment:
+    constraints:
+        - "CCDNComponentAttachmentBundle:UploadQuotaFileSize": { groups: [upload] }
+        - "CCDNComponentAttachmentBundle:UploadQuotaDiskSpace": { groups: [upload] }
+        - "CCDNComponentAttachmentBundle:UploadQuotaFileQuantity": { groups: [upload] }
     properties:
         description:
             - Type: { type: string, groups: [upload] }
@@ -11,6 +15,3 @@ CCDNComponent\AttachmentBundle\Entity\Attachment:
         attachment:
             - NotNull: { groups: [upload] }
             - File: { groups: [upload] }
-#            - "CCDNComponentAttachmentBundle:UploadQuotaFileSize": { groups: [upload] }
-#            - "CCDNComponentAttachmentBundle:UploadQuotaDiskSpace": { groups: [upload] }
-#            - "CCDNComponentAttachmentBundle:UploadQuotaFileQuantity": { groups: [upload] }

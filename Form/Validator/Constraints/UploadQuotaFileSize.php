@@ -24,22 +24,31 @@ use Symfony\Component\Validator\Constraint;
  */
 class UploadQuotaFileSize extends Constraint
 {
-
     /**
      *
      * @access public
      */
     public $message = 'ccdn_component_attachment.form.validation_error.quota_file_size';
 
-    /**
-     *
-     * @access public
-     * @param $container, string $filename, string $size, string $limit
-     */
-    public function addFileTooBig($container, $filename, $size, $limit)
-    {
-        $this->message = $container->get('translator')->trans($this->message, array('%limit%' => $limit), 'CCDNComponentAttachmentBundle');
-    }
+//    /**
+//     *
+//     * @access public
+//     * @param $container, string $filename, string $size, string $limit
+//     */
+//    public function addFileTooBig($container, $filename, $size, $limit)
+//    {
+//        $this->message = $container->get('translator')->trans($this->message, array('%limit%' => $limit), 'CCDNComponentAttachmentBundle');
+//    }
+
+	/**
+	 *
+	 * @access public
+	 * @return int
+	 */
+	public function getTargets()
+	{
+	    return self::CLASS_CONSTRAINT;
+	}
 
     /**
      *
@@ -48,7 +57,6 @@ class UploadQuotaFileSize extends Constraint
      */
     public function validatedBy()
     {
-        return 'upload_quota_file_size';
+        return 'UploadQuotaFileSizeValidator';
     }
-
 }

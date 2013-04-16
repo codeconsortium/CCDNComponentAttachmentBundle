@@ -123,7 +123,7 @@ class AttachmentUploadFormHandler
 				
 				if ($this->getSubmitAction($request) == 'post') {
 					
-					if ($this->fileManager->saveFile($formData, $this->form['attachment']->getData(), $this->user)) {
+					if ($this->fileManager->saveFile($formData, $this->form['attachment']->getData())) {
 		                $this->onSuccess($formData);
 
 		                return true;
@@ -163,7 +163,10 @@ class AttachmentUploadFormHandler
     public function getForm()
     {
         if (! $this->form) {
-            $this->form = $this->factory->create($this->attachmentUploadFormType);
+			$attachment = new Attachment();
+			$attachment->setOwnedByUser($this->user);
+			
+            $this->form = $this->factory->create($this->attachmentUploadFormType, $attachment, array());
         }
 
         return $this->form;

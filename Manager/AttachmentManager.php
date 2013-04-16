@@ -133,6 +133,35 @@ class AttachmentManager extends BaseManager implements BaseManagerInterface
 		return $this->gateway->findAttachments($qb, $params);
 	}
 	
+	/**
+	 *
+	 * @access public
+	 * @param int $userId
+	 * @return Array
+	 */	
+	public function getAttachmentCountForUserById($userId)
+	{
+		if (null == $userId || ! is_numeric($userId) || $userId == 0) {
+			throw new \Exception('User id "' . $userId . '" is invalid!');
+		}
+		
+		$qb = $this->createSelectQuery(array('a'));
+
+		$qb
+			->select('COUNT(DISTINCT a.id) AS attachmentCount')
+			->where('a.ownedByUser = :userId')
+			->setParameters(array(':userId' => $userId))
+		;
+		
+		try {
+			return $qb->getQuery()->getSingleResult();			
+		} catch (\Doctrine\ORM\NoResultException $e) {
+			return array('attachmentCount' => null);
+		} catch (\Exception $e) {
+			return array('attachmentCount' => null);			
+		}
+	}
+	
     /**
      *
      * @access public
@@ -198,6 +227,28 @@ class AttachmentManager extends BaseManager implements BaseManagerInterface
 
     /**
      *
+     * @access protected
+     * @param  array $preCalculatedQuotas
+     */
+	protected $preCalculatedQuotas;
+	
+    /**
+     *
+     * @access public
+     * @param  array $attachments
+     * @return array
+     */
+    public function calculateQuotasForUserAndRetain(UserInterface $user)
+	{
+		if (null == $this->preCalculatedQuotas) {
+			$this->preCalculatedQuotas = $this->calculateQuotasForUser($user);
+		}
+		
+		return $this->preCalculatedQuotas;
+	}
+	
+    /**
+     *
      * @access public
      * @param  array $attachments
      * @return array
@@ -215,7 +266,7 @@ class AttachmentManager extends BaseManager implements BaseManagerInterface
 
         // get max_total_quota_in_kb quota
         $totalSpaceQuota = $this->managerBag->getQuotaDiskSpace();
-        $totalSpaceInKiBQuota = $calc->formatToSIUnit($totalSpaceQuota, $calc::KiB, false);
+        $totalSpaceInKiBQuota = $totalSpaceQuota;
         $totalSpaceInKiBUsed = $this->getTotalFileQuotaUsedInKiB($attachments, $calc);
 
         $results = array(

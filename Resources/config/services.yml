@@ -14,13 +14,6 @@ services:
         arguments:
             - %ccdn_component_attachment.entity.attachment.class%
 
-    ccdn_component_attachment.repository.folder:
-        class: %ccdn_component_attachment.repository.folder.class%
-        factory_service: doctrine.orm.default_entity_manager
-        factory_method: getRepository
-        arguments:
-            - %ccdn_component_attachment.entity.folder.class%
-
     ccdn_component_attachment.repository.registry:
         class: %ccdn_component_attachment.repository.registry.class%
         factory_service: doctrine.orm.default_entity_manager
@@ -42,13 +35,6 @@ services:
             - @ccdn_component_attachment.gateway_bag
             - %ccdn_component_attachment.entity.attachment.class%
 
-    ccdn_component_attachment.gateway.folder:
-        class: %ccdn_component_attachment.gateway.folder.class%
-        arguments:
-            - @doctrine
-            - @ccdn_component_attachment.gateway_bag
-            - %ccdn_component_attachment.entity.folder.class%
-
     ccdn_component_attachment.gateway.registry:
         class: %ccdn_component_attachment.gateway.registry.class%
         arguments:
@@ -69,14 +55,6 @@ services:
             - @doctrine
             - @security.context
             - @ccdn_component_attachment.gateway.attachment
-            - @ccdn_component_attachment.manager_bag
-
-    ccdn_component_attachment.manager.folder:
-        class: %ccdn_component_attachment.manager.folder.class%
-        arguments:
-            - @doctrine
-            - @security.context
-            - @ccdn_component_attachment.gateway.folder
             - @ccdn_component_attachment.manager_bag
 
     ccdn_component_attachment.manager.registry:
@@ -106,26 +84,26 @@ services:
     ccdn_component_attachment.form.validator.upload_quota_disk_space:
         class: %ccdn_component_attachment.form.validator.upload_quota_disk_space.class%
         arguments:
-            - @doctrine
-            - @service_container
+            - @ccdn_component_attachment.manager.attachment
+            - @ccdn_component_common.component.helper.bin_si_units
         tags:
-            - { name: validator.constraint_validator, alias: upload_quota_disk_space }
+            - { name: validator.constraint_validator, alias: UploadQuotaDiskSpaceValidator }
 
     ccdn_component_attachment.form.validator.upload_quota_file_quantity:
         class: %ccdn_component_attachment.form.validator.upload_quota_file_quantity.class%
         arguments:
-            - @doctrine
-            - @service_container
+            - @ccdn_component_attachment.manager.attachment
+            - @ccdn_component_common.component.helper.bin_si_units
         tags:
-            - { name: validator.constraint_validator, alias: upload_quota_file_quantity }
+            - { name: validator.constraint_validator, alias: UploadQuotaFileQuantityValidator }
 
     ccdn_component_attachment.form.validator.upload_quota_file_size:
         class: %ccdn_component_attachment.form.validator.upload_quota_file_size.class%
         arguments:
-            - @doctrine
-            - @service_container
+            - @ccdn_component_attachment.manager.attachment
+            - @ccdn_component_common.component.helper.bin_si_units
         tags:
-            - { name: validator.constraint_validator, alias: upload_quota_file_size }
+            - { name: validator.constraint_validator, alias: UploadQuotaFileSizeValidator }
 
     #
     # Attachment File Resolver.

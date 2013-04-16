@@ -16,6 +16,8 @@ namespace CCDNComponent\AttachmentBundle\Form\Validator;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Constraint;
 
+use CCDNComponent\AttachmentBundle\Manager\BaseManagerInterface;
+
 /**
  *
  * @author Reece Fowell <reece@codeconsortium.com>
@@ -25,61 +27,46 @@ use Symfony\Component\Validator\Constraint;
  */
 class UploadQuotaFileQuantityValidator extends ConstraintValidator
 {
+    /**
+     *
+     * @access protected
+	 * @var \CCDNComponent\AttachmentBundle\Manager\BaseManagerInterface $attachmentManager
+     */
+    protected $attachmentManager;
 
     /**
      *
      * @access protected
+	 * @var Object $binSICalculator
      */
-    protected $doctrine;
-
-    /**
-     *
-     * @access protected
-     */
-    protected $container;
-
+	protected $binSICalculator;
+	
     /**
      *
      * @access public
-     * @param $doctrine, $container
+	 * @param \CCDNComponent\AttachmentBundle\Manager\BaseManagerInterface $attachmentManager
      */
-    public function __construct($doctrine, $container)
+    public function __construct(BaseManagerInterface $attachmentManager, $binSICalculator)
     {
-
-        $this->doctrine = $doctrine;
-        $this->container = $container;
+        $this->attachmentManager = $attachmentManager;
+		$this->binSICalculator = $binSICalculator;
     }
-
-    /**
-     *
-     * @access public
-     * @param $file, Constraint $constraint
-     * @return bool
-     */
-    public function isValid($file, Constraint $constraint)
+	
+	/**
+	 *
+	 * @access public
+	 * @param \CCDNComponent\AttachmentBundle\Entity\Attachment $attachment
+	 * @param \Symfony\Component\Validator\Constraint $constraint
+	 * @return bool
+	 */
+	public function validate($attachment, Constraint $constraint)
     {
-        if ($file) {
-            // Get the user instance
-            $user = $this->container->get('security.context')->getToken()->getUser();
-
-            // check if the max_files_quantity is reached
-            $maxTotalQuota = $this->container->getParameter('ccdn_component_attachment.quota_per_user.max_files_quantity');
-
-            // Get all attachments for user
-            $attachments = $this->container->get('ccdn_component_attachment.repository.attachment')->findForUserById($user->getId());
-
-            if (count($attachments) > ($maxTotalQuota - 1)) {
-                $constraint->addFileQuantityLimitReached($this->container);
-
-                $this->setMessage($constraint->message);
-
-                return false;
-            } else {
-                return true;
-            }
-        } else {
-            return true;
-        }
+		$quotas = $this->attachmentManager->calculateQuotasForUserAndRetain($attachment->getOwnedByUser());
+		
+		$attachmentCount = $this->attachmentManager->getAttachmentCountForUserById($attachment->getOwnedByUser()->getId());
+		
+		if ($attachmentCount['attachmentCount'] > $quotas['fileQuantityQuota']) {
+			$this->context->addViolationAtSubPath('attachment', $constraint->message, array(), null);
+		}
     }
-
 }

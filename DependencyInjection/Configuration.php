@@ -469,7 +469,7 @@ class Configuration implements ConfigurationInterface
 	                ->children()
                         ->scalarNode('max_files_quantity')->defaultValue('20')->end()
                         ->scalarNode('max_filesize_per_file')->defaultValue('200')->end()
-                        ->scalarNode('max_total_quota')->defaultValue('1000')->end()
+                        ->scalarNode('max_total_quota')->defaultValue('100')->end()
                     ->end()
                 ->end()
             ->end()

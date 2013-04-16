@@ -34,13 +34,6 @@ class ManagerBag implements ManagerBagInterface
 	/**
 	 *
 	 * @access protected
-	 * @var \CCDNComponent\AttachmentBundle\Manager\FolderManager $folderManager
-	 */
-	protected $folderManager;
-	
-	/**
-	 *
-	 * @access protected
 	 * @var \CCDNComponent\AttachmentBundle\Manager\AttachmentManager $attachmentManager
 	 */
 	protected $attachmentManager;
@@ -103,20 +96,6 @@ class ManagerBag implements ManagerBagInterface
     {
         $this->container = $container;
     }
-		
-	/**
-	 *
-	 * @access public
-	 * @return \CCDNComponent\AttachmentBundle\Manager\FolderManager
-	 */
-	public function getFolderManager()
-	{
-		if (null == $this->folderManager) {
-			$this->folderManager = $this->container->get('ccdn_message_message.manager.folder');
-		}
-		
-		return $this->folderManager;
-	}
 	
 	/**
 	 *

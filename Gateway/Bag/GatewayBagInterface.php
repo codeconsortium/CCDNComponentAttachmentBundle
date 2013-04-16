@@ -32,13 +32,6 @@ interface GatewayBagInterface
 	/**
 	 *
 	 * @access public
-	 * @return \CCDNComponent\AttachmentBundle\Gateway\FolderGateway
-	 */
-	public function getFolderGateway();
-	
-	/**
-	 *
-	 * @access public
 	 * @return \CCDNComponent\AttachmentBundle\Gateway\AttachmentGateway
 	 */
 	public function getAttachmentGateway();

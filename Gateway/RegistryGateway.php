@@ -63,8 +63,6 @@ class RegistryGateway extends BaseGateway implements BaseGatewayInterface
 		if (null == $qb) {
 			$qb = $this->createSelectQuery();
 		}
-
-		$qb->addOrderBy('r.cachedUnreadMessagesCount', 'ASC');
 		
 		return $this->all($qb, $parameters);
 	}

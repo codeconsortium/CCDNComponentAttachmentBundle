@@ -57,10 +57,9 @@ class FileManager
 	 *
 	 * @access public
 	 * @param \CCDNComponent\AttachmentBundle\Entity\Attachment $attachment
-	 * @param $file
-	 * @param \Symfony\Component\Security\Core\User\UserInterface $user
+	 * @param \Symfony\Component\HttpFoundation\File\UploadedFile $file
 	 */
-	public function saveFile(Attachment $attachment, $file, UserInterface $owner)
+	public function saveFile(Attachment $attachment, $file)
 	{
         // sort out the file meta-data.
         $fileNameOriginal = $file->getClientOriginalName();
@@ -83,7 +82,6 @@ class FileManager
 	        ->setPrivateKey($fileNameHashed)
 	        ->setFileExtension($fileExtension)
 	        ->setFileSize($calc->formatToSIUnit($fileSize, $calc::KiB, true))
-			->setOwnedByUser($owner)
 			->setCreatedDate(new \DateTime())
 		;
 			

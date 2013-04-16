@@ -30,13 +30,6 @@ interface ManagerBagInterface
 	 * @param \Symfony\Component\DependencyInjection\Container $container
 	 */
     public function __construct(Container $container);
-		
-	/**
-	 *
-	 * @access public
-	 * @return \CCDNComponent\AttachmentBundle\Manager\FolderManager
-	 */
-	public function getFolderManager();
 	
 	/**
 	 *

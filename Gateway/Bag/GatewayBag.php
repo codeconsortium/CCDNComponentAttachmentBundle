@@ -23,14 +23,7 @@ use CCDNComponent\AttachmentBundle\Gateway\Bag\GatewayBagInterface;
  * @version 1.0
  */
 class GatewayBag implements GatewayBagInterface
-{
-	/**
-	 *
-	 * @access protected
-	 * @var \CCDNComponent\AttachmentBundle\Gateway\FolderGateway $folderGateway
-	 */
-	protected $folderGateway;
-	
+{	
 	/**
 	 *
 	 * @access protected
@@ -61,20 +54,6 @@ class GatewayBag implements GatewayBagInterface
     {
         $this->container = $container;
     }
-	
-	/**
-	 *
-	 * @access public
-	 * @return \CCDNComponent\AttachmentBundle\Gateway\FolderGateway
-	 */
-	public function getFolderGateway()
-	{
-		if (null == $this->folderGateway) {
-			$this->folderGateway = $this->container->get('ccdn_component_attachment.gateway.folder');
-		}
-		
-		return $this->folderGateway;
-	}
 	
 	/**
 	 *

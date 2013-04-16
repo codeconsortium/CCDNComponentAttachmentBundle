@@ -24,23 +24,22 @@ use Symfony\Component\Validator\Constraint;
  */
 class UploadQuotaDiskSpace extends Constraint
 {
-
     /**
      *
      * @access public
      */
     public $message = 'ccdn_component_attachment.form.validation_error.quota_disk_space';
 
-    /**
-     *
-     * @access public
-     * @param $container
-     */
-    public function addFileDiskSpaceLimitReached($container)
-    {
-        $this->message = $container->get('translator')->trans($this->message, array(), 'CCDNComponentAttachmentBundle');
-    }
-
+	/**
+	 *
+	 * @access public
+	 * @return int
+	 */
+	public function getTargets()
+	{
+	    return self::CLASS_CONSTRAINT;
+	}
+	
     /**
      *
      * @access public
@@ -48,7 +47,6 @@ class UploadQuotaDiskSpace extends Constraint
      */
     public function validatedBy()
     {
-        return 'upload_quota_disk_space';
+        return 'UploadQuotaDiskSpaceValidator';
     }
-
 }

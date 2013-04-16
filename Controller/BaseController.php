@@ -329,20 +329,6 @@ class BaseController extends ContainerAware
 	/**
 	 *
 	 * @access protected
-	 * @return \CCDNComponent\AttachmentBundle\Manager\FolderManager
-	 */
-	protected function getFolderManager()
-	{
-		if (null == $this->folderManager) {
-			$this->folderManager = $this->container->get('ccdn_component_attachment.manager.folder');
-		}
-		
-		return $this->folderManager;
-	}
-	
-	/**
-	 *
-	 * @access protected
 	 * @return \CCDNComponent\AttachmentBundle\Manager\AttachmentManager
 	 */
 	protected function getAttachmentManager()
