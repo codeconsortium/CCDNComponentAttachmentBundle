@@ -86,7 +86,6 @@ class CCDNComponentAttachmentExtension extends Extension
      */
     private function getEntitySection(array $config, ContainerBuilder $container)
     {
-        $container->setParameter('ccdn_component_attachment.entity.folder.class', $config['entity']['folder']['class']);
         $container->setParameter('ccdn_component_attachment.entity.attachment.class', $config['entity']['attachment']['class']);
         $container->setParameter('ccdn_component_attachment.entity.registry.class', $config['entity']['registry']['class']);
 		
@@ -102,7 +101,6 @@ class CCDNComponentAttachmentExtension extends Extension
      */
     private function getRepositorySection(array $config, ContainerBuilder $container)
     {
-        $container->setParameter('ccdn_component_attachment.repository.folder.class', $config['repository']['folder']['class']);
         $container->setParameter('ccdn_component_attachment.repository.attachment.class', $config['repository']['attachment']['class']);
         $container->setParameter('ccdn_component_attachment.repository.registry.class', $config['repository']['registry']['class']);
 		
@@ -120,7 +118,6 @@ class CCDNComponentAttachmentExtension extends Extension
     {
         $container->setParameter('ccdn_component_attachment.gateway_bag.class', $config['gateway_bag']['class']);
 
-        $container->setParameter('ccdn_component_attachment.gateway.folder.class', $config['gateway']['folder']['class']);
         $container->setParameter('ccdn_component_attachment.gateway.attachment.class', $config['gateway']['attachment']['class']);
         $container->setParameter('ccdn_component_attachment.gateway.registry.class', $config['gateway']['registry']['class']);
 		
@@ -138,7 +135,6 @@ class CCDNComponentAttachmentExtension extends Extension
     {
         $container->setParameter('ccdn_component_attachment.manager_bag.class', $config['manager_bag']['class']);
 
-        $container->setParameter('ccdn_component_attachment.manager.folder.class', $config['manager']['folder']['class']);
         $container->setParameter('ccdn_component_attachment.manager.attachment.class', $config['manager']['attachment']['class']);
         $container->setParameter('ccdn_component_attachment.manager.registry.class', $config['manager']['registry']['class']);
 		
