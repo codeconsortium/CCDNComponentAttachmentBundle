@@ -23,6 +23,23 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class AttachmentUploadFormType extends AbstractType
 {
+	/**
+	 *
+	 * @access protected
+	 * @var string $attachmentClass
+	 */
+	protected $attachmentClass;
+	
+	/**
+	 *
+	 * @access public
+	 * @var string $attachmentClass
+	 */
+	public function __construct($attachmentClass)
+	{
+		$this->attachmentClass = $attachmentClass;
+	}
+	
     /**
      *
      * @access public
@@ -33,14 +50,14 @@ class AttachmentUploadFormType extends AbstractType
         $builder
 			->add('attachment', 'file',
 				array(
-					'required' => true,
-					'label' => 'ccdn_component_attachment.form.label.attachment.upload.file',
+					'required'           => true,
+					'label'              => 'ccdn_component_attachment.form.label.attachment.upload.file',
 					'translation_domain' => 'CCDNComponentAttachmentBundle'
 				)
 			)
 			->add('description', 'bb_editor',
 				array(
-					'label' => 'ccdn_component_attachment.form.label.attachment.upload.description',
+					'label'              => 'ccdn_component_attachment.form.label.attachment.upload.description',
 					'translation_domain' => 'CCDNComponentAttachmentBundle'
 		        )
 			)
@@ -57,13 +74,12 @@ class AttachmentUploadFormType extends AbstractType
     public function getDefaultOptions(array $options)
     {
         return array(
-            'data_class' => 'CCDNComponent\AttachmentBundle\Entity\Attachment',
-            'empty_data' => new \CCDNComponent\AttachmentBundle\Entity\Attachment(),
-            'csrf_protection' => true,
-            'csrf_field_name' => '_token',
+            'data_class'         => $this->attachmentClass,
+            'csrf_protection'    => true,
+            'csrf_field_name'    => '_token',
             // a unique key to help generate the secret token
-            'intention'       => 'attachment_item',
-            'validation_groups' => 'upload',
+            'intention'          => 'attachment_item',
+            'validation_groups'  => array('upload'),
         );
     }
 

@@ -71,7 +71,7 @@ services:
     ccdn_component_attachment.form.type.attachment_upload:
         class: %ccdn_component_attachment.form.type.attachment_upload.class%
         arguments: 
-            - @doctrine
+            - %ccdn_component_attachment.entity.attachment.class%
 
     ccdn_component_attachment.form.handler.attachment_upload:
         class: %ccdn_component_attachment.form.handler.attachment_upload.class%
