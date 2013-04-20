@@ -119,7 +119,6 @@ services:
             - @ccdn_component_common.component.helper.bin_si_units
             - %ccdn_component_attachment.store.dir%
 
-
     ccdn_component_attachment.component.twig_extension.get_attachment_quotas:
         class: %ccdn_component_attachment.component.twig_extension.get_attachment_quotas.class%
         arguments:
@@ -132,7 +131,6 @@ services:
     #
     ccdn_component_attachment.component.dashboard.integrator:
         class: %ccdn_component_attachment.component.dashboard.integrator.class%
-        arguments: [@service_container]
         tags:
             - { name: ccdn_component_dashboard.integrator }
 

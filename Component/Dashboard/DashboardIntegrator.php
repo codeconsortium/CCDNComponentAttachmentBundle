@@ -13,42 +13,39 @@
 
 namespace CCDNComponent\AttachmentBundle\Component\Dashboard;
 
-use CCDNComponent\DashboardBundle\Component\Integrator\BaseIntegrator;
-use CCDNComponent\DashboardBundle\Component\Integrator\IntegratorInterface;
+use CCDNComponent\DashboardBundle\Component\Integrator\Model\BuilderInterface;
 
 /**
  *
  * @author Reece Fowell <reece@codeconsortium.com>
- * @version 1.0
+ * @version 2.0
  */
-class DashboardIntegrator extends BaseIntegrator implements IntegratorInterface
+class DashboardIntegrator
 {
-
     /**
-     *
-     * Structure of $resources
-     * 	[DASHBOARD_PAGE <string>]
-     * 		[CATEGORY_NAME <string>]
-     *			[ROUTE_FOR_LINK <string>]
-     *				[AUTH <string>] (optional)
-     *				[URL_LINK <string>]
-     *				[URL_NAME <string>]
 	 * 
 	 * @access public
-	 * @return array $resources
+     * @param CCDNComponent\DashboardBundle\Component\Integrator\Model\BuilderInterface $builder
      */
-    public function getResources()
+    public function build(BuilderInterface $builder)
     {
-        $resources = array(
-            'user' => array(
-                'Account' => array(
-                    'ccdn_component_attachment_index' => array('auth' => 'ROLE_USER', 'name' => 'Attachments', 'icon' => $this->basePath . '/bundles/ccdncomponentcommon/images/icons/Black/32x32/32x32_attachment.png'),
-                ),
-            ),
-
-        );
-
-        return $resources;
+		$builder
+			->addCategory('account')
+				->setLabel('ccdn_component_attachment.dashboard.categories.account', array(), 'CCDNComponentAttachmentBundle')
+				->addPages()
+					->addPage('account')
+						->setLabel('ccdn_component_attachment.dashboard.pages.account', array(), 'CCDNComponentAttachmentBundle')
+					->end()
+				->end()
+				->addLinks()	
+					->addLink('attachments')
+						->setAuthRole('ROLE_USER')
+						->setRoute('ccdn_component_attachment_index')
+						->setIcon('/bundles/ccdncomponentcommon/images/icons/Black/32x32/32x32_attachment.png')
+						->setLabel('ccdn_component_attachment.title.index', array(), 'CCDNComponentAttachmentBundle')
+					->end()
+				->end()
+			->end()
+		;
     }
-
 }

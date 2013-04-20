@@ -1,3 +1,10 @@
+ccdn_component_attachment:
+    dashboard:
+        pages:
+            account: 'Account'
+        categories:
+            account: 'Account'
+
 #
 # Page Titles.
 #
