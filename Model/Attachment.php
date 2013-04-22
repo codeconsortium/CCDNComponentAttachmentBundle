@@ -15,15 +15,30 @@ namespace CCDNComponent\AttachmentBundle\Model;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 
+/**
+ *
+ * @category CCDNComponent
+ * @package  AttachmentBundle
+ *
+ * @author   Reece Fowell <reece@codeconsortium.com>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @version  Release: 2.0
+ * @link     https://github.com/codeconsortium/CCDNComponentAttachmentBundle
+ *
+ * @abstract
+ */
 abstract class Attachment
 {
-    /** @var UserInterface $ownedByUser */
+    /**
+     *
+     * @var UserInterface $ownedByUser
+     */
     protected $ownedByUser;
-	
-	/**
-	 *
-	 * @access public
-	 */
+
+    /**
+     *
+     * @access public
+     */
     public function __construct()
     {
         // your own logic
@@ -38,17 +53,17 @@ abstract class Attachment
     {
         return $this->ownedByUser;
     }
-	
+
     /**
      * Set ownedByUser
      *
-     * @param UserInterface $ownedByUser
-	 * @return Attachment
+     * @param  UserInterface $ownedByUser
+     * @return Attachment
      */
     public function setOwnedByUser(UserInterface $ownedByUser)
     {
         $this->ownedByUser = $ownedByUser;
-		
-		return $this;
+
+        return $this;
     }
 }

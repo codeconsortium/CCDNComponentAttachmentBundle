@@ -13,24 +13,33 @@
 
 namespace CCDNComponent\AttachmentBundle\Controller;
 
-use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use CCDNComponent\AttachmentBundle\Controller\BaseController;
 use CCDNComponent\AttachmentBundle\Entity\Attachment;
 
 /**
  *
- * @author Reece Fowell <reece@codeconsortium.com>
- * @version 1.0
+ * @category CCDNComponent
+ * @package  AttachmentBundle
+ *
+ * @author   Reece Fowell <reece@codeconsortium.com>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @version  Release: 2.0
+ * @link     https://github.com/codeconsortium/CCDNComponentAttachmentBundle
+ *
  */
 class RetrieverController extends BaseController
 {
-	private function getFileResolver(Attachment $attachment)
-	{
+    /**
+     *
+     * @access private
+     * @param  \CCDNComponent\AttachmentBundle\Entity\Attachment             $attachment
+     * @return \CCDNComponent\AttachmentBundle\Component\Helper\FileResolver
+     */
+    private function getFileResolver(Attachment $attachment)
+    {
         $fileResolver = $this->container->get('ccdn_component_attachment.component.helper.file_resolver');
 
         // What icon will we show if we cannot find what you are looking for?
@@ -51,22 +60,22 @@ class RetrieverController extends BaseController
             // mystery icon, do nothing.
             $fileResolver->useThumbnailIconTypeUnresolvable();
         }
-	
-		return $fileResolver;
-	}
-	
+
+        return $fileResolver;
+    }
+
     /**
      *
      * @access public
-     * @param int $publicKey
+     * @param  int                             $publicKey
      * @return RedirectResponse|RenderResponse
      */
     public function thumbnailAction($scale, $publicKey)
     {
         $attachment = $this->getAttachmentManager()->findOneAttachmentByPublicKey($publicKey);
-		
-		$fileResolver = $this->getFileResolver($attachment);
-		
+
+        $fileResolver = $this->getFileResolver($attachment);
+
         return new Response(
             $fileResolver->getFileThumbnailData(),
             200,
@@ -77,7 +86,7 @@ class RetrieverController extends BaseController
     /**
      *
      * @access public
-     * @param int $publicKey
+     * @param  int                               $publicKey
      * @return RedirectedResponse|RenderResponse
      */
     public function downloadAction($publicKey)
@@ -86,11 +95,11 @@ class RetrieverController extends BaseController
 
         $attachment = $this->getAttachmentManager()->findOneAttachmentByPublicKey($publicKey);
 
-		$fileResolver = $this->getFileResolver($attachment);
+        $fileResolver = $this->getFileResolver($attachment);
 
-		$this->isFound($fileResolver->locateFile(), 'file data unable to be loaded.');
-		$this->isFound($fileResolver->loadFileData(), 'file was not located.');
-		
+        $this->isFound($fileResolver->locateFile(), 'file data unable to be loaded.');
+        $this->isFound($fileResolver->loadFileData(), 'file was not located.');
+
         return new Response(
             $fileResolver->getFileData(),
             200,

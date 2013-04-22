@@ -22,15 +22,21 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html#cookbook-bundles-extension-config-class }
  *
- * @author Reece Fowell <reece@codeconsortium.com>
- * @version 1.0
+ * @category CCDNComponent
+ * @package  AttachmentBundle
+ *
+ * @author   Reece Fowell <reece@codeconsortium.com>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @version  Release: 2.0
+ * @link     https://github.com/codeconsortium/CCDNComponentAttachmentBundle
+ *
  */
 class Configuration implements ConfigurationInterface
 {
     /**
      *
-	 * @access public
-	 * @return \Symfony\Component\Config\Definition\Builder\TreeBuilder
+     * @access public
+     * @return \Symfony\Component\Config\Definition\Builder\TreeBuilder
      */
     public function getConfigTreeBuilder()
     {
@@ -40,18 +46,18 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('ccdn_component_attachment');
 
         $rootNode
-	        ->addDefaultsIfNotSet()
+            ->addDefaultsIfNotSet()
             ->canBeUnset()
             ->children()
                 ->arrayNode('template')
-			        ->addDefaultsIfNotSet()
+                    ->addDefaultsIfNotSet()
                     ->canBeUnset()
                     ->children()
                         ->scalarNode('engine')->defaultValue('twig')->end()
                     ->end()
                 ->end()
                 ->arrayNode('store')
-			        ->addDefaultsIfNotSet()
+                    ->addDefaultsIfNotSet()
                     ->canBeUnset()
                     ->children()
                         ->scalarNode('dir')->defaultValue('%ccdn_component_attachment_file_store%')->end()
@@ -59,22 +65,22 @@ class Configuration implements ConfigurationInterface
                 ->end()
             ->end();
 
-		// Class file namespaces.
-		$this
-			->addEntitySection($rootNode)
-			->addRepositorySection($rootNode)
-			->addGatewaySection($rootNode)
-			->addManagerSection($rootNode)
-			->addFormSection($rootNode)
-			->addComponentSection($rootNode)
-		;
-		
-		// Configuration stuff.
+        // Class file namespaces.
         $this
-			->addSEOSection($rootNode)
-	        ->addQuotaSection($rootNode)
-	        ->addAttachmentSection($rootNode)
-		;
+            ->addEntitySection($rootNode)
+            ->addRepositorySection($rootNode)
+            ->addGatewaySection($rootNode)
+            ->addManagerSection($rootNode)
+            ->addFormSection($rootNode)
+            ->addComponentSection($rootNode)
+        ;
+
+        // Configuration stuff.
+        $this
+            ->addSEOSection($rootNode)
+            ->addQuotaSection($rootNode)
+            ->addAttachmentSection($rootNode)
+        ;
 
         return $treeBuilder;
     }
@@ -82,11 +88,11 @@ class Configuration implements ConfigurationInterface
     /**
      *
      * @access private
-     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
-	 * @return \CCDNComponent\AttachmentBundle\DependencyInjection\Configuration
+     * @param  \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition  $node
+     * @return \CCDNComponent\AttachmentBundle\DependencyInjection\Configuration
      */
     private function addEntitySection(ArrayNodeDefinition $node)
-	{
+    {
         $node
             ->addDefaultsIfNotSet()
             ->children()
@@ -94,33 +100,33 @@ class Configuration implements ConfigurationInterface
                     ->addDefaultsIfNotSet()
                     ->canBeUnset()
                     ->children()
-				        ->arrayNode('attachment')
-				            ->addDefaultsIfNotSet()
-				            ->canBeUnset()
-				            ->children()
-								->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Entity\Attachment')->end()
-							->end()
-						->end()
-				        ->arrayNode('registry')
-				            ->addDefaultsIfNotSet()
-				            ->canBeUnset()
-				            ->children()
-								->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Entity\Registry')->end()
-							->end()
-						->end()
-					->end()
-				->end()
-			->end()
-		;
-		
-		return $this;
-	}
+                        ->arrayNode('attachment')
+                            ->addDefaultsIfNotSet()
+                            ->canBeUnset()
+                            ->children()
+                                ->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Entity\Attachment')->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('registry')
+                            ->addDefaultsIfNotSet()
+                            ->canBeUnset()
+                            ->children()
+                                ->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Entity\Registry')->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
+        return $this;
+    }
 
     /**
      *
      * @access private
-     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
-	 * @return \CCDNComponent\AttachmentBundle\DependencyInjection\Configuration
+     * @param  \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition  $node
+     * @return \CCDNComponent\AttachmentBundle\DependencyInjection\Configuration
      */
     private function addRepositorySection(ArrayNodeDefinition $node)
     {
@@ -131,33 +137,33 @@ class Configuration implements ConfigurationInterface
                     ->addDefaultsIfNotSet()
                     ->canBeUnset()
                     ->children()
-	                    ->arrayNode('attachment')
-		                    ->addDefaultsIfNotSet()
-		                    ->canBeUnset()
-	                        ->children()
-								->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Repository\AttachmentRepository')->end()							
-							->end()
-						->end()
-                        ->arrayNode('registry')
-		                    ->addDefaultsIfNotSet()
-		                    ->canBeUnset()
+                        ->arrayNode('attachment')
+                            ->addDefaultsIfNotSet()
+                            ->canBeUnset()
                             ->children()
-								->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Repository\RegistryRepository')->end()							
-							->end()
-						->end()
-					->end()
-				->end()
-			->end()
-		;
-		
-		return $this;
-	}
-		
+                                ->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Repository\AttachmentRepository')->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('registry')
+                            ->addDefaultsIfNotSet()
+                            ->canBeUnset()
+                            ->children()
+                                ->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Repository\RegistryRepository')->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
+        return $this;
+    }
+
     /**
      *
      * @access private
-     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
-	 * @return \CCDNComponent\AttachmentBundle\DependencyInjection\Configuration
+     * @param  \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition  $node
+     * @return \CCDNComponent\AttachmentBundle\DependencyInjection\Configuration
      */
     private function addGatewaySection(ArrayNodeDefinition $node)
     {
@@ -168,40 +174,40 @@ class Configuration implements ConfigurationInterface
                     ->addDefaultsIfNotSet()
                     ->canBeUnset()
                     ->children()
-						->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Gateway\Bag\GatewayBag')->end()							
-					->end()
-				->end()
+                        ->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Gateway\Bag\GatewayBag')->end()
+                    ->end()
+                ->end()
                 ->arrayNode('gateway')
                     ->addDefaultsIfNotSet()
                     ->canBeUnset()
                     ->children()
                         ->arrayNode('attachment')
-		                    ->addDefaultsIfNotSet()
-		                    ->canBeUnset()
+                            ->addDefaultsIfNotSet()
+                            ->canBeUnset()
                             ->children()
-								->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Gateway\AttachmentGateway')->end()							
-							->end()
-						->end()
+                                ->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Gateway\AttachmentGateway')->end()
+                            ->end()
+                        ->end()
                         ->arrayNode('registry')
-		                    ->addDefaultsIfNotSet()
-		                    ->canBeUnset()
+                            ->addDefaultsIfNotSet()
+                            ->canBeUnset()
                             ->children()
-								->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Gateway\RegistryGateway')->end()							
-							->end()
-						->end()
-					->end()
-				->end()
-			->end()
-		;
-		
-		return $this;
-	}
-	
+                                ->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Gateway\RegistryGateway')->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
+        return $this;
+    }
+
     /**
      *
      * @access private
-     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
-	 * @return \CCDNComponent\AttachmentBundle\DependencyInjection\Configuration
+     * @param  \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition  $node
+     * @return \CCDNComponent\AttachmentBundle\DependencyInjection\Configuration
      */
     private function addManagerSection(ArrayNodeDefinition $node)
     {
@@ -212,40 +218,40 @@ class Configuration implements ConfigurationInterface
                     ->addDefaultsIfNotSet()
                     ->canBeUnset()
                     ->children()
-						->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Manager\Bag\ManagerBag')->end()							
-					->end()
-				->end()
+                        ->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Manager\Bag\ManagerBag')->end()
+                    ->end()
+                ->end()
                 ->arrayNode('manager')
                     ->addDefaultsIfNotSet()
                     ->canBeUnset()
                     ->children()
                         ->arrayNode('attachment')
-		                    ->addDefaultsIfNotSet()
-		                    ->canBeUnset()
+                            ->addDefaultsIfNotSet()
+                            ->canBeUnset()
                             ->children()
-								->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Manager\AttachmentManager')->end()							
-							->end()
-						->end()
+                                ->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Manager\AttachmentManager')->end()
+                            ->end()
+                        ->end()
                         ->arrayNode('registry')
-		                    ->addDefaultsIfNotSet()
-		                    ->canBeUnset()
+                            ->addDefaultsIfNotSet()
+                            ->canBeUnset()
                             ->children()
-								->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Manager\RegistryManager')->end()							
-							->end()
-						->end()
-					->end()
-				->end()
-			->end()
-		;
-		
-		return $this;
-	}
-	
+                                ->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Manager\RegistryManager')->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
+        return $this;
+    }
+
     /**
      *
      * @access private
-     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
-	 * @return \CCDNComponent\AttachmentBundle\DependencyInjection\Configuration
+     * @param  \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition  $node
+     * @return \CCDNComponent\AttachmentBundle\DependencyInjection\Configuration
      */
     private function addFormSection(ArrayNodeDefinition $node)
     {
@@ -257,75 +263,75 @@ class Configuration implements ConfigurationInterface
                     ->canBeUnset()
                     ->children()
                         ->arrayNode('type')
-		                    ->addDefaultsIfNotSet()
-		                    ->canBeUnset()
+                            ->addDefaultsIfNotSet()
+                            ->canBeUnset()
                             ->children()
-		                        ->arrayNode('attachment_upload')
-				                    ->addDefaultsIfNotSet()
-				                    ->canBeUnset()
-		                            ->children()
-										->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Form\Type\AttachmentUploadFormType')->end()
-									->end()
-								->end()
-							->end()
-						->end()
+                                ->arrayNode('attachment_upload')
+                                    ->addDefaultsIfNotSet()
+                                    ->canBeUnset()
+                                    ->children()
+                                        ->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Form\Type\AttachmentUploadFormType')->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
                         ->arrayNode('handler')
-		                    ->addDefaultsIfNotSet()
-		                    ->canBeUnset()
+                            ->addDefaultsIfNotSet()
+                            ->canBeUnset()
                             ->children()
-		                        ->arrayNode('attachment_upload')
-				                    ->addDefaultsIfNotSet()
-				                    ->canBeUnset()
-		                            ->children()
-										->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Form\Handler\AttachmentUploadFormHandler')->end()					
-									->end()
-								->end()
-							->end()
-						->end()
+                                ->arrayNode('attachment_upload')
+                                    ->addDefaultsIfNotSet()
+                                    ->canBeUnset()
+                                    ->children()
+                                        ->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Form\Handler\AttachmentUploadFormHandler')->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
                         ->arrayNode('validator')
-		                    ->addDefaultsIfNotSet()
-		                    ->canBeUnset()
+                            ->addDefaultsIfNotSet()
+                            ->canBeUnset()
                             ->children()
-		                        ->arrayNode('upload_quota_disk_space')
-				                    ->addDefaultsIfNotSet()
-				                    ->canBeUnset()
-		                            ->children()
-										->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Form\Validator\UploadQuotaDiskSpaceValidator')->end()							
-									->end()
-								->end()
-		                        ->arrayNode('upload_quota_file_quantity')
-				                    ->addDefaultsIfNotSet()
-				                    ->canBeUnset()
-		                            ->children()
-										->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Form\Validator\UploadQuotaFileQuantityValidator')->end()							
-									->end()
-								->end()
-		                        ->arrayNode('upload_quota_file_size')
-				                    ->addDefaultsIfNotSet()
-				                    ->canBeUnset()
-		                            ->children()
-										->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Form\Validator\UploadQuotaFileSizeValidator')->end()							
-									->end()
-								->end()
+                                ->arrayNode('upload_quota_disk_space')
+                                    ->addDefaultsIfNotSet()
+                                    ->canBeUnset()
+                                    ->children()
+                                        ->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Form\Validator\UploadQuotaDiskSpaceValidator')->end()
+                                    ->end()
+                                ->end()
+                                ->arrayNode('upload_quota_file_quantity')
+                                    ->addDefaultsIfNotSet()
+                                    ->canBeUnset()
+                                    ->children()
+                                        ->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Form\Validator\UploadQuotaFileQuantityValidator')->end()
+                                    ->end()
+                                ->end()
+                                ->arrayNode('upload_quota_file_size')
+                                    ->addDefaultsIfNotSet()
+                                    ->canBeUnset()
+                                    ->children()
+                                        ->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Form\Validator\UploadQuotaFileSizeValidator')->end()
+                                    ->end()
+                                ->end()
 
-							->end()
-						->end()
-					->end()
-				->end()
-			->end()
-		;
-		
-		return $this;
-	}
-	
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
+        return $this;
+    }
+
     /**
      *
      * @access private
-     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
-	 * @return \CCDNComponent\AttachmentBundle\DependencyInjection\Configuration
+     * @param  \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition  $node
+     * @return \CCDNComponent\AttachmentBundle\DependencyInjection\Configuration
      */
     private function addComponentSection(ArrayNodeDefinition $node)
-    {	
+    {
         $node
             ->addDefaultsIfNotSet()
             ->children()
@@ -333,78 +339,78 @@ class Configuration implements ConfigurationInterface
                     ->addDefaultsIfNotSet()
                     ->canBeUnset()
                     ->children()
-		                ->arrayNode('dashboard')
-		                    ->addDefaultsIfNotSet()
-		                    ->canBeUnset()
-		                    ->children()
-				                ->arrayNode('integrator')
-				                    ->addDefaultsIfNotSet()
-				                    ->canBeUnset()
-				                    ->children()
-										->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Component\Dashboard\DashboardIntegrator')->end()							
-									->end()		
-								->end()
-							->end()
-						->end()
-		                ->arrayNode('helper')
-		                    ->addDefaultsIfNotSet()
-		                    ->canBeUnset()
-		                    ->children()
-				                ->arrayNode('file_resolver')
-				                    ->addDefaultsIfNotSet()
-				                    ->canBeUnset()
-				                    ->children()
-										->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Component\Helper\FileResolver')->end()							
-									->end()		
-								->end()
-				                ->arrayNode('file_manager')
-				                    ->addDefaultsIfNotSet()
-				                    ->canBeUnset()
-				                    ->children()
-										->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Component\Helper\FileManager')->end()							
-									->end()		
-								->end()
-							->end()
-						->end()
-		                ->arrayNode('route_referer_ignore')
-		                    ->addDefaultsIfNotSet()
-		                    ->canBeUnset()
-		                    ->children()
-				                ->arrayNode('list')
-				                    ->addDefaultsIfNotSet()
-				                    ->canBeUnset()
-				                    ->children()
-										->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Component\RouteRefererIgnore\RouteRefererIgnoreList')->end()							
-									->end()
-								->end()
-							->end()		
-						->end()
-		                ->arrayNode('twig_extension')
-		                    ->addDefaultsIfNotSet()
-		                    ->canBeUnset()
-		                    ->children()
-				                ->arrayNode('get_attachment_quotas')
-				                    ->addDefaultsIfNotSet()
-				                    ->canBeUnset()
-				                    ->children()
-										->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Component\TwigExtension\QuotaExtension')->end()							
-									->end()
-								->end()
-							->end()		
-						->end()
-					->end()
-				->end()
-			->end()
-		;
-		
-		return $this;
-	}
-	
+                        ->arrayNode('dashboard')
+                            ->addDefaultsIfNotSet()
+                            ->canBeUnset()
+                            ->children()
+                                ->arrayNode('integrator')
+                                    ->addDefaultsIfNotSet()
+                                    ->canBeUnset()
+                                    ->children()
+                                        ->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Component\Dashboard\DashboardIntegrator')->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('helper')
+                            ->addDefaultsIfNotSet()
+                            ->canBeUnset()
+                            ->children()
+                                ->arrayNode('file_resolver')
+                                    ->addDefaultsIfNotSet()
+                                    ->canBeUnset()
+                                    ->children()
+                                        ->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Component\Helper\FileResolver')->end()
+                                    ->end()
+                                ->end()
+                                ->arrayNode('file_manager')
+                                    ->addDefaultsIfNotSet()
+                                    ->canBeUnset()
+                                    ->children()
+                                        ->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Component\Helper\FileManager')->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('route_referer_ignore')
+                            ->addDefaultsIfNotSet()
+                            ->canBeUnset()
+                            ->children()
+                                ->arrayNode('list')
+                                    ->addDefaultsIfNotSet()
+                                    ->canBeUnset()
+                                    ->children()
+                                        ->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Component\RouteRefererIgnore\RouteRefererIgnoreList')->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('twig_extension')
+                            ->addDefaultsIfNotSet()
+                            ->canBeUnset()
+                            ->children()
+                                ->arrayNode('get_attachment_quotas')
+                                    ->addDefaultsIfNotSet()
+                                    ->canBeUnset()
+                                    ->children()
+                                        ->scalarNode('class')->defaultValue('CCDNComponent\AttachmentBundle\Component\TwigExtension\QuotaExtension')->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
+        return $this;
+    }
+
     /**
      *
      * @access protected
-     * @param ArrayNodeDefinition $node
-	 * @return \CCDNComponent\AttachmentBundle\DependencyInjection\Configuration
+     * @param  ArrayNodeDefinition                                               $node
+     * @return \CCDNComponent\AttachmentBundle\DependencyInjection\Configuration
      */
     protected function addSEOSection(ArrayNodeDefinition $node)
     {
@@ -420,16 +426,16 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end()
-		;
-		
-		return $this;
+        ;
+
+        return $this;
     }
 
     /**
      *
      * @access protected
-     * @param ArrayNodeDefinition $node
-	 * @return \CCDNComponent\AttachmentBundle\DependencyInjection\Configuration
+     * @param  ArrayNodeDefinition                                               $node
+     * @return \CCDNComponent\AttachmentBundle\DependencyInjection\Configuration
      */
     protected function addQuotaSection(ArrayNodeDefinition $node)
     {
@@ -440,23 +446,23 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('quota_per_user')
                     ->addDefaultsIfNotSet()
                     ->canBeUnset()
-	                ->children()
+                    ->children()
                         ->scalarNode('max_files_quantity')->defaultValue('20')->end()
                         ->scalarNode('max_filesize_per_file')->defaultValue('200')->end()
                         ->scalarNode('max_total_quota')->defaultValue('100')->end()
                     ->end()
                 ->end()
             ->end()
-		;
-		
-		return $this;
+        ;
+
+        return $this;
     }
 
     /**
      *
      * @access protected
-     * @param ArrayNodeDefinition $node
-	 * @return \CCDNComponent\AttachmentBundle\DependencyInjection\Configuration
+     * @param  ArrayNodeDefinition                                               $node
+     * @return \CCDNComponent\AttachmentBundle\DependencyInjection\Configuration
      */
     protected function addAttachmentSection(ArrayNodeDefinition $node)
     {
@@ -488,8 +494,8 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end()
-		;
-		
-		return $this;
+        ;
+
+        return $this;
     }
 }

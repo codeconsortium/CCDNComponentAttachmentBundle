@@ -13,45 +13,79 @@
 
 namespace CCDNComponent\AttachmentBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 use CCDNComponent\AttachmentBundle\Model\Attachment as AbstractAttachment;
 
+/**
+ *
+ * @category CCDNComponent
+ * @package  AttachmentBundle
+ *
+ * @author   Reece Fowell <reece@codeconsortium.com>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @version  Release: 2.0
+ * @link     https://github.com/codeconsortium/CCDNComponentAttachmentBundle
+ *
+ */
 class Attachment extends AbstractAttachment
 {
-    const ENDPOINT = 'attachment';
-
-    /** @var integer $id */
+    /**
+     *
+     * @var integer $id
+     */
     protected $id;
 
-    /** @var \DateTime $createdDate */
+    /**
+     *
+     * @var \DateTime $createdDate
+     */
     protected $createdDate;
 
-    /** @var string $description */
+    /**
+     *
+     * @var string $description
+     */
     protected $description;
 
-    /** @var string $filenameOriginal */
+    /**
+     *
+     * @var string $filenameOriginal
+     */
     protected $filenameOriginal;
 
-    /** @var string $publicKey */
+    /**
+     *
+     * @var string $publicKey
+     */
     protected $publicKey;
 
-    /** @var string $privateKey */
+    /**
+     *
+     * @var string $privateKey
+     */
     protected $privateKey;
-	
-    /** @var string $fileExtension */
+
+    /**
+     *
+     * @var string $fileExtension
+     */
     protected $fileExtension;
 
-    /** @var string $fileSize */
+    /**
+     *
+     * @var string $fileSize
+     */
     protected $fileSize;
 
-    /** @var File $attachment */
+    /**
+     *
+     * @var File $attachment
+     */
     protected $attachment;
 
-	/**
-	 *
-	 * @access public
-	 */
+    /**
+     *
+     * @access public
+     */
     public function __construct()
     {
         parent::__construct();
@@ -90,14 +124,14 @@ class Attachment extends AbstractAttachment
     /**
      * Set created_date
      *
-     * @param datetime $createdDate
-	 * @return Attachment
+     * @param  datetime   $createdDate
+     * @return Attachment
      */
     public function setCreatedDate($createdDate)
     {
         $this->createdDate = $createdDate;
-		
-		return $this;
+
+        return $this;
     }
 
     /**
@@ -113,14 +147,14 @@ class Attachment extends AbstractAttachment
     /**
      * Set description
      *
-     * @param text $description
-	 * @return Attachment
+     * @param  text       $description
+     * @return Attachment
      */
     public function setDescription($description)
     {
         $this->description = $description;
-		
-		return $this;
+
+        return $this;
     }
 
     /**
@@ -136,14 +170,14 @@ class Attachment extends AbstractAttachment
     /**
      * Set filenameOriginal
      *
-     * @param string $filenameOriginal
-	 * @return Attachment
+     * @param  string     $filenameOriginal
+     * @return Attachment
      */
     public function setFilenameOriginal($filenameOriginal)
     {
         $this->filenameOriginal = $filenameOriginal;
-		
-		return $this;
+
+        return $this;
     }
 
     /**
@@ -159,14 +193,14 @@ class Attachment extends AbstractAttachment
     /**
      * Set publicKey
      *
-     * @param string $publicKey
-	 * @return Attachment
+     * @param  string     $publicKey
+     * @return Attachment
      */
     public function setPublicKey($publicKey)
     {
         $this->publicKey = $publicKey;
-		
-		return $this;
+
+        return $this;
     }
 
     /**
@@ -178,18 +212,18 @@ class Attachment extends AbstractAttachment
     {
         return $this->publicKey;
     }
-	
+
     /**
      * Set privateKey
      *
-     * @param string $privateKey
-	 * @return Attachment
+     * @param  string     $privateKey
+     * @return Attachment
      */
     public function setPrivateKey($privateKey)
     {
         $this->privateKey = $privateKey;
-		
-		return $this;
+
+        return $this;
     }
 
     /**
@@ -201,18 +235,18 @@ class Attachment extends AbstractAttachment
     {
         return $this->privateKey;
     }
-	
+
     /**
      * Set fileExtension
      *
-     * @param string $fileExtension
-	 * @return Attachment
+     * @param  string     $fileExtension
+     * @return Attachment
      */
     public function setFileExtension($fileExtension)
     {
         $this->fileExtension = $fileExtension;
-		
-		return $this;
+
+        return $this;
     }
 
     /**
@@ -228,14 +262,14 @@ class Attachment extends AbstractAttachment
     /**
      * Set fileSize
      *
-     * @param text $fileSize
-	 * @return Attachment
+     * @param  text       $fileSize
+     * @return Attachment
      */
     public function setFileSize($fileSize)
     {
         $this->fileSize = $fileSize;
-		
-		return $this;
+
+        return $this;
     }
 
     /**

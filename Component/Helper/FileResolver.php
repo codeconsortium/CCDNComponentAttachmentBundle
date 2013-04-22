@@ -13,67 +13,77 @@
 
 namespace CCDNComponent\AttachmentBundle\Component\Helper;
 
+/**
+ *
+ * @category CCDNComponent
+ * @package  AttachmentBundle
+ *
+ * @author   Reece Fowell <reece@codeconsortium.com>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @version  Release: 2.0
+ * @link     https://github.com/codeconsortium/CCDNComponentAttachmentBundle
+ *
+ */
 class FileResolver
 {
-
-	/**
-	 *
-	 * @access protected
-	 */
+    /**
+     *
+     * @access protected
+     */
     protected $container;
 
-	/**
-	 *
-	 * @access protected
-	 */
+    /**
+     *
+     * @access protected
+     */
     protected $thumbnailLocation;
 
-	/**
-	 *
-	 * @access protected
-	 */
+    /**
+     *
+     * @access protected
+     */
     protected $fileLocation;
 
-	/**
-	 *
-	 * @access protected
-	 */
+    /**
+     *
+     * @access protected
+     */
     protected $fileName;
 
-	/**
-	 *
-	 * @access protected
-	 */
+    /**
+     *
+     * @access protected
+     */
     protected $fileExtension;
 
-	/**
-	 *
-	 * @access protected
-	 */
+    /**
+     *
+     * @access protected
+     */
     protected $fileNameWithDir;
 
-	/**
-	 *
-	 * @access protected
-	 */
+    /**
+     *
+     * @access protected
+     */
     protected $fileData;
 
-	/**
-	 *
-	 * @access protected
-	 */
+    /**
+     *
+     * @access protected
+     */
     protected $isRenderable = false;
 
-	/**
-	 *
-	 * @access protected
-	 */
+    /**
+     *
+     * @access protected
+     */
     protected $headerContentType;
 
-	/**
-	 *
-	 * @access protected
-	 */
+    /**
+     *
+     * @access protected
+     */
     protected $fileSize;
 
     /**

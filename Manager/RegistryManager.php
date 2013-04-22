@@ -13,21 +13,20 @@
 
 namespace CCDNComponent\AttachmentBundle\Manager;
 
-use Symfony\Component\Security\Core\User\UserInterface;
-
 use CCDNComponent\AttachmentBundle\Manager\BaseManagerInterface;
 use CCDNComponent\AttachmentBundle\Manager\BaseManager;
 
-use CCDNComponent\AttachmentBundle\Entity\Folder;
-use CCDNComponent\AttachmentBundle\Entity\Attachment;
-use CCDNComponent\AttachmentBundle\Entity\Registry;
-
 /**
  *
- * @author Reece Fowell <reece@codeconsortium.com>
- * @version 1.0
+ * @category CCDNComponent
+ * @package  AttachmentBundle
+ *
+ * @author   Reece Fowell <reece@codeconsortium.com>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @version  Release: 2.0
+ * @link     https://github.com/codeconsortium/CCDNComponentAttachmentBundle
+ *
  */
 class RegistryManager extends BaseManager implements BaseManagerInterface
 {
-
 }

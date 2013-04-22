@@ -18,10 +18,16 @@ use Doctrine\ORM\EntityRepository;
 /**
  * AttachmentRepository
  *
- * @author Reece Fowell <reece@codeconsortium.com>
- * @version 1.0
+ * @category CCDNComponent
+ * @package  AttachmentBundle
+ *
+ * @author   Reece Fowell <reece@codeconsortium.com>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @version  Release: 2.0
+ * @link     https://github.com/codeconsortium/CCDNComponentAttachmentBundle
+ *
+ * @deprecated (use managers instead)
  */
 class AttachmentRepository extends EntityRepository
 {
-
 }

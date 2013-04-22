@@ -1,7 +1,7 @@
 parameters:
 
     # Service Parameters defined in app/config
-    
+
 services:
 
     #
@@ -70,7 +70,7 @@ services:
     #
     ccdn_component_attachment.form.type.attachment_upload:
         class: %ccdn_component_attachment.form.type.attachment_upload.class%
-        arguments: 
+        arguments:
             - %ccdn_component_attachment.entity.attachment.class%
 
     ccdn_component_attachment.form.handler.attachment_upload:

@@ -17,10 +17,16 @@ use Symfony\Component\Validator\Constraint;
 
 /**
  *
- * @author Reece Fowell <reece@codeconsortium.com>
- * @version 1.1
+ * @category CCDNComponent
+ * @package  AttachmentBundle
+ *
+ * @author   Reece Fowell <reece@codeconsortium.com>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @version  Release: 2.0
+ * @link     https://github.com/codeconsortium/CCDNComponentAttachmentBundle
  *
  * @see http://symfony.com/doc/current/cookbook/validation/custom_constraint.html
+ *
  */
 class UploadQuotaDiskSpace extends Constraint
 {
@@ -30,16 +36,16 @@ class UploadQuotaDiskSpace extends Constraint
      */
     public $message = 'ccdn_component_attachment.form.validation_error.quota_disk_space';
 
-	/**
-	 *
-	 * @access public
-	 * @return int
-	 */
-	public function getTargets()
-	{
-	    return self::CLASS_CONSTRAINT;
-	}
-	
+    /**
+     *
+     * @access public
+     * @return int
+     */
+    public function getTargets()
+    {
+        return self::CLASS_CONSTRAINT;
+    }
+
     /**
      *
      * @access public

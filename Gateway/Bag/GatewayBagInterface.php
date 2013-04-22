@@ -17,29 +17,35 @@ use Symfony\Component\DependencyInjection\Container;
 
 /**
  *
- * @author Reece Fowell <reece@codeconsortium.com>
- * @version 1.0
+ * @category CCDNComponent
+ * @package  AttachmentBundle
+ *
+ * @author   Reece Fowell <reece@codeconsortium.com>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @version  Release: 2.0
+ * @link     https://github.com/codeconsortium/CCDNComponentAttachmentBundle
+ *
  */
 interface GatewayBagInterface
 {
-	/**
-	 *
-	 * @access public
-	 * @param \Symfony\Component\DependencyInjection\Container $container
-	 */
+    /**
+     *
+     * @access public
+     * @param \Symfony\Component\DependencyInjection\Container $container
+     */
     public function __construct(Container $container);
-	
-	/**
-	 *
-	 * @access public
-	 * @return \CCDNComponent\AttachmentBundle\Gateway\AttachmentGateway
-	 */
-	public function getAttachmentGateway();
-	
-	/**
-	 *
-	 * @access public
-	 * @return \CCDNComponent\AttachmentBundle\Gateway\RegistryGateway
-	 */
-	public function getRegistryGateway();
+
+    /**
+     *
+     * @access public
+     * @return \CCDNComponent\AttachmentBundle\Gateway\AttachmentGateway
+     */
+    public function getAttachmentGateway();
+
+    /**
+     *
+     * @access public
+     * @return \CCDNComponent\AttachmentBundle\Gateway\RegistryGateway
+     */
+    public function getRegistryGateway();
 }

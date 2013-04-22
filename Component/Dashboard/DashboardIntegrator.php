@@ -17,35 +17,41 @@ use CCDNComponent\DashboardBundle\Component\Integrator\Model\BuilderInterface;
 
 /**
  *
- * @author Reece Fowell <reece@codeconsortium.com>
- * @version 2.0
+ * @category CCDNComponent
+ * @package  AttachmentBundle
+ *
+ * @author   Reece Fowell <reece@codeconsortium.com>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @version  Release: 2.0
+ * @link     https://github.com/codeconsortium/CCDNComponentAttachmentBundle
+ *
  */
 class DashboardIntegrator
 {
     /**
-	 * 
-	 * @access public
+     *
+     * @access public
      * @param CCDNComponent\DashboardBundle\Component\Integrator\Model\BuilderInterface $builder
      */
     public function build(BuilderInterface $builder)
     {
-		$builder
-			->addCategory('account')
-				->setLabel('ccdn_component_attachment.dashboard.categories.account', array(), 'CCDNComponentAttachmentBundle')
-				->addPages()
-					->addPage('account')
-						->setLabel('ccdn_component_attachment.dashboard.pages.account', array(), 'CCDNComponentAttachmentBundle')
-					->end()
-				->end()
-				->addLinks()	
-					->addLink('attachments')
-						->setAuthRole('ROLE_USER')
-						->setRoute('ccdn_component_attachment_index')
-						->setIcon('/bundles/ccdncomponentcommon/images/icons/Black/32x32/32x32_attachment.png')
-						->setLabel('ccdn_component_attachment.title.index', array(), 'CCDNComponentAttachmentBundle')
-					->end()
-				->end()
-			->end()
-		;
+        $builder
+            ->addCategory('account')
+                ->setLabel('ccdn_component_attachment.dashboard.categories.account', array(), 'CCDNComponentAttachmentBundle')
+                ->addPages()
+                    ->addPage('account')
+                        ->setLabel('ccdn_component_attachment.dashboard.pages.account', array(), 'CCDNComponentAttachmentBundle')
+                    ->end()
+                ->end()
+                ->addLinks()
+                    ->addLink('attachments')
+                        ->setAuthRole('ROLE_USER')
+                        ->setRoute('ccdn_component_attachment_index')
+                        ->setIcon('/bundles/ccdncomponentcommon/images/icons/Black/32x32/32x32_attachment.png')
+                        ->setLabel('ccdn_component_attachment.title.index', array(), 'CCDNComponentAttachmentBundle')
+                    ->end()
+                ->end()
+            ->end()
+        ;
     }
 }

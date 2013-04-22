@@ -18,28 +18,34 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  *
- * @author Reece Fowell <reece@codeconsortium.com>
- * @version 1.0
+ * @category CCDNComponent
+ * @package  AttachmentBundle
+ *
+ * @author   Reece Fowell <reece@codeconsortium.com>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @version  Release: 2.0
+ * @link     https://github.com/codeconsortium/CCDNComponentAttachmentBundle
+ *
  */
 class AttachmentUploadFormType extends AbstractType
 {
-	/**
-	 *
-	 * @access protected
-	 * @var string $attachmentClass
-	 */
-	protected $attachmentClass;
-	
-	/**
-	 *
-	 * @access public
-	 * @var string $attachmentClass
-	 */
-	public function __construct($attachmentClass)
-	{
-		$this->attachmentClass = $attachmentClass;
-	}
-	
+    /**
+     *
+     * @access protected
+     * @var string $attachmentClass
+     */
+    protected $attachmentClass;
+
+    /**
+     *
+     * @access public
+     * @var string $attachmentClass
+     */
+    public function __construct($attachmentClass)
+    {
+        $this->attachmentClass = $attachmentClass;
+    }
+
     /**
      *
      * @access public
@@ -48,20 +54,20 @@ class AttachmentUploadFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-			->add('attachment', 'file',
-				array(
-					'required'           => true,
-					'label'              => 'ccdn_component_attachment.form.label.attachment.upload.file',
-					'translation_domain' => 'CCDNComponentAttachmentBundle'
-				)
-			)
-			->add('description', 'bb_editor',
-				array(
-					'label'              => 'ccdn_component_attachment.form.label.attachment.upload.description',
-					'translation_domain' => 'CCDNComponentAttachmentBundle'
-		        )
-			)
-		;
+            ->add('attachment', 'file',
+                array(
+                    'required'           => true,
+                    'label'              => 'ccdn_component_attachment.form.label.attachment.upload.file',
+                    'translation_domain' => 'CCDNComponentAttachmentBundle'
+                )
+            )
+            ->add('description', 'bb_editor',
+                array(
+                    'label'              => 'ccdn_component_attachment.form.label.attachment.upload.description',
+                    'translation_domain' => 'CCDNComponentAttachmentBundle'
+                )
+            )
+        ;
     }
 
     /**

@@ -18,7 +18,7 @@
 
 	<section>
 		<form method="POST" action="{{- path('ccdn_component_attachment_bulk_action') -}}">
-	
+
 			<div class="btn-toolbar">
 				<div class="span6">
 					<input type="submit" class="btn btn-danger disabled" value="{{- 'ccdn_component_attachment.link.delete' |trans({}, 'CCDNComponentAttachmentBundle') -}}" name="submit[delete]" disabled data-responds-disabled="attachments">
@@ -63,9 +63,9 @@
 								<a rel="nofollow" href="{{- path('ccdn_component_attachment_download', {'publicKey': attachment.getPublicKey }) -}}">
 									{{- attachment.getFileNameOriginal -}}
 								</a>
-								
+
 								<br>
-								
+
 								{{- attachment.getDescription -}}
 							</td>
 							<td class="center" style="width: 200px;">

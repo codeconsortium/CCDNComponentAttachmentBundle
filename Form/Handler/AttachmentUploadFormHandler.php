@@ -13,17 +13,6 @@
 
 namespace CCDNComponent\AttachmentBundle\Form\Handler;
 
-//use Symfony\Component\Form\Form;
-//use Symfony\Component\Form\FormFactory;
-//use Symfony\Component\Form\FormError;
-//use Symfony\Component\HttpFoundation\Request;
-//use Symfony\Component\DependencyInjection\ContainerInterface;
-//
-//use CCDNComponent\AttachmentBundle\Manager\ManagerInterface;
-//
-//
-
-
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,80 +24,86 @@ use CCDNComponent\AttachmentBundle\Entity\Attachment;
 
 /**
  *
- * @author Reece Fowell <reece@codeconsortium.com>
- * @version 1.0
+ * @category CCDNComponent
+ * @package  AttachmentBundle
+ *
+ * @author   Reece Fowell <reece@codeconsortium.com>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @version  Release: 2.0
+ * @link     https://github.com/codeconsortium/CCDNComponentAttachmentBundle
+ *
  */
 class AttachmentUploadFormHandler
 {
     /**
-	 *
-	 * @access protected
-	 * @var \Symfony\Component\Form\FormFactory $factory
-	 */
+     *
+     * @access protected
+     * @var \Symfony\Component\Form\FormFactory $factory
+     */
     protected $factory;
-	
-	/**
-	 *
-	 * @access protected
-	 * @var \CCDNComponent\AttachmentBundle\Form\Type\AttachmentUploadFormType $attachmentUploadFormType
-	 */
-	protected $attachmentUploadFormType;
-	
+
     /**
-	 *
-	 * @access protected
-	 * @var \CCDNComponent\AttachmentBundle\Manager\BaseManagerInterface $manager
-	 */
+     *
+     * @access protected
+     * @var \CCDNComponent\AttachmentBundle\Form\Type\AttachmentUploadFormType $attachmentUploadFormType
+     */
+    protected $attachmentUploadFormType;
+
+    /**
+     *
+     * @access protected
+     * @var \CCDNComponent\AttachmentBundle\Manager\BaseManagerInterface $manager
+     */
     protected $manager;
 
     /**
-	 * 
-	 * @access protected
-	 * @var \CCDNComponent\AttachmentBundle\Form\Type\AttachmentUploadFormType $form 
-	 */
+     *
+     * @access protected
+     * @var \CCDNComponent\AttachmentBundle\Form\Type\AttachmentUploadFormType $form
+     */
     protected $form;
-	
-	/**
-	 *
-	 * @access protected
-	 * @var \Symfony\Component\Security\Core\User\UserInterface $user
-	 */
-	protected $user;
-	
+
+    /**
+     *
+     * @access protected
+     * @var \Symfony\Component\Security\Core\User\UserInterface $user
+     */
+    protected $user;
+
     /**
      *
      * @access public
-     * @param \Symfony\Component\Form\FormFactory $factory
-	 * @param \CCDNComponent\AttachmentBundle\Form\Type\AttachmentUploadFormType $attachmentUploadFormType
-	 * @param \CCDNComponent\AttachmentBundle\Manager\BaseManagerInterface $manager
-	 * @param
+     * @param \Symfony\Component\Form\FormFactory                                $factory
+     * @param \CCDNComponent\AttachmentBundle\Form\Type\AttachmentUploadFormType $attachmentUploadFormType
+     * @param \CCDNComponent\AttachmentBundle\Manager\BaseManagerInterface       $manager
+     * @param
      */
     public function __construct(FormFactory $factory, $attachmentUploadFormType, BaseManagerInterface $manager, $fileManager)
-	{
+    {
         $this->factory = $factory;
-		$this->attachmentUploadFormType = $attachmentUploadFormType;
+        $this->attachmentUploadFormType = $attachmentUploadFormType;
         $this->manager = $manager;
-		
-		$this->fileManager = $fileManager;
+
+        $this->fileManager = $fileManager;
     }
-	
-	/**
-	 *
-	 * @access public
-	 * @param \Symfony\Component\Security\Core\User\UserInterface $user
-	 * @return \CCDNComponent\AttachmentBundle\Form\Handler\AttachmentUploadFormHandler
-	 */
-	public function setUser(UserInterface $user)
-	{
-		$this->user = $user;
-		
-		return $this;
-	}
-	
+
     /**
      *
      * @access public
-	 * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param  \Symfony\Component\Security\Core\User\UserInterface                      $user
+     * @return \CCDNComponent\AttachmentBundle\Form\Handler\AttachmentUploadFormHandler
+     */
+    public function setUser(UserInterface $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     *
+     * @access public
+     * @param  \Symfony\Component\HttpFoundation\Request $request
      * @return bool
      */
     public function process(Request $request)
@@ -119,42 +114,42 @@ class AttachmentUploadFormHandler
             $this->form->bind($request);
 
             if ($this->form->isValid()) {
-	            $formData = $this->form->getData();
-				
-				if ($this->getSubmitAction($request) == 'post') {
-					
-					if ($this->fileManager->saveFile($formData, $this->form['attachment']->getData())) {
-		                $this->onSuccess($formData);
+                $formData = $this->form->getData();
 
-		                return true;
-					} else {
-						// Add form Error.
-						return false;
-					}
-				}
+                if ($this->getSubmitAction($request) == 'post') {
+
+                    if ($this->fileManager->saveFile($formData, $this->form['attachment']->getData())) {
+                        $this->onSuccess($formData);
+
+                        return true;
+                    } else {
+                        // Add form Error.
+                        return false;
+                    }
+                }
             }
         }
 
         return false;
     }
-	
-	/**
-	 *
-	 * @access public
-	 * @param \Symfony\Component\HttpFoundation\Request $request
-	 * @return string
-	 */
-	public function getSubmitAction(Request $request)
-	{
-		if ($request->request->has('submit')) {
-			$action = key($request->request->get('submit'));
-		} else {
-			$action = 'post';
-		}
-		
-		return $action;
-	}
-	
+
+    /**
+     *
+     * @access public
+     * @param  \Symfony\Component\HttpFoundation\Request $request
+     * @return string
+     */
+    public function getSubmitAction(Request $request)
+    {
+        if ($request->request->has('submit')) {
+            $action = key($request->request->get('submit'));
+        } else {
+            $action = 'post';
+        }
+
+        return $action;
+    }
+
     /**
      *
      * @access public
@@ -163,9 +158,9 @@ class AttachmentUploadFormHandler
     public function getForm()
     {
         if (! $this->form) {
-			$attachment = new Attachment();
-			$attachment->setOwnedByUser($this->user);
-			
+            $attachment = new Attachment();
+            $attachment->setOwnedByUser($this->user);
+
             $this->form = $this->factory->create($this->attachmentUploadFormType, $attachment, array());
         }
 
@@ -175,7 +170,7 @@ class AttachmentUploadFormHandler
     /**
      *
      * @access protected
-     * @param \CCDNComponent\AttachmentBundle\Entity\Attachment $attachment
+     * @param  \CCDNComponent\AttachmentBundle\Entity\Attachment         $attachment
      * @return \CCDNComponent\AttachmentBundle\Manager\AttachmentManager
      */
     protected function onSuccess(Attachment $attachment)
