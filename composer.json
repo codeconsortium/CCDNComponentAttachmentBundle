@@ -1,14 +1,15 @@
 {
     "name": "codeconsortium/ccdn-component-attachment-bundle",
-    "type": "symfony-bundle",
     "description": "CCDN Component Attachment Bundle",
     "keywords": ["ccdn", "codeconsortium", "file", "upload", "attachment"],
     "homepage": "http://github.com/codeconsortium/CCDNComponentAttachmentBundle",
+    "type": "symfony-bundle",
     "license": "MIT",
     "authors": [
         {
-            "name": "reecefowell",
-            "email": "reece@codeconsortium.com"
+            "name": "Reece Fowell",
+            "email": "reece@codeconsortium.com",
+			"homepage": "http://www.reecefowell.com"
         }
     ],
     "minimum-stability": "dev",
