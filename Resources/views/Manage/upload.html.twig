@@ -2,7 +2,7 @@
 
 {% set LayoutTemplate = ccdn_component_attachment.manage.upload.layout_template %}
 
-{% block title %}{{- truncDot('ccdn_component_attachment.title.upload' | trans({}, 'CCDNComponentAttachmentBundle'), ccdn_component_attachment.seo.title_length) -}}{% endblock %}
+{% block title %}{{- truncDot('title.upload' | trans({}, 'CCDNComponentAttachmentBundle'), ccdn_component_attachment.seo.title_length) -}}{% endblock %}
 
 {% block sidebar_extra_bottom %}
 	{{ parent() }}
@@ -23,7 +23,7 @@
 
 				<div class="control-group form-title">
 					<div class="controls">
-						<h3>{{- 'ccdn_component_attachment.title.upload' | trans({}, 'CCDNComponentAttachmentBundle') -}}</h3>
+						<h3>{{- 'title.upload' | trans({}, 'CCDNComponentAttachmentBundle') -}}</h3>
 					</div>
 				</div>
 
@@ -32,8 +32,9 @@
 				{{- form_widget(form) -}}
 
 				<div class="form-actions">
-					<input type="submit" class="btn btn-primary" value="{{- 'ccdn_component_attachment.form.button.attachment.upload' | trans({}, 'CCDNComponentAttachmentBundle') -}}">
-					<a class="btn" href="{{- path('ccdn_component_attachment_index') -}}">{{- 'ccdn_component_attachment.form.button.cancel' | trans({}, 'CCDNComponentAttachmentBundle') -}}</a>
+					<input type="submit" class="btn btn-primary" value="{{- 'form.button.upload' | trans({}, 'CCDNComponentAttachmentBundle') -}}">
+					
+					<a class="btn" href="{{- path('ccdn_component_attachment_index') -}}">{{- 'form.button.cancel' | trans({}, 'CCDNComponentAttachmentBundle') -}}</a>
 				</div>
 
 			</fieldset>

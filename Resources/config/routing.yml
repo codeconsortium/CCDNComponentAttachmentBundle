@@ -1,18 +1,18 @@
 ccdn_component_attachment_index:
     pattern: /{_locale}/attachments
-    defaults: { _controller: CCDNComponentAttachmentBundle:Manage:index, _locale: en, page: 0, userId: 0 }
+    defaults: { _controller: CCDNComponentAttachmentBundle:Manage:index, _locale: en, page: 1, userId: 0 }
 
 ccdn_component_attachment_index_paginated:
     pattern: /{_locale}/attachments/page/{page}
-    defaults: { _controller: CCDNComponentAttachmentBundle:Manage:index, _locale: en, page: 0, userId: 0 }
+    defaults: { _controller: CCDNComponentAttachmentBundle:Manage:index, _locale: en, page: 1, userId: 0 }
 
 ccdn_component_attachment_for_user:
     pattern: /{_locale}/attachments/for/user/{userId}
-    defaults: { _controller: CCDNComponentAttachmentBundle:Manage:index, _locale: en, page: 0, userId: 0 }
+    defaults: { _controller: CCDNComponentAttachmentBundle:Manage:index, _locale: en, page: 1, userId: 0 }
 
 ccdn_component_attachment_for_user_paginated:
     pattern: /{_locale}/attachments/for/user/{userId}/page/{page}
-    defaults: { _controller: CCDNComponentAttachmentBundle:Manage:index, _locale: en, page: 0, userId: 0 }
+    defaults: { _controller: CCDNComponentAttachmentBundle:Manage:index, _locale: en, page: 1, userId: 0 }
 
 ccdn_component_attachment_upload:
     pattern: /{_locale}/attachment/upload

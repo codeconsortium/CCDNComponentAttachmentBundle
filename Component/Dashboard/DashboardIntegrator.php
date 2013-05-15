@@ -37,10 +37,10 @@ class DashboardIntegrator
     {
         $builder
             ->addCategory('account')
-                ->setLabel('ccdn_component_attachment.dashboard.categories.account', array(), 'CCDNComponentAttachmentBundle')
+                ->setLabel('dashboard.categories.account', array(), 'CCDNComponentAttachmentBundle')
                 ->addPages()
                     ->addPage('account')
-                        ->setLabel('ccdn_component_attachment.dashboard.pages.account', array(), 'CCDNComponentAttachmentBundle')
+                        ->setLabel('dashboard.pages.account', array(), 'CCDNComponentAttachmentBundle')
                     ->end()
                 ->end()
                 ->addLinks()
@@ -48,7 +48,7 @@ class DashboardIntegrator
                         ->setAuthRole('ROLE_USER')
                         ->setRoute('ccdn_component_attachment_index')
                         ->setIcon('/bundles/ccdncomponentcommon/images/icons/Black/32x32/32x32_attachment.png')
-                        ->setLabel('ccdn_component_attachment.title.index', array(), 'CCDNComponentAttachmentBundle')
+                        ->setLabel('title.index', array(), 'CCDNComponentAttachmentBundle')
                     ->end()
                 ->end()
             ->end()

@@ -84,14 +84,14 @@ class ManageController extends ManageBaseController
         $formHandler = $this->getFormHandlerToUploadFiles($this->getUser());
 
         if ($formHandler->process($this->getRequest())) {
-            $this->setFlash('success', $this->trans('ccdn_component_attachment.flash.attachment.upload.success', array('%file_name%' => $formHandler->getForm()->getData()->getFileNameOriginal())));
+            $this->setFlash('success', $this->trans('flash.success.attachment.upload', array('%file_name%' => $formHandler->getForm()->getData()->getFileNameOriginal())));
 
             return $this->redirectResponse($this->path('ccdn_component_attachment_index'));
         } else {
             // setup crumb trail.
             $crumbs = $this->getCrumbs()
-                ->add($this->trans('ccdn_component_attachment.crumbs.index'), $this->path('ccdn_component_attachment_index'))
-                ->add($this->trans('ccdn_component_attachment.crumbs.upload'), $this->path('ccdn_component_attachment_upload'));
+                ->add($this->trans('crumbs.index'), $this->path('ccdn_component_attachment_index'))
+                ->add($this->trans('crumbs.upload'), $this->path('ccdn_component_attachment_upload'));
 
             return $this->renderResponse('CCDNComponentAttachmentBundle:Manage:upload.html.',
                 array(
