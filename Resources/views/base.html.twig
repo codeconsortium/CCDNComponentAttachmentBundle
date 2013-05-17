@@ -4,7 +4,6 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link href="{{- asset('bundles/ccdncomponentbbcode/css/bbcode.css') -}}" rel="stylesheet" type="text/css">
 	{% block stylesheets_extra %}
 	{% endblock stylesheets_extra %}
 {% endblock stylesheets %}
@@ -13,7 +12,6 @@
 
 {% block javascripts %}
 	{{ parent() }}
-	<script src="{{- asset('bundles/ccdncomponentcommon/js/ccdn/jquery.checkboxes.js') -}}" type="text/javascript"></script>
 	{% block javascripts_extra %}
 	{% endblock javascripts_extra %}
 {% endblock javascripts %}
