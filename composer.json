@@ -18,6 +18,10 @@
         "symfony/symfony": "2.1.*",
         "doctrine/doctrine-bundle": "*"
     },
+	"suggest": {
+		"reecefowell/jquery-timestamper": "dev-master",
+		"reecefowell/jquery-checkboxes": "dev-master"
+	},
     "autoload": {
         "psr-0": { "CCDNComponent\\AttachmentBundle": "" }
     },

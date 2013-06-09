@@ -61,7 +61,7 @@ class AttachmentUploadFormType extends AbstractType
                     'translation_domain' => 'CCDNComponentAttachmentBundle'
                 )
             )
-            ->add('description', 'bb_editor',
+            ->add('description', 'text',
                 array(
                     'label'              => 'ccdn_component_attachment.form.label.attachment.upload.description',
                     'translation_domain' => 'CCDNComponentAttachmentBundle'

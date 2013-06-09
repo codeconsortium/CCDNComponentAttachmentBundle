@@ -35,20 +35,24 @@ class CCDNComponentAttachmentBundle extends Bundle
     public function boot()
     {
         $twig = $this->container->get('twig');
-        $twig->addGlobal('ccdn_component_attachment', array(
-            'seo' => array(
-                'title_length' => $this->container->getParameter('ccdn_component_attachment.seo.title_length'),
-            ),
-            'manage' => array(
-                'list' => array(
-                    'attachment_uploaded_datetime_format' => $this->container->getParameter('ccdn_component_attachment.manage.list.attachment_uploaded_datetime_format'),
-                    'layout_template' => $this->container->getParameter('ccdn_component_attachment.manage.list.layout_template'),
-                ),
-                'upload' => array(
-                    'layout_template' => $this->container->getParameter('ccdn_component_attachment.manage.upload.layout_template'),
-                    'form_theme' => $this->container->getParameter('ccdn_component_attachment.manage.upload.form_theme'),
-                ),
-            ),
-        ));
+		
+        $twig->addGlobal(
+			'ccdn_component_attachment',
+			array(
+	            'seo' => array(
+	                'title_length' => $this->container->getParameter('ccdn_component_attachment.seo.title_length'),
+	            ),
+	            'manage' => array(
+	                'list' => array(
+	                    'attachment_uploaded_datetime_format' => $this->container->getParameter('ccdn_component_attachment.manage.list.attachment_uploaded_datetime_format'),
+	                    'layout_template' => $this->container->getParameter('ccdn_component_attachment.manage.list.layout_template'),
+	                ),
+	                'upload' => array(
+	                    'layout_template' => $this->container->getParameter('ccdn_component_attachment.manage.upload.layout_template'),
+	                    'form_theme' => $this->container->getParameter('ccdn_component_attachment.manage.upload.form_theme'),
+	                ),
+	            ),
+	        )
+		); // End Twig Globals.
     }
 }
