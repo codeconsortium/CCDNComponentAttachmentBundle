@@ -23,11 +23,10 @@
 				<div class="span6">
 					<input type="submit" class="btn btn-danger disabled" value="{{- 'ccdn_component_attachment.link.delete' |trans({}, 'CCDNComponentAttachmentBundle') -}}" name="submit[delete]" disabled data-responds-disabled="attachments">
 				</div>
-				{%- if pager.haveToPaginate -%}
-					<nav class="span6 btn-right paginate">
-				    	{{- pagerfanta(pager, 'twitter_bootstrap_compact', {'routeName':'ccdn_component_attachment_index_paginated'}) -}}
-					</nav>
-				{%- endif -%}
+				
+				<nav class="span6 btn-right paginate">
+					{{- knp_pagination_render(pager) -}}
+				</nav>
 			</div>
 
 			<table class="table table-striped">
@@ -49,7 +48,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{%- for row, attachment in attachments -%}
+					{%- for row, attachment in pager.getItems() -%}
 						<tr class="marked_read">
 							<td class="center">
 								<input type="checkbox" id="check_[{{- attachment.id -}}]" name="check_[{{- attachment.id -}}]" data-check-all-responds="true" data-identifier="attachments">
@@ -85,13 +84,11 @@
 				</tbody>
 			</table>
 
-			{%- if pager.haveToPaginate -%}
-				<div class="btn-toolbar">
-					<nav class="span12 btn-right paginate">
-				    	{{- pagerfanta(pager, 'twitter_bootstrap_compact', {'routeName':'ccdn_component_attachment_index_paginated'}) -}}
-					</nav>
-				</div>
-			{%- endif -%}
+			<div class="btn-toolbar">
+				<nav class="span12 btn-right paginate">
+					{{- knp_pagination_render(pager) -}}
+				</nav>
+			</div>
 		</form>
 	</section>
 

@@ -16,9 +16,6 @@ namespace CCDNComponent\AttachmentBundle\Gateway;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\QueryBuilder;
 
-use Pagerfanta\Adapter\DoctrineORMAdapter;
-use Pagerfanta\Pagerfanta;
-
 use CCDNComponent\AttachmentBundle\Gateway\BaseGatewayInterface;
 use CCDNComponent\AttachmentBundle\Gateway\Bag\GatewayBagInterface;
 
@@ -42,6 +39,13 @@ abstract class BaseGateway implements BaseGatewayInterface
      */
     protected $doctrine;
 
+    /**
+     *
+     * @access protected
+     * @var $paginator
+     */
+    protected $paginator;
+	
     /**
      *
      * @access protected
@@ -70,10 +74,12 @@ abstract class BaseGateway implements BaseGatewayInterface
      * @param \CCDNComponent\AttachmentBundle\Gateway\Bag\GatewayBagInterface $gatewayBag
      * @param string                                                          $entityClass
      */
-    public function __construct(Registry $doctrine, GatewayBagInterface $gatewayBag, $entityClass)
+    public function __construct(Registry $doctrine, $paginator, GatewayBagInterface $gatewayBag, $entityClass)
     {
         $this->doctrine = $doctrine;
 
+		$this->paginator = $paginator;
+		
         $this->em = $doctrine->getEntityManager();
 
         $this->gatewayBag = $gatewayBag;
@@ -105,6 +111,49 @@ abstract class BaseGateway implements BaseGatewayInterface
         return $this->em->createQueryBuilder();
     }
 
+    /**
+     *
+     * @access public
+     * @param  Array                      $aliases = null
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function createSelectQuery(Array $aliases = null)
+    {
+        if (null == $aliases || ! is_array($aliases)) {
+            $aliases = array($this->queryAlias);
+        }
+
+        if (! in_array($this->queryAlias, $aliases)) {
+            $aliases = array($this->queryAlias) + $aliases;
+        }
+
+        return $this->getQueryBuilder()->select($aliases)->from($this->entityClass, $this->queryAlias);
+    }
+	
+    /**
+     *
+     * @access public
+     * @param  string                     $column  = null
+     * @param  Array                      $aliases = null
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function createCountQuery($column = null, Array $aliases = null)
+    {
+        if (null == $column) {
+            $column = 'count(' . $this->queryAlias . '.id)';
+        }
+
+        if (null == $aliases || ! is_array($aliases)) {
+            $aliases = array($column);
+        }
+
+        if (! in_array($column, $aliases)) {
+            $aliases = array($column) + $aliases;
+        }
+
+        return $this->getQueryBuilder()->select($aliases)->from($this->entityClass, $this->queryAlias);
+    }
+	
     /**
      *
      * @access public
@@ -151,22 +200,11 @@ abstract class BaseGateway implements BaseGatewayInterface
      * @param  \Doctrine\ORM\QueryBuilder $qb
      * @param  int                        $itemsPerPage
      * @param  int                        $page
-     * @return \Pagerfanta\Pagerfanta
+     * @return \Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination
      */
     public function paginateQuery(QueryBuilder $qb, $itemsPerPage, $page)
     {
-        try {
-            $pager = new Pagerfanta(new DoctrineORMAdapter($qb));
-        } catch (\Doctrine\ORM\NoResultException $e) {
-            return null;
-        } catch (\Exception $e) {
-            return null;
-        }
-
-        $pager->setMaxPerPage($itemsPerPage);
-        $pager->setCurrentPage($page, false, true);
-
-        return $pager;
+		return $this->paginator->paginate($qb, $page, $itemsPerPage);
     }
 
     /**

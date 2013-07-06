@@ -32,6 +32,7 @@ services:
         class: %ccdn_component_attachment.gateway.attachment.class%
         arguments:
             - @doctrine
+            - @knp_paginator
             - @ccdn_component_attachment.gateway_bag
             - %ccdn_component_attachment.entity.attachment.class%
 
@@ -39,6 +40,7 @@ services:
         class: %ccdn_component_attachment.gateway.registry.class%
         arguments:
             - @doctrine
+            - @knp_paginator
             - @ccdn_component_attachment.gateway_bag
             - %ccdn_component_attachment.entity.registry.class%
 

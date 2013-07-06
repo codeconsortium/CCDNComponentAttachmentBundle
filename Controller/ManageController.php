@@ -35,13 +35,14 @@ class ManageController extends ManageBaseController
     /**
      *
      * @access public
-     * @param  int                             $page, int $userId
      * @return RedirectResponse|RenderResponse
      */
-    public function indexAction($page, $userId)
+    public function indexAction()
     {
         $this->isAuthorised('ROLE_USER');
 
+		$page = $this->getQuery('page', 1);
+		
         //if ($userId > 0) {
         //	$this->isAuthorised('ROLE_MODERATOR');
         //
@@ -66,7 +67,7 @@ class ManageController extends ManageBaseController
             array(
                 'user' => $user,
                 'crumbs' => $crumbs,
-                'attachments' => $attachmentsPager->getCurrentPageResults(),
+                //'attachments' => $attachmentsPager->getCurrentPageResults(),
                 'pager' => $attachmentsPager,
             )
         );
